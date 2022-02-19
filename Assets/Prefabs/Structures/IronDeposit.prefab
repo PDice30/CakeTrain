@@ -105,7 +105,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5751343246015393803}
-  - component: {fileID: 1450494359801485298}
   m_Layer: 0
   m_Name: IronDeposit
   m_TagString: Untagged
@@ -128,15 +127,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1450494359801485298
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6278617561935846946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5b1cdfe7e256534abfbe8bb0e6cef83, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

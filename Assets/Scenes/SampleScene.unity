@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 635749211}
   - component: {fileID: 635749210}
+  - component: {fileID: 635749212}
   m_Layer: 0
   m_Name: WorldManager
   m_TagString: Untagged
@@ -152,11 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c94b23ef6ebabe7439af29c724e492ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerRef: {fileID: 6640282101014509615, guid: b4b19b234325c2c448934b9b34ac74bf, type: 3}
-  tileRef:
-  - {fileID: 5532621486571646620, guid: 6e34dbd7274613d47bc8c98050bd8d43, type: 3}
-  - {fileID: 2353292887326398482, guid: 170796d51a43c434bb71ba0deb3098cc, type: 3}
-  mainCam: {fileID: 0}
+  refs: {fileID: 635749212}
+  mainCam: {fileID: 963194227}
 --- !u!4 &635749211
 Transform:
   m_ObjectHideFlags: 0
@@ -171,6 +169,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &635749212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 635749209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b171ce60ac226e44a1eb905e8cbc33b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 6640282101014509615, guid: b4b19b234325c2c448934b9b34ac74bf, type: 3}
+  tileGrass: {fileID: 2353292887326398482, guid: 170796d51a43c434bb71ba0deb3098cc, type: 3}
+  tileDirt: {fileID: 5532621486571646620, guid: 6e34dbd7274613d47bc8c98050bd8d43, type: 3}
+  tileWater: {fileID: 6155258482150706447, guid: 9b611bb47b1cdbe41bfdf19c7a745b65, type: 3}
+  tiles: []
+  objectWood: {fileID: 8583161509136435908, guid: d34e08beca3049149a359b81d479d34d, type: 3}
+  objectIron: {fileID: 5394108000500651115, guid: 233866491ce049a4e824bc96128984d8, type: 3}
+  objectTrack: {fileID: 5336229033910077465, guid: 348d9ebc88a17e540bba0888919ba865, type: 3}
+  objectWoodenAxe: {fileID: 6483201478563787662, guid: c65b4a2dcdfcf70448083820420a4d75, type: 3}
+  objectIronAxe: {fileID: 2305885826646802278, guid: f737664c05a34994ca093bc2cd1f16c9, type: 3}
+  objectWoodenPick: {fileID: 6249742111974248860, guid: 8e51560d5d9de2245b2a1b22e2c32f00, type: 3}
+  objectIronPick: {fileID: 6829351332466128208, guid: 8fa4c186f04e7384a9557b4a2ffb17ef, type: 3}
+  structureTree: {fileID: 2704158395198456114, guid: 521b79f1b6ce08441a54f4025dec3ee5, type: 3}
+  structureIronDeposit: {fileID: 6278617561935846946, guid: 8b841bbf6385919408e05d7232610bf6, type: 3}
+  structureBedrock: {fileID: 5277178839617399245, guid: 49b1d5e9adf737e4ba45de29e1e81be9, type: 3}
+  structureTrack: {fileID: 7031979218605706845, guid: b91f9392efcb95e4f83af38e3d4b2083, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,4 +386,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51fab0ab1cb5dd84c8332c90480b3410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}

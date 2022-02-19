@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    public GameObject playerRef;
+    public Refs refs;
+
     private GameObject player;
     // public Player playerScript;
     // public GameObject train;
     // public GameObject[][] tiles;
-    public GameObject[] tileRef;
     public Camera mainCam;
     // public GameObject[] structures;
     // public GameObject[] objects;
@@ -17,7 +17,7 @@ public class WorldManager : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.Instantiate(playerRef, new Vector3(0, 1, 0), Quaternion.identity);
+        player = GameObject.Instantiate(refs.player, new Vector3(0, 1, 0), Quaternion.identity);
         //  mainCam.player = player;
     }
     
@@ -27,8 +27,8 @@ public class WorldManager : MonoBehaviour
         mainCam.CamStart(player);
         for (int x = 0; x < 100; x++) {
             for (int z = 0; z < 10; z++) {
-                int rand = Random.Range(0, tileRef.Length);
-                GameObject newTile = GameObject.Instantiate(tileRef[rand], new Vector3(x, 0, z), Quaternion.identity);
+                int rand = Random.Range(0, refs.tiles.Length);
+                GameObject newTile = GameObject.Instantiate(refs.tiles[rand], new Vector3(x, 0, z), Quaternion.identity);
             }
         } 
 
