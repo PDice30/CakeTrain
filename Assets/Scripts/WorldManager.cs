@@ -15,12 +15,16 @@ public class WorldManager : MonoBehaviour
     // public GameObject[] objects;
 
 
+    void Awake()
+    {
+        player = GameObject.Instantiate(playerRef, new Vector3(0, 1, 0), Quaternion.identity);
+        //  mainCam.player = player;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        mainCam = Camera.main;
-        player = GameObject.Instantiate(playerRef, new Vector3(0, 1, 0), Quaternion.identity);
-        
+        mainCam.CamStart(player);
         for (int x = 0; x < 100; x++) {
             for (int z = 0; z < 10; z++) {
                 int rand = Random.Range(0, tileRef.Length);
@@ -35,7 +39,6 @@ public class WorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        
+        mainCam.CamUpdate(player.transform.position);
     }
 }
