@@ -33,8 +33,7 @@ public class Refs : MonoBehaviour
     public GameObject structureBedrock;
     public GameObject structureTrack;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Initialize()
     {
         tiles = new GameObject[(int)TileIds.TILE_ID_COUNT];
         for(int i = 0; i < (int)TileIds.TILE_ID_COUNT; i++)
@@ -50,9 +49,4 @@ public class Refs : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
