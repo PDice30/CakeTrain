@@ -20,7 +20,7 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < 100; x++) {
             for (int z = 0; z < 10; z++) {
                 int rand = Random.Range(0, tileLUT.Length);
-                GameObject newTile = GameObject.Instantiate(tileLUT[rand], new Vector3(x, 0, z), Quaternion.Euler(90, 0, 0));
+                GameObject newTile = GameObject.Instantiate(tileLUT[rand], new Vector3(x, 0, z), Quaternion.identity);
             }
         } 
 

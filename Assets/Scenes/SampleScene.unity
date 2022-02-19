@@ -249,8 +249,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileLUT:
-  - {fileID: 8768909099792570349, guid: 6e34dbd7274613d47bc8c98050bd8d43, type: 3}
-  - {fileID: 9110617544719772610, guid: 170796d51a43c434bb71ba0deb3098cc, type: 3}
+  - {fileID: 5532621486571646620, guid: 6e34dbd7274613d47bc8c98050bd8d43, type: 3}
+  - {fileID: 2353292887326398482, guid: 170796d51a43c434bb71ba0deb3098cc, type: 3}
 --- !u!4 &635749211
 Transform:
   m_ObjectHideFlags: 0
