@@ -10,7 +10,7 @@ public class WorldManager : MonoBehaviour
     // public GameObject train;
     // public GameObject[][] tiles;
     public GameObject[] tileRef;
-    public Camera mainCam = Camera.main;
+    public Camera mainCam;
     // public GameObject[] structures;
     // public GameObject[] objects;
 
@@ -18,7 +18,7 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        mainCam = Camera.main;
         player = GameObject.Instantiate(playerRef, new Vector3(0, 1, 0), Quaternion.identity);
         
         for (int x = 0; x < 100; x++) {
