@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class WorldManager : MonoBehaviour
 {
-    // public GameObject player;
+    public GameObject playerRef;
+    private GameObject player;
     // public Player playerScript;
     // public GameObject train;
     // public GameObject[][] tiles;
-    public GameObject[] tileLUT;
+    public GameObject[] tileRef;
+    public Camera mainCam = Camera.main;
     // public GameObject[] structures;
     // public GameObject[] objects;
 
@@ -16,11 +18,13 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // playerScript = player.GetComponent<Player>();
+
+        player = GameObject.Instantiate(playerRef, new Vector3(0, 1, 0), Quaternion.identity);
+        
         for (int x = 0; x < 100; x++) {
             for (int z = 0; z < 10; z++) {
-                int rand = Random.Range(0, tileLUT.Length);
-                GameObject newTile = GameObject.Instantiate(tileLUT[rand], new Vector3(x, 0, z), Quaternion.identity);
+                int rand = Random.Range(0, tileRef.Length);
+                GameObject newTile = GameObject.Instantiate(tileRef[rand], new Vector3(x, 0, z), Quaternion.identity);
             }
         } 
 
