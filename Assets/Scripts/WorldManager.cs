@@ -180,7 +180,7 @@ public class WorldManager : MonoBehaviour
         // player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
         int px;
         int pz;
-        int nEnemies = Random.Range(10, 20);
+        int nEnemies = Random.Range(2, 4);
         for (int i = 0; i < nEnemies; i++) {
             int enemies_i = Random.Range(0, refs.enemies.Length);
             px = Random.Range(0, Consts.world_w);
