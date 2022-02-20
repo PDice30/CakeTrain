@@ -13,10 +13,15 @@ public class Bat : Enemy
         // Vector3 directionNormal = (transform.position - worldManager.player.transform.position).normalized;
         // transform.position += directionNormal * Time.deltaTime * speed;
 
-        Vector3 directionNormal = (worldManager.player.transform.position - transform.position).normalized;
-        transform.position += directionNormal * Time.deltaTime * speed;
+        // Vector3 directionNormal = (worldManager.player.transform.position - transform.position).normalized;
+        // transform.position += directionNormal * Time.deltaTime * speed;
 
         // transform.position = Vector3.MoveTowards(transform.position, worldManager.player.transform.position, Time.deltaTime * speed);
+        Vector2 enemyPos = new Vector2(transform.position.x, transform.position.z);
+        Vector2 playerPos = new Vector2(worldManager.player.transform.position.x, worldManager.player.transform.position.z);
+        Vector2 offset = (playerPos - enemyPos).normalized;
+        enemyPos += offset * Time.deltaTime * speed;
 
+        transform.position = new Vector3(enemyPos.x, Consts.enemy_y, enemyPos.y);
     }
 }

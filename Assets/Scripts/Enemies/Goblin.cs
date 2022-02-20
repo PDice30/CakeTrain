@@ -10,17 +10,18 @@ public class Goblin : Enemy
     public override void EnemyUpdate()
     {
         // TODO : Possibly start with Vector2 and normalize then convert back to Vector3
-        Vector3 directionNormal = (worldManager.player.transform.position - transform.position).normalized;
-        transform.position += directionNormal * Time.deltaTime * speed;
+        // Vector3 directionNormal = (worldManager.player.transform.position - transform.position).normalized;
+        // transform.position += directionNormal * Time.deltaTime * speed;
         // transform.position = transform.position -
         //  new Vector3(worldManager.player.transform.position.x, 
         //              0,
         //              worldManager.player.transform.position.z) * Time.deltaTime * speed;
 
-        // Vector2 enemyPos = new Vector2(transform.position.x, transform.position.z);
-        // Vector2 playerPos = new Vector2(worldManager.player.transform.position.x, worldManager.player.transform.position.z);
+        Vector2 enemyPos = new Vector2(transform.position.x, transform.position.z);
+        Vector2 playerPos = new Vector2(worldManager.player.transform.position.x, worldManager.player.transform.position.z);
+        Vector2 offset = (playerPos - enemyPos).normalized;
+        enemyPos += offset * Time.deltaTime * speed;
 
-        // Vector2 newPos = Vector2.MoveTowards(enemyPos, playerPos, Time.deltaTime * speed);
-        // transform.position = new Vector3(newPos.x, Consts.enemy_y, newPos.y);
+        transform.position = new Vector3(enemyPos.x, Consts.enemy_y, enemyPos.y);
     }
 }
