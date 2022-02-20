@@ -14,6 +14,10 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public GameObject player;
     [HideInInspector]
+    public GameObject cartCrafting;
+    [HideInInspector]
+    public GameObject cartEngine;
+    [HideInInspector]
     public List<GameObject> train;
     [HideInInspector]
     public List<GameObject> tracks;
@@ -31,6 +35,18 @@ public class WorldManager : MonoBehaviour
     public GameObject tileHighlight_Passive;
     [HideInInspector]
     public GameObject tileHighlight_Active;
+
+    [HideInInspector]
+    public GameObject objectHightlight_Passive;
+
+    [HideInInspector]
+    public List<GameObject> craftPreviewBGs;
+    [HideInInspector]
+    public List<GameObject> craftPreviewEjects;
+    [HideInInspector]
+    public List<GameObject> craftPreviewSubmits;
+    [HideInInspector]
+    public GameObject craftPreviewTail;
 
     [HideInInspector]
     public bool isNight;
@@ -94,6 +110,7 @@ public class WorldManager : MonoBehaviour
         Cart ne = newEngine.GetComponent<Cart>();
         ne.x = px;
         ne.z = pz;
+        cartEngine = newEngine;
         train.Add(newEngine);
         //convert underlying tile to grass
         GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
@@ -125,6 +142,7 @@ public class WorldManager : MonoBehaviour
         Cart nc = newCraft.GetComponent<Cart>();
         nc.x = px;
         nc.z = pz;
+        cartCrafting = newCraft;
         train.Add(newCraft);
         //convert underlying tile to grass
         GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
@@ -206,6 +224,12 @@ public class WorldManager : MonoBehaviour
         tileHighlight_Active = GameObject.Instantiate(refs.tileHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
     }
 
+    void initCraftingPreviews() {
+        for (int i = 0; i < Consts.numCraftPreviewBGs; i++) {
+            // GameObject newCraftPreview = GameObject.Instantiate(R)
+        } 
+    }
+
     void initGameplay() 
     {
         isNight = false;
@@ -235,6 +259,7 @@ public class WorldManager : MonoBehaviour
         initGameplay();
         initCanvas();
         initTileHighlighters();
+        initCraftingPreviews();
 
         mainCam.worldManager = this;
         cameraIsReady = false;

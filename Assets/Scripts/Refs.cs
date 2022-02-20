@@ -36,6 +36,11 @@ public class Refs : MonoBehaviour
     public GameObject tileHighlight_Passive;
     public GameObject tileHighlight_Active;
 
+    public GameObject craftPreviewBg;
+    public GameObject craftPreviewEject;
+    public GameObject craftPreviewSubmit;
+    public GameObject craftPreviewTail;
+
     public void Initialize()
     {
         tiles = new GameObject[(int)TileId.COUNT];

@@ -72,6 +72,10 @@ public class Consts
 
     public static Vector2 player_hand_offset;
 
+    public const int numCraftPreviewBGs = 3;
+    public const int numCraftPreviewEjects = 3;
+    public const int numCraftPreviewSubmits = 3;
+
     public static void initConsts()
     {
         hiddenTilePosition = new Vector3(-100, -100, -100);
