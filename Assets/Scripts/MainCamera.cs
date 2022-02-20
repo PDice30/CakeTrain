@@ -2,16 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Camera : MonoBehaviour
+public class MainCamera : MonoBehaviour
 {
     // Start is called before the first frame update
     float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
     public void CamStart(GameObject player)
     {
+
+        Debug.Log("Aspect: " + gameObject.GetComponent<Camera>().aspect);
+
+        // X bounds determined by aspect ratio
         z_maxBounds = 5;
         z_minBounds = 5;
-        x_minBounds = 10;
-        x_maxBounds = 40; // TODO: determined be level length and passed from worldmanager, then - 10
+        x_minBounds = (float)gameObject.GetComponent<Camera>().aspect * 5.02811217517f; // Biggest determinier to be changed for aspect ratio
+        x_maxBounds = 41; // TODO: determined be level length and passed from worldmanager, then - 9?
+
+        Debug.Log("xMin: " + x_minBounds);
     }
 
     // Update is called once per frame

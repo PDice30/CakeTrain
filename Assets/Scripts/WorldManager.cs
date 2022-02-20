@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldManager : MonoBehaviour
 {
     public Refs refs;
-    public Camera mainCam;
+    public MainCamera mainCam;
 
     [HideInInspector]
     public GameObject player;
@@ -53,7 +53,7 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+       
     }
 
     // Update is called once per frame
