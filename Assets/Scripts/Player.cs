@@ -110,13 +110,17 @@ public class Player : MonoBehaviour
     worldManager.tileHighlight_Passive.transform.position = Consts.hiddenTilePosition;
     worldManager.tileHighlight_Active.transform.position  = Consts.hiddenTilePosition;
 
+    // Interacting Checks
     if(holdingObject)
     {
       if(Input.GetKeyDown(KeyCode.Space))
       { //drop
         if(interactingCart)
         {
-          
+          // cart is full
+          if (interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Count == Consts.maximumCraftObjects) {
+            // TODO: Vibrate and don't insert
+          }
         }
         else
         {
@@ -140,6 +144,7 @@ public class Player : MonoBehaviour
     {
       if(Input.GetKeyDown(KeyCode.Space))
       { //eject
+
       }
     }
     else if(interactingStructure)

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CraftingCart : MonoBehaviour
 {
+
+    [HideInInspector]
+    public List<GameObject> objectsInCrafter;
     // Start is called before the first frame update
     void Start()
     {

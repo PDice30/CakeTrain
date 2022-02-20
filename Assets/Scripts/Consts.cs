@@ -77,6 +77,7 @@ public class Consts
 
     public static Vector2 player_hand_offset;
 
+    public const int maximumCraftObjects = 3;
     public const int numCraftPreviewBGs = 3;
     public const int numCraftPreviewEjects = 3;
     public const int numCraftPreviewSubmits = 3;
