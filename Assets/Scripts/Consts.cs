@@ -55,11 +55,14 @@ public class Consts
     public const float hilight_structure_y = 3.0f;
     public const float object_y = 4.0f;
     public const float hilight_object_y = 5.0f;
-    public const float player_y = 6.0f;
-    public const float enemy_y = 7.0f;
-    public const float cart_y = 8.0f;
-    public const float hilight_cart_y = 9.0f;
-    public const float held_object_y = 10.0f;
+    public const float product_y = 6.0f;
+    public const float hilight_product_y = 7.0f;
+    public const float player_y = 8.0f;
+    public const float enemy_y = 9.0f;
+    public const float cart_y = 10.0f;
+    public const float hilight_cart_y = 11.0f;
+    public const float held_object_y = 12.0f;
+    public const float held_product_y = 13.0f;
     public const float camera_y = 100.0f;
 
     //sizes
@@ -86,6 +89,11 @@ public class Consts
     public static Vector2 object_size;
     public static Vector2 object_half_size;
     public static Vector2 object_recenter_off;
+
+    public const float product_s = 0.3f;
+    public static Vector2 product_size;
+    public static Vector2 product_half_size;
+    public static Vector2 product_recenter_off;
 
     public static Vector2 player_hand_offset;
 

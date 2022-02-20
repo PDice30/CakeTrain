@@ -29,6 +29,8 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> objects;
     [HideInInspector]
+    public List<GameObject> products;
+    [HideInInspector]
     public List<GameObject> enemies;
 
     [HideInInspector]
@@ -38,6 +40,8 @@ public class WorldManager : MonoBehaviour
 
     [HideInInspector]
     public GameObject objectHighlight_Passive;
+    [HideInInspector]
+    public GameObject productHighlight_Passive;
     [HideInInspector]
     public GameObject cartHighlight_Passive;
 
@@ -233,6 +237,8 @@ public class WorldManager : MonoBehaviour
         tileHighlight_Active = GameObject.Instantiate(refs.tileHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
         objectHighlight_Passive = GameObject.Instantiate(refs.objectHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         Utils.resizePrefab(objectHighlight_Passive,Consts.object_s);
+        productHighlight_Passive = GameObject.Instantiate(refs.productHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        Utils.resizePrefab(productHighlight_Passive,Consts.product_s);
         cartHighlight_Passive = GameObject.Instantiate(refs.cartHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         Utils.resizePrefab(cartHighlight_Passive,Consts.cart_s);
     }

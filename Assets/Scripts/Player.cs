@@ -16,7 +16,9 @@ public class Player : MonoBehaviour
   float interactingDamage;
   public GameObject interactingCart;
   public GameObject interactingObject;
+  public GameObject interactingProduct;
   public GameObject holdingObject;
+  public GameObject holdingProduct;
 
   void Start()
   {
@@ -81,30 +83,44 @@ public class Player : MonoBehaviour
     interactingStructure = null;
     interactingCart = null;
     interactingObject = null;
-    if(!holdingObject)
+    interactingProduct = null;
+    if(!holdingObject && !holdingProduct)
     {
       Vector2 netPt = new Vector2(proposed3.x+Consts.player_half_size.x+netOffset.x,proposed3.z+Consts.player_half_size.y+netOffset.y);
       Vector2 netBasePt = netPt-Consts.net_half_size;
 
-      for(int i = 0; i < worldManager.objects.Count; i++)
+      for(int i = 0; i < worldManager.products.Count; i++)
       {
-        Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+        Vector3 op3 = worldManager.products[i].GetComponent<Transform>().position;
         Vector2 op2 = new Vector2(op3.x,op3.z);
-        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
-          interactingObject = worldManager.objects[i];
+        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.product_size))
+          interactingProduct = worldManager.products[i];
       }
-      if(!interactingObject)
+      if(!interactingProduct)
       {
-        for(int i = 0; i < worldManager.structures.Count; i++)
+        for(int i = 0; i < worldManager.objects.Count; i++)
         {
-          if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
-            interactingStructure = worldManager.structures[i];
+          Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+          Vector2 op2 = new Vector2(op3.x,op3.z);
+          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
+            interactingObject = worldManager.objects[i];
+        }
+        if(!interactingObject)
+        {
+          for(int i = 0; i < worldManager.structures.Count; i++)
+          {
+            if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+              interactingStructure = worldManager.structures[i];
+          }
         }
       }
     }
 
-    if(Utils.quadCollidePt3(worldManager.cartCrafting.GetComponent<Transform>().position,Consts.cart_size,interactingPt))
-      interactingCart = worldManager.cartCrafting;
+    if(!holdingProduct)
+    {
+      if(Utils.quadCollidePt3(worldManager.cartCrafting.GetComponent<Transform>().position,Consts.cart_size,interactingPt))
+        interactingCart = worldManager.cartCrafting;
+    }
 
     transform.position = proposed3;
 
@@ -114,7 +130,11 @@ public class Player : MonoBehaviour
     worldManager.cartHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
 
     // Interacting Checks
-    if(holdingObject)
+    if(holdingProduct)
+    {
+
+    }
+    else if(holdingObject)
     {
       if(Input.GetKeyDown(KeyCode.Space))
       { //drop
@@ -144,6 +164,14 @@ public class Player : MonoBehaviour
       else
       { //hold
         holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+      }
+    }
+    else if(interactingProduct)
+    {
+      worldManager.productHighlight_Passive.transform.position = new Vector3(interactingProduct.transform.position.x, Consts.hilight_product_y, interactingProduct.transform.position.z);
+      if(Input.GetKeyDown(KeyCode.Space))
+      { //pickup
+        holdingProduct = interactingProduct;
       }
     }
     else if(interactingObject)
