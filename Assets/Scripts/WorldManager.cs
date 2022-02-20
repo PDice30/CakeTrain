@@ -143,7 +143,7 @@ public class WorldManager : MonoBehaviour
     {
         GameObject newCraft = GameObject.Instantiate(refs.cartCraft, new Vector3(px+Consts.cart_recenter_off.x, Consts.cart_y, pz+Consts.cart_recenter_off.y), Quaternion.identity);
         Utils.resizePrefab(newCraft,Consts.cart_s);
-        Cart nc = newCraft.GetComponent<Cart>();
+        CraftingCart nc = newCraft.GetComponent<CraftingCart>();
         nc.x = px;
         nc.z = pz;
         cartCrafting = newCraft;
@@ -210,19 +210,19 @@ public class WorldManager : MonoBehaviour
     void initEnemies()
     {
         // player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
-        int px;
-        int pz;
-        int nEnemies = Random.Range(2, 4);
-        for (int i = 0; i < nEnemies; i++) {
-            int enemies_i = Random.Range(0, refs.enemies.Length);
-            px = Random.Range(0, Consts.world_w);
-            pz = Random.Range(0, Consts.world_h);
-            GameObject newEnemy = GameObject.Instantiate(refs.enemies[enemies_i], new Vector3(px, Consts.enemy_y, pz), Quaternion.identity);
-            newEnemy.GetComponent<Enemy>().worldManager = this;
-            enemies.Add(newEnemy);
-        }
+        // int px;
+        // int pz;
+        // int nEnemies = Random.Range(2, 4);
+        // for (int i = 0; i < nEnemies; i++) {
+        //     int enemies_i = Random.Range(0, refs.enemies.Length);
+        //     px = Random.Range(0, Consts.world_w);
+        //     pz = Random.Range(0, Consts.world_h);
+        //     GameObject newEnemy = GameObject.Instantiate(refs.enemies[enemies_i], new Vector3(px, Consts.enemy_y, pz), Quaternion.identity);
+        //     newEnemy.GetComponent<Enemy>().worldManager = this;
+        //     enemies.Add(newEnemy);
+        // }
 
-        Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+        // Debug.Log("Number of Enemies Spawned: " + enemies.Count);
     }
 
     void initTileHighlighters() {

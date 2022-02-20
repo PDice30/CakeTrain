@@ -120,9 +120,17 @@ public class Player : MonoBehaviour
       { //drop
         if(interactingCart)
         {
-          // cart is full
+          // TODO: Display cart preview 
+
           if (interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Count == Consts.maximumCraftObjects) {
-            // TODO: Vibrate and don't insert
+            // cart is full
+            // TODO: Vibrate feedback and don't insert
+          } else {
+            // cart is not full, add to crafting cart
+            interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Add(holdingObject.GetComponent<Object>().type);
+            worldManager.objects.Remove(holdingObject);
+            Destroy(holdingObject);
+            holdingObject = null;
           }
         }
         else
@@ -146,9 +154,25 @@ public class Player : MonoBehaviour
     }
     else if(interactingCart)
     {
-      if(Input.GetKeyDown(KeyCode.Space))
-      { //eject
+      // TODO: Display Preview based on if craft is valid
 
+      if(Input.GetKeyDown(KeyCode.Space))
+      { // submit
+        if (interactingCart.GetComponent<CraftingCart>().craftIsValid) {
+          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
+          // TODO : Spit out crafted object
+        } else { 
+          //eject and instantiate objects that were in crafter
+          float xPos = -0.5f;
+          foreach(ObjectId objectId in interactingCart.GetComponent<CraftingCart>().objectsInCrafter) {
+
+            GameObject ejectedObj = GameObject.Instantiate(worldManager.refs.objects[(int)objectId], new Vector3(interactingCart.transform.position.x + xPos, Consts.object_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+            Utils.resizePrefab(ejectedObj, Consts.object_s);
+            worldManager.objects.Add(ejectedObj);
+            xPos += 0.5f;
+          }
+          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
+        }
       }
     }
     else if(interactingStructure)
