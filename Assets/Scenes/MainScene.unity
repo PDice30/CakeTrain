@@ -164,6 +164,8 @@ MonoBehaviour:
   structures: []
   objects: []
   enemies: []
+  tileHighlight_Passive: {fileID: 0}
+  tileHighlight_Active: {fileID: 0}
   isNight: 0
   timeUntilNight: 0
   enemiesHaveBeenSpawned: 0
@@ -218,6 +220,8 @@ MonoBehaviour:
   enemyBat: {fileID: 7177810929658414646, guid: 12f652ea0e0133447942cf2d776c97c1, type: 3}
   enemyGoblin: {fileID: 8004079148066154955, guid: 196c5a79c239dad46afc25437937c44c, type: 3}
   enemies: []
+  tileHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
+  tileHighlight_Active: {fileID: 1037954463701335887, guid: 6f8cae11660293d4cbb7c0b7b488998c, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

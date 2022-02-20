@@ -76,11 +76,20 @@ public class Player : MonoBehaviour
       transform.position = proposed3;
     }
 
+    if(interactingStructure) {
+      if (interactingStructure.GetComponent<Structure>().type != StructureId.BEDROCK) {
+        worldManager.tileHighlight_Passive.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.object_y + 1f, interactingStructure.transform.position.z);
+      }
+    } else {
+      worldManager.tileHighlight_Passive.transform.position = Consts.hiddenTilePosition;
+    }
+
     if(interactingStructure && Input.GetKey(KeyCode.Space))
     {
       Structure s = interactingStructure.GetComponent<Structure>();
       if(s.type != StructureId.BEDROCK)
       {
+        worldManager.tileHighlight_Active.transform.position = new Vector3(s.transform.position.x, Consts.object_y + 2f, s.transform.position.z);
         interactingDamage += Time.deltaTime;
         if(interactingDamage >= 1.0f)
         {
@@ -123,7 +132,10 @@ public class Player : MonoBehaviour
         }
       }
     }
-    else interactingDamage = 0.0f;
+    else {
+      interactingDamage = 0.0f;
+      worldManager.tileHighlight_Active.transform.position = Consts.hiddenTilePosition;
+    }
       
   }
 }

@@ -26,6 +26,12 @@ public class WorldManager : MonoBehaviour
     public List<GameObject> objects;
     [HideInInspector]
     public List<GameObject> enemies;
+
+    [HideInInspector]
+    public GameObject tileHighlight_Passive;
+    [HideInInspector]
+    public GameObject tileHighlight_Active;
+
     [HideInInspector]
     public bool isNight;
     [HideInInspector]
@@ -192,6 +198,11 @@ public class WorldManager : MonoBehaviour
         Debug.Log("Number of Enemies Spawned: " + enemies.Count);
     }
 
+    void initTileHighlighters() {
+        tileHighlight_Passive = GameObject.Instantiate(refs.tileHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        tileHighlight_Active = GameObject.Instantiate(refs.tileHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
+    }
+
     void initGameplay() 
     {
         isNight = false;
@@ -220,6 +231,7 @@ public class WorldManager : MonoBehaviour
         initPlayer(10,5);
         initGameplay();
         initCanvas();
+        initTileHighlighters();
 
         mainCam.worldManager = this;
         cameraIsReady = false;

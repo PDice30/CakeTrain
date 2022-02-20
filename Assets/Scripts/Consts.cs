@@ -64,6 +64,8 @@ public class Consts
     public static Vector2 object_recenter_off;
 
 
+    public static Vector3 hiddenTilePosition;
+
     public static void initConsts()
     {
         unit_size = new Vector2(1.0f,1.0f);
@@ -76,5 +78,6 @@ public class Consts
         object_half_size = new Vector2(object_s,object_s)*0.5f;
         object_recenter_off = (unit_size-object_size)/2.0f;
 
+        hiddenTilePosition = new Vector3(-100, -100, -100);
     }
 }
