@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
   }
 
   // Update is called once per frame
-  void Update()
+  public void PlayerUpdate()
   {
     Vector2 quadSize = new Vector2(1.0f,1.0f);
 
@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
     if(collidingStructure && Input.GetKey(KeyCode.Space))
     {
       Structure s = collidingStructure.GetComponent<Structure>();
-      if(s.type != StructureId.STRUCTURE_ID_BEDROCK)
+      if(s.type != StructureId.BEDROCK)
       {
         collidingDamage += Time.deltaTime;
         if(collidingDamage >= 1.0f)
@@ -71,20 +71,20 @@ public class Player : MonoBehaviour
           Object o;
           switch(s.type)
           {
-            case StructureId.STRUCTURE_ID_BEDROCK: break; //impossible!
-            case StructureId.STRUCTURE_ID_TREE:
-              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.OBJECT_ID_WOOD], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+            case StructureId.BEDROCK: break; //impossible!
+            case StructureId.TREE:
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.WOOD], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
               o = newObject.GetComponent<Object>();
-              o.type = ObjectId.OBJECT_ID_WOOD;
+              o.type = ObjectId.WOOD;
               o.x = s.x;
               o.z = s.z;
               worldManager.objects.Add(newObject);
               break;
-            case StructureId.STRUCTURE_ID_IRONDEPOSIT:
+            case StructureId.IRONDEPOSIT:
             {
-              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.OBJECT_ID_IRON], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.IRON], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
               o = newObject.GetComponent<Object>();
-              o.type = ObjectId.OBJECT_ID_IRON;
+              o.type = ObjectId.IRON;
               o.x = s.x;
               o.z = s.z;
               worldManager.objects.Add(newObject);

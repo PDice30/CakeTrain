@@ -87,9 +87,9 @@ public class WorldManager : MonoBehaviour
         ne.z = pz;
         train.Add(newEngine);
         //convert underlying tile to grass
-        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.TILE_ID_GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
+        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
         Tile nt = newTile.GetComponent<Tile>();
-        nt.type = TileId.TILE_ID_GRASS;
+        nt.type = TileId.GRASS;
         nt.x = px;
         nt.z = pz;
         tiles[px,pz] = newTile;
@@ -102,9 +102,9 @@ public class WorldManager : MonoBehaviour
             }
         }
         //add underlying track
-        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.STRUCTURE_ID_TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
         Structure ns = newStructure.GetComponent<Structure>();
-        ns.type = StructureId.STRUCTURE_ID_TRACK;
+        ns.type = StructureId.TRACK;
         ns.x = px;
         ns.z = pz;
         structures.Add(newStructure);
@@ -119,9 +119,9 @@ public class WorldManager : MonoBehaviour
         nc.z = pz;
         train.Add(newCraft);
         //convert underlying tile to grass
-        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.TILE_ID_GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
+        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
         Tile nt = newTile.GetComponent<Tile>();
-        nt.type = TileId.TILE_ID_GRASS;
+        nt.type = TileId.GRASS;
         nt.x = px;
         nt.z = pz;
         tiles[px,pz] = newTile;
@@ -134,9 +134,9 @@ public class WorldManager : MonoBehaviour
             }
         }
         //add underlying track
-        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.STRUCTURE_ID_TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
         Structure ns = newStructure.GetComponent<Structure>();
-        ns.type = StructureId.STRUCTURE_ID_TRACK;
+        ns.type = StructureId.TRACK;
         ns.x = px;
         ns.z = pz;
         structures.Add(newStructure);
@@ -214,6 +214,7 @@ public class WorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        player.GetComponent<Player>().PlayerUpdate();
 
         mainCam.CamUpdate(player.transform.position);
         foreach(GameObject enemy in enemies) {
