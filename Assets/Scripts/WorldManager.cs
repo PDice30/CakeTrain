@@ -19,6 +19,8 @@ public class WorldManager : MonoBehaviour
     public List<GameObject> structures;
     [HideInInspector]
     public List<GameObject> objects;
+    [HideInInspector]
+    public List<GameObject> enemies;
 
     void initTiles()
     {
@@ -146,6 +148,24 @@ public class WorldManager : MonoBehaviour
         player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
     }
 
+    void initEnemies()
+    {
+        // player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
+        int px;
+        int pz;
+        int nEnemies = Random.Range(10, 20);
+        for (int i = 0; i < nEnemies; i++) {
+            int enemies_i = Random.Range(0, refs.enemies.Length);
+            px = Random.Range(0, Consts.world_w);
+            pz = Random.Range(0, Consts.world_h);
+            GameObject newEnemy = GameObject.Instantiate(refs.enemies[enemies_i], new Vector3(px, Consts.enemy_y, pz), Quaternion.identity);
+            newEnemy.GetComponent<Enemy>().worldManager = this;
+            enemies.Add(newEnemy);
+        }
+
+        Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+    }
+
     void Awake()
     {
         refs.Initialize();
@@ -154,6 +174,7 @@ public class WorldManager : MonoBehaviour
         initStructures();
         initTrain();
         initPlayer();
+        initEnemies();
 
         mainCam.CamStart(player);
     }
@@ -168,5 +189,8 @@ public class WorldManager : MonoBehaviour
     void Update()
     {
         mainCam.CamUpdate(player.transform.position);
+        foreach(GameObject enemy in enemies) {
+            enemy.GetComponent<Enemy>().EnemyUpdate();
+        }
     }
 }
