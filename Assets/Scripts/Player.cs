@@ -123,6 +123,7 @@ public class Player : MonoBehaviour
           {
             if(worldManager.structures[i] == interactingStructure)
             {
+              Destroy(worldManager.structures[i]);
               worldManager.structures.RemoveAt(i);
               break;
             }

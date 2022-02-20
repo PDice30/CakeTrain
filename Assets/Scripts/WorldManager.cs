@@ -106,6 +106,7 @@ public class WorldManager : MonoBehaviour
         for(int i = 0; i < structures.Count; i++) {
             Structure ts = structures[i].GetComponent<Structure>();
             if(ts.x == px && ts.z == pz) {
+                Destroy(structures[i]);
                 structures.RemoveAt(i);
                 break;
             }
@@ -136,6 +137,7 @@ public class WorldManager : MonoBehaviour
         for(int i = 0; i < structures.Count; i++) {
             Structure ts = structures[i].GetComponent<Structure>();
             if(ts.x == px && ts.z == pz) {
+                Destroy(structures[i]);
                 structures.RemoveAt(i);
                 break;
             }
@@ -174,6 +176,7 @@ public class WorldManager : MonoBehaviour
         for(int i = 0; i < structures.Count; i++) {
             Structure ts = structures[i].GetComponent<Structure>();
             if(ts.x == px && ts.z == pz) {
+                Destroy(structures[i]);
                 structures.RemoveAt(i);
                 break;
             }
