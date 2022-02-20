@@ -160,6 +160,7 @@ MonoBehaviour:
   track: []
   structures: []
   objects: []
+  enemies: []
 --- !u!4 &635749211
 Transform:
   m_ObjectHideFlags: 0
