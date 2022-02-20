@@ -62,9 +62,11 @@ public class Consts
     public static Vector2 object_size;
     public static Vector2 object_half_size;
     public static Vector2 object_recenter_off;
-
-
     public static Vector3 hiddenTilePosition;
+
+    public const int numCraftPreviewBGs = 3;
+    public const int numCraftPreviewEjects = 3;
+    public const int numCraftPreviewSubmits = 3;
 
     public static void initConsts()
     {
