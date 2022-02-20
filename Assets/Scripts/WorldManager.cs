@@ -30,6 +30,8 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public float timeUntilNight;
     public bool enemiesHaveBeenSpawned;
+    public bool cameraIsReady;
+    public bool startGameFlag;
 
     void initTiles()
     {
@@ -187,8 +189,12 @@ public class WorldManager : MonoBehaviour
     void initCanvas()
     {
         timeUntilNightText = canvas.GetComponentInChildren<Text>();
-        timeUntilNightText.text = "TIME GOES HERE";
     }
+
+    // void startCameraTransition()
+    // {
+    //     timeUntilNightText = canvas.GetComponentInChildren<Text>();
+    // }
 
     void Awake()
     {
@@ -198,35 +204,48 @@ public class WorldManager : MonoBehaviour
         initStructures();
         initTrain();
         initPlayer();
-        // initEnemies();
-        initGameplay();
         initCanvas();
+        // initEnemies();
 
-        mainCam.CamStart(player);
+        mainCam.worldManager = this;
+        cameraIsReady = false;
+        startGameFlag = true;
+        // startCameraTransition();
+
     }
     
     // Start is called before the first frame update
     void Start()
     {
-       
+        mainCam.TransitionCamStart();
     }
 
     // Update is called once per frame
     void Update()
     {
-        player.GetComponent<Player>().PlayerUpdate();
-
-        mainCam.CamUpdate(player.transform.position);
-        foreach(GameObject enemy in enemies) {
-            enemy.GetComponent<Enemy>().EnemyUpdate();
+        if (startGameFlag && cameraIsReady) {
+            startGameFlag = false;
+            initGameplay();
+            mainCam.CamStart(player);
         }
+        if (cameraIsReady) {
+            player.GetComponent<Player>().PlayerUpdate();
 
-        timeUntilNight -= Time.deltaTime;
-        if (timeUntilNight <= 0) {
-            isNight = !isNight;
-            if (isNight) initEnemies();
-            timeUntilNight = Consts.timeUntilNight;
-        }
-        timeUntilNightText.text = timeUntilNight.ToString("0.0");
+            mainCam.CamUpdate(player.transform.position);
+            foreach(GameObject enemy in enemies) {
+                enemy.GetComponent<Enemy>().EnemyUpdate();
+            }
+
+            timeUntilNight -= Time.deltaTime;
+            if (timeUntilNight <= 0) {
+                isNight = !isNight;
+                if (isNight) initEnemies();
+                timeUntilNight = Consts.timeUntilNight;
+            }
+
+            timeUntilNightText.text = timeUntilNight.ToString("0.0");
+        } else {
+            mainCam.TransitionCamUpdate(player);
+        } 
     }
 }

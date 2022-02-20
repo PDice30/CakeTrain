@@ -4,8 +4,27 @@ using UnityEngine;
 
 public class MainCamera : MonoBehaviour
 {
+    [HideInInspector]
+    public WorldManager worldManager;
+
+    private float timeUntilReady;
     // Start is called before the first frame update
     float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
+
+    public void TransitionCamStart() {
+        transform.position = new Vector3(Consts.world_w - 10, transform.position.y, transform.position.z);
+        Debug.Log(transform.position);
+        timeUntilReady = 3f;
+    }
+
+    public void TransitionCamUpdate(GameObject player) {
+        transform.position = Vector3.Lerp(new Vector3(transform.position.x, transform.position.y, transform.position.z), new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.005f);
+        timeUntilReady -= Time.deltaTime;
+        if (timeUntilReady <= 0) {
+            worldManager.cameraIsReady = true;
+        }
+    }
+
     public void CamStart(GameObject player)
     {
 

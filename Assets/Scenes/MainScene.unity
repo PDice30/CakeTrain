@@ -211,6 +211,7 @@ MonoBehaviour:
   objectIronAxe: {fileID: 2305885826646802278, guid: f737664c05a34994ca093bc2cd1f16c9, type: 3}
   objectWoodenPick: {fileID: 6249742111974248860, guid: 8e51560d5d9de2245b2a1b22e2c32f00, type: 3}
   objectIronPick: {fileID: 6829351332466128208, guid: 8fa4c186f04e7384a9557b4a2ffb17ef, type: 3}
+  objects: []
   enemyBat: {fileID: 7177810929658414646, guid: 12f652ea0e0133447942cf2d776c97c1, type: 3}
   enemyGoblin: {fileID: 8004079148066154955, guid: 196c5a79c239dad46afc25437937c44c, type: 3}
   enemies: []
