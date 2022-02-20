@@ -17,13 +17,16 @@ public class CraftingCart : MonoBehaviour
         craftIsValid = false;
         for(int i = 0; i < Consts.recipes.Count; i++)
         {
-            craftIsValid = true;
-            for(int j = 0; j < objectsInCrafter.Count; j++)
+            if(Consts.recipes[i].Count == objectsInCrafter.Count)
             {
-                if(Consts.recipes[i][j] != objectsInCrafter[j])
+                craftIsValid = true;
+                for(int j = 0; j < objectsInCrafter.Count; j++)
                 {
-                    craftIsValid = false;
-                    break;
+                    if(Consts.recipes[i][j] != objectsInCrafter[j])
+                    {
+                        craftIsValid = false;
+                        break;
+                    }
                 }
             }
             if(craftIsValid) break;
