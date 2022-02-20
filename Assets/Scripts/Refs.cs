@@ -2,37 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum TileId : int
-{
-    TILE_ID_DIRT = 0,
-    TILE_ID_GRASS,
-    TILE_ID_WATER,
-    TILE_ID_COUNT,
-}
-
-public enum StructureId: int
-{
-    STRUCTURE_ID_TREE = 0,
-    STRUCTURE_ID_IRONDEPOSIT,
-    STRUCTURE_ID_BEDROCK,
-    STRUCTURE_ID_TRACK,
-    STRUCTURE_ID_COUNT,
-}
-
-public enum ObjectId: int
-{
-    OBJECT_ID_WOOD = 0,
-    OBJECT_ID_IRON,
-    OBJECT_ID_COUNT,
-}
-
-public enum EnemyId : int
-{
-    ENEMY_ID_BAT = 0,
-    ENEMY_ID_GOBLIN,
-    ENEMY_ID_COUNT,
-}
-
 public class Refs : MonoBehaviour
 {
     public GameObject player;
@@ -66,49 +35,49 @@ public class Refs : MonoBehaviour
 
     public void Initialize()
     {
-        tiles = new GameObject[(int)TileId.TILE_ID_COUNT];
-        for(int i = 0; i < (int)TileId.TILE_ID_COUNT; i++)
+        tiles = new GameObject[(int)TileId.COUNT];
+        for(int i = 0; i < (int)TileId.COUNT; i++)
         {
             switch(i)
             {
-                case (int)TileId.TILE_ID_DIRT:  tiles[i] = tileDirt; break;
-                case (int)TileId.TILE_ID_WATER: tiles[i] = tileWater; break;
-                case (int)TileId.TILE_ID_GRASS: tiles[i] = tileGrass; break;
+                case (int)TileId.DIRT:  tiles[i] = tileDirt; break;
+                case (int)TileId.WATER: tiles[i] = tileWater; break;
+                case (int)TileId.GRASS: tiles[i] = tileGrass; break;
                 default: Debug.Log("failed to place tile!"); break;
             }
         }
 
-        structures = new GameObject[(int)StructureId.STRUCTURE_ID_COUNT];
-        for(int i = 0; i < (int)StructureId.STRUCTURE_ID_COUNT; i++)
+        structures = new GameObject[(int)StructureId.COUNT];
+        for(int i = 0; i < (int)StructureId.COUNT; i++)
         {
             switch(i)
             {
-                case (int)StructureId.STRUCTURE_ID_TREE:        structures[i] = structureTree; break;
-                case (int)StructureId.STRUCTURE_ID_IRONDEPOSIT: structures[i] = structureIronDeposit; break;
-                case (int)StructureId.STRUCTURE_ID_BEDROCK:     structures[i] = structureBedrock; break;
-                case (int)StructureId.STRUCTURE_ID_TRACK:       structures[i] = structureTrack; break;
+                case (int)StructureId.TREE:        structures[i] = structureTree; break;
+                case (int)StructureId.IRONDEPOSIT: structures[i] = structureIronDeposit; break;
+                case (int)StructureId.BEDROCK:     structures[i] = structureBedrock; break;
+                case (int)StructureId.TRACK:       structures[i] = structureTrack; break;
                 default: Debug.Log("failed to place structure!"); break;
             }
         }
 
-        objects = new GameObject[(int)ObjectId.OBJECT_ID_COUNT];
-        for(int i = 0; i < (int)ObjectId.OBJECT_ID_COUNT; i++)
+        objects = new GameObject[(int)ObjectId.COUNT];
+        for(int i = 0; i < (int)ObjectId.COUNT; i++)
         {
             switch(i)
             {
-                case (int)ObjectId.OBJECT_ID_WOOD:  objects[i] = objectWood; break;
-                case (int)ObjectId.OBJECT_ID_IRON: objects[i] = objectIron; break;
+                case (int)ObjectId.WOOD:  objects[i] = objectWood; break;
+                case (int)ObjectId.IRON: objects[i] = objectIron; break;
                 default: Debug.Log("failed to place object!"); break;
             }
         }
 
-        enemies = new GameObject[(int)EnemyId.ENEMY_ID_COUNT];
-        for(int i = 0; i < (int)EnemyId.ENEMY_ID_COUNT; i++)
+        enemies = new GameObject[(int)EnemyId.COUNT];
+        for(int i = 0; i < (int)EnemyId.COUNT; i++)
         {
             switch(i)
             {
-                case (int)EnemyId.ENEMY_ID_BAT:  enemies[i] = enemyBat; break;
-                case (int)EnemyId.ENEMY_ID_GOBLIN: enemies[i] = enemyGoblin; break;
+                case (int)EnemyId.BAT:    enemies[i] = enemyBat; break;
+                case (int)EnemyId.GOBLIN: enemies[i] = enemyGoblin; break;
                 default: Debug.Log("failed to place enemy!"); break;
             }
         }

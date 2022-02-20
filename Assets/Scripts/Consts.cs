@@ -2,6 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum TileId : int
+{
+    DIRT = 0,
+    GRASS,
+    WATER,
+    COUNT,
+}
+
+public enum StructureId: int
+{
+    TREE = 0,
+    IRONDEPOSIT,
+    BEDROCK,
+    TRACK,
+    COUNT,
+}
+
+public enum ObjectId: int
+{
+    WOOD = 0,
+    IRON,
+    COUNT,
+}
+
+public enum EnemyId : int
+{
+    BAT = 0,
+    GOBLIN,
+    COUNT,
+}
+
 public class Consts
 {
     public const int world_h = 10;
