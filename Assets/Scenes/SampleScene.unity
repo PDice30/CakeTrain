@@ -155,6 +155,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refs: {fileID: 635749212}
   mainCam: {fileID: 963194227}
+  player: {fileID: 0}
+  train: []
+  track: []
+  structures: []
+  objects: []
 --- !u!4 &635749211
 Transform:
   m_ObjectHideFlags: 0
@@ -192,6 +197,7 @@ MonoBehaviour:
   structureIronDeposit: {fileID: 6278617561935846946, guid: 8b841bbf6385919408e05d7232610bf6, type: 3}
   structureBedrock: {fileID: 5277178839617399245, guid: 49b1d5e9adf737e4ba45de29e1e81be9, type: 3}
   structureTrack: {fileID: 7031979218605706845, guid: b91f9392efcb95e4f83af38e3d4b2083, type: 3}
+  structures: []
   objectWood: {fileID: 8583161509136435908, guid: d34e08beca3049149a359b81d479d34d, type: 3}
   objectIron: {fileID: 5394108000500651115, guid: 233866491ce049a4e824bc96128984d8, type: 3}
   objectTrack: {fileID: 5336229033910077465, guid: 348d9ebc88a17e540bba0888919ba865, type: 3}
@@ -388,6 +394,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 963194225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51fab0ab1cb5dd84c8332c90480b3410, type: 3}
+  m_Script: {fileID: 11500000, guid: c90067bd06116e149b842afddef72d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

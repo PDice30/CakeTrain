@@ -146,6 +146,8 @@ public class WorldManager : MonoBehaviour
     void initPlayer()
     {
         player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
+        Player p = player.GetComponent<Player>();
+        p.worldManager = this;
     }
 
     void initEnemies()
