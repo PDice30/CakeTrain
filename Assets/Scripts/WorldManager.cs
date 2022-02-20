@@ -16,7 +16,8 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> train;
     [HideInInspector]
-    public List<GameObject> track;
+    public List<GameObject> tracks;
+    public List<GameObject> track; //singular connected track
     [HideInInspector]
     public GameObject[,] tiles;
     [HideInInspector]
@@ -104,13 +105,11 @@ public class WorldManager : MonoBehaviour
             }
         }
         //add underlying track
-        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
-        Structure ns = newStructure.GetComponent<Structure>();
-        ns.type = StructureId.TRACK;
+        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        Track ns = newTrack.GetComponent<Track>();
         ns.x = px;
         ns.z = pz;
-        structures.Add(newStructure);
-        track.Add(newStructure);
+        track.Add(newTrack);
     }
 
     void initCraft(int px, int pz)
@@ -136,13 +135,11 @@ public class WorldManager : MonoBehaviour
             }
         }
         //add underlying track
-        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
-        Structure ns = newStructure.GetComponent<Structure>();
-        ns.type = StructureId.TRACK;
+        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        Track ns = newTrack.GetComponent<Track>();
         ns.x = px;
         ns.z = pz;
-        structures.Add(newStructure);
-        track.Insert(0,newStructure);
+        track.Insert(0,newTrack);
     }
 
     void initTrain()

@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
   public GameObject collidingStructure;
   public GameObject interactingStructure;
   float interactingDamage;
+  public GameObject interactingObject;
+  public GameObject holdingObject;
 
   void Start()
   {
@@ -57,12 +59,18 @@ public class Player : MonoBehaviour
           collidingStructure = worldManager.structures[i];
         }
       }
-      interactingStructure = null;
       Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
+      interactingStructure = null;
       for(int i = 0; i < worldManager.structures.Count; i++)
       {
         if(Utils.quadCollidePt(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
           interactingStructure = worldManager.structures[i];
+      }
+      interactingObject = null;
+      for(int i = 0; i < worldManager.objects.Count; i++)
+      {
+        if(Utils.quadCollidePt(worldManager.objects[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+          interactingObject = worldManager.objects[i];
       }
 
       transform.position = proposed3;

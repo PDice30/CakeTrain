@@ -15,7 +15,6 @@ public enum StructureId: int
     TREE = 0,
     IRONDEPOSIT,
     BEDROCK,
-    TRACK,
     COUNT,
 }
 

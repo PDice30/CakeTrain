@@ -7,6 +7,7 @@ public class Refs : MonoBehaviour
     public GameObject player;
     public GameObject cartEngine;
     public GameObject cartCraft;
+    public GameObject track;
 
     public GameObject tileGrass;
     public GameObject tileDirt;
@@ -17,7 +18,6 @@ public class Refs : MonoBehaviour
     public GameObject structureTree;
     public GameObject structureIronDeposit;
     public GameObject structureBedrock;
-    public GameObject structureTrack;
     public GameObject[] structures;
 
     public GameObject objectWood;
@@ -55,7 +55,6 @@ public class Refs : MonoBehaviour
                 case (int)StructureId.TREE:        structures[i] = structureTree; break;
                 case (int)StructureId.IRONDEPOSIT: structures[i] = structureIronDeposit; break;
                 case (int)StructureId.BEDROCK:     structures[i] = structureBedrock; break;
-                case (int)StructureId.TRACK:       structures[i] = structureTrack; break;
                 default: Debug.Log("failed to place structure!"); break;
             }
         }
