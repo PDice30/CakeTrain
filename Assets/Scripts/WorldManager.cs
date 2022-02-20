@@ -37,7 +37,7 @@ public class WorldManager : MonoBehaviour
     public GameObject tileHighlight_Active;
 
     [HideInInspector]
-    public GameObject objectHightlight_Passive;
+    public GameObject objectHighlight_Passive;
 
     [HideInInspector]
     public List<GameObject> craftPreviewBGs;

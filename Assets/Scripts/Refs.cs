@@ -35,6 +35,7 @@ public class Refs : MonoBehaviour
 
     public GameObject tileHighlight_Passive;
     public GameObject tileHighlight_Active;
+    public GameObject objectHighlight_Passive;
 
     public GameObject craftPreviewBg;
     public GameObject craftPreviewEject;
