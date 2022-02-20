@@ -110,13 +110,25 @@ public class Player : MonoBehaviour
     worldManager.tileHighlight_Passive.transform.position = Consts.hiddenTilePosition;
     worldManager.tileHighlight_Active.transform.position  = Consts.hiddenTilePosition;
 
+    // Interacting Checks
     if(holdingObject)
     {
       if(Input.GetKeyDown(KeyCode.Space))
       { //drop
         if(interactingCart)
         {
-          
+          // TODO: Display cart preview 
+
+          if (interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Count == Consts.maximumCraftObjects) {
+            // cart is full
+            // TODO: Vibrate feedback and don't insert
+          } else {
+            // cart is not full, add to crafting cart
+            interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Add(holdingObject.GetComponent<Object>().type);
+            worldManager.objects.Remove(holdingObject);
+            Destroy(holdingObject);
+            holdingObject = null;
+          }
         }
         else
         {
@@ -138,8 +150,25 @@ public class Player : MonoBehaviour
     }
     else if(interactingCart)
     {
+      // TODO: Display Preview based on if craft is valid
+
       if(Input.GetKeyDown(KeyCode.Space))
-      { //eject
+      { // submit
+        if (interactingCart.GetComponent<CraftingCart>().craftIsValid) {
+          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
+          // TODO : Spit out crafted object
+        } else { 
+          //eject and instantiate objects that were in crafter
+          float xPos = -0.5f;
+          foreach(ObjectId objectId in interactingCart.GetComponent<CraftingCart>().objectsInCrafter) {
+
+            GameObject ejectedObj = GameObject.Instantiate(worldManager.refs.objects[(int)objectId], new Vector3(interactingCart.transform.position.x + xPos, Consts.object_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+            Utils.resizePrefab(ejectedObj, Consts.object_s);
+            worldManager.objects.Add(ejectedObj);
+            xPos += 0.5f;
+          }
+          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
+        }
       }
     }
     else if(interactingStructure)
