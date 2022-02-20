@@ -64,6 +64,9 @@ public class Consts
     public const float hilight_cart_y      = 12.0f;
     public const float held_object_y       = 13.0f;
     public const float held_product_y      = 14.0f;
+    public const float preview_status_y    = 15.0f;
+    public const float preview_bg_y        = 16.0f;
+    public const float preview_object_y    = 17.0f;
     public const float camera_y            = 100.0f;
 
     //sizes

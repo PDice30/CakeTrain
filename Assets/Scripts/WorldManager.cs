@@ -267,15 +267,18 @@ public class WorldManager : MonoBehaviour
 
         // Object Previews
         for (int i = 0; i < Consts.numCraftPreviewSubmits; i++) {
-            GameObject newCraftPreviewSubmit = GameObject.Instantiate(refs.craftPreviewSubmit, Consts.hiddenTilePosition, Quaternion.identity);
-            objectPreviews_Wood.Add(newCraftPreviewSubmit);
+            GameObject newObjectPreviewSubmit = GameObject.Instantiate(refs.objectWood, Consts.hiddenTilePosition, Quaternion.identity);
+            Utils.resizePrefab(newObjectPreviewSubmit, Consts.object_s);
+            objectPreviews_Wood.Add(newObjectPreviewSubmit);
         } 
         for (int i = 0; i < Consts.numCraftPreviewSubmits; i++) {
-            GameObject newCraftPreviewSubmit = GameObject.Instantiate(refs.craftPreviewSubmit, Consts.hiddenTilePosition, Quaternion.identity);
-            objectPreviews_Iron.Add(newCraftPreviewSubmit);
+            GameObject newObjectPreviewSubmit = GameObject.Instantiate(refs.objectIron, Consts.hiddenTilePosition, Quaternion.identity);
+            Utils.resizePrefab(newObjectPreviewSubmit, Consts.object_s);
+            objectPreviews_Iron.Add(newObjectPreviewSubmit);
         } 
         
         GameObject newCraftPreviewTail = GameObject.Instantiate(refs.craftPreviewTail, Consts.hiddenTilePosition, Quaternion.identity);
+        craftPreviewTail = newCraftPreviewTail;
     }
 
     void initGameplay() 

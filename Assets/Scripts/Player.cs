@@ -133,6 +133,23 @@ public class Player : MonoBehaviour
     worldManager.productHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
     worldManager.cartHighlight_Passive.transform.position      = Consts.hiddenTilePosition;
 
+    foreach(GameObject obj in worldManager.craftPreviews_BG) {
+      obj.transform.position                                = Consts.hiddenTilePosition;
+    }
+    foreach(GameObject obj in worldManager.craftPreviews_Eject) {
+      obj.transform.position                                = Consts.hiddenTilePosition;
+    }
+    foreach(GameObject obj in worldManager.craftPreviews_Submit) {
+      obj.transform.position                                = Consts.hiddenTilePosition;
+    }
+    foreach(GameObject obj in worldManager.objectPreviews_Wood) {
+      obj.transform.position                                = Consts.hiddenTilePosition;
+    }
+    foreach(GameObject obj in worldManager.objectPreviews_Iron) {
+      obj.transform.position                                = Consts.hiddenTilePosition;
+    }
+    worldManager.craftPreviewTail.transform.position        = Consts.hiddenTilePosition;
+
     // Interacting Checks
     if(holdingProduct)
     {
@@ -164,8 +181,14 @@ public class Player : MonoBehaviour
       { //drop
         if(interactingCart)
         {
-          
+          // Display Preview
           CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
+          Vector3 cartPos = interactingCart.transform.position;
+
+          if (cc.objectsInCrafter.Count != 0) {
+            // apply Tail
+            worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x - 0.25f, Consts.preview_bg_y, cartPos.z + 0.5f);
+          }
 
           if (cc.objectsInCrafter.Count == Consts.maximumCraftObjects) {
             // cart is full
@@ -209,6 +232,61 @@ public class Player : MonoBehaviour
     else if(interactingCart)
     {
       CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
+      Vector3 cartPos = interactingCart.transform.position;
+
+      if (cc.objectsInCrafter.Count != 0) {
+        // apply Tail
+        worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
+      }
+
+      // TODO: Display Preview based on if craft is valid
+      if (cc.craftIsValid) {
+        int objects = cc.objectsInCrafter.Count;
+        float offset;
+        switch (objects) {
+          case 1: 
+            offset = 0;
+            for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
+              worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
+              worldManager.craftPreviews_Submit[i].transform.position = new Vector3(cartPos.x, Consts.preview_status_y, cartPos.z + 0.5f);
+              switch (cc.objectsInCrafter[i]) {
+                case ObjectId.WOOD:
+                  worldManager.objectPreviews_Wood[i].transform.position = new Vector3(cartPos.x, Consts.preview_object_y, cartPos.z + 0.5f);
+                  break;
+              }
+            }
+            break;
+          case 2: 
+            offset = 0.5f; 
+            break;
+          case 3: 
+            offset = 1.0f; 
+            break;
+        }
+      } else {
+        int objects = cc.objectsInCrafter.Count;
+        float offset;
+        switch (objects) {
+          case 1: 
+            offset = 0;
+            for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
+              worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
+              worldManager.craftPreviews_Eject[i].transform.position = new Vector3(cartPos.x, Consts.preview_status_y, cartPos.z + 0.5f);
+              switch (cc.objectsInCrafter[i]) {
+                case ObjectId.WOOD:
+                  worldManager.objectPreviews_Wood[i].transform.position = new Vector3(cartPos.x, Consts.preview_object_y, cartPos.z + 0.5f);
+                  break;
+              }
+            }
+            break;
+          case 2: 
+            offset = 0.5f; 
+            break;
+          case 3: 
+            offset = 1.0f; 
+            break;
+        }
+      }
 
       if(Input.GetKeyDown(KeyCode.Space))
       { // submit
