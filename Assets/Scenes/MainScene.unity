@@ -177,6 +177,7 @@ MonoBehaviour:
   craftPreviews_Eject: []
   craftPreviews_Submit: []
   craftPreviewTail: {fileID: 0}
+  objectPreviews: []
   objectPreviews_Wood: []
   objectPreviews_Iron: []
   isNight: 0
@@ -238,7 +239,7 @@ MonoBehaviour:
   enemies: []
   tileHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   structureHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
-  structureHighlight_Active: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
+  structureHighlight_Active: {fileID: 1037954463701335887, guid: 6f8cae11660293d4cbb7c0b7b488998c, type: 3}
   objectHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   productHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   cartHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}

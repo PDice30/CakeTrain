@@ -150,6 +150,37 @@ public class Player : MonoBehaviour
     }
     worldManager.craftPreviewTail.transform.position        = Consts.hiddenTilePosition;
 
+    // Display Preview
+    if (interactingCart) {
+      CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
+      Vector3 cartPos = interactingCart.transform.position;
+      
+      if (cc.objectsInCrafter.Count != 0) {
+        // apply Tail
+        worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x - 0.25f, Consts.preview_bg_y, cartPos.z + 0.5f);
+        int numObjects = cc.objectsInCrafter.Count;
+        float xPos;
+        float xIncrement;
+        switch (numObjects) {
+          case 1: xPos = 0f;        xIncrement = 0;     break;
+          case 2: xPos = -0.25f;    xIncrement = 0.5f;  break;
+          case 3: xPos = -0.5f;     xIncrement = 0.5f;  break;
+          default: xPos = 0f;       xIncrement = 0f;    break;
+        }
+
+        for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
+          worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_bg_y, cartPos.z + 0.5f);
+          if (!holdingObject && cc.craftIsValid) {
+            worldManager.craftPreviews_Submit[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
+          } else if (!holdingObject && !cc.craftIsValid){
+            worldManager.craftPreviews_Eject[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
+          }
+          worldManager.objectPreviews[i].transform.position = new Vector3(cartPos.x + xPos + 0.25f, Consts.preview_object_y, cartPos.z + 0.75f);
+          xPos += xIncrement;
+        }
+      }
+    }
+
     // Interacting Checks
     if(holdingProduct)
     {
@@ -178,17 +209,12 @@ public class Player : MonoBehaviour
     else if(holdingObject)
     {
       if(Input.GetKeyDown(KeyCode.Space))
-      { //drop
-        if(interactingCart)
+      { 
+        if(interactingCart) // add to cart
         {
           // Display Preview
           CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
           Vector3 cartPos = interactingCart.transform.position;
-
-          if (cc.objectsInCrafter.Count != 0) {
-            // apply Tail
-            worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x - 0.25f, Consts.preview_bg_y, cartPos.z + 0.5f);
-          }
 
           if (cc.objectsInCrafter.Count == Consts.maximumCraftObjects) {
             // cart is full
@@ -196,13 +222,14 @@ public class Player : MonoBehaviour
           } else {
             // cart is not full, add to crafting cart
             cc.objectsInCrafter.Add(holdingObject.GetComponent<Object>().type);
+            worldManager.getObjectPreviews();
             cc.validateRecipe();
             worldManager.objects.Remove(holdingObject);
             Destroy(holdingObject);
             holdingObject = null;
           }
         }
-        else
+        else //drop
         {
           holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
           holdingObject = null;
@@ -234,78 +261,26 @@ public class Player : MonoBehaviour
       CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
       Vector3 cartPos = interactingCart.transform.position;
 
-      if (cc.objectsInCrafter.Count != 0) {
-        // apply Tail
-        worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
-      }
-
-      // TODO: Display Preview based on if craft is valid
-      if (cc.craftIsValid) {
-        int objects = cc.objectsInCrafter.Count;
-        float offset;
-        switch (objects) {
-          case 1: 
-            offset = 0;
-            for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
-              worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
-              worldManager.craftPreviews_Submit[i].transform.position = new Vector3(cartPos.x, Consts.preview_status_y, cartPos.z + 0.5f);
-              switch (cc.objectsInCrafter[i]) {
-                case ObjectId.WOOD:
-                  worldManager.objectPreviews_Wood[i].transform.position = new Vector3(cartPos.x, Consts.preview_object_y, cartPos.z + 0.5f);
-                  break;
-              }
-            }
-            break;
-          case 2: 
-            offset = 0.5f; 
-            break;
-          case 3: 
-            offset = 1.0f; 
-            break;
-        }
-      } else {
-        int objects = cc.objectsInCrafter.Count;
-        float offset;
-        switch (objects) {
-          case 1: 
-            offset = 0;
-            for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
-              worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x, Consts.preview_bg_y, cartPos.z + 0.5f);
-              worldManager.craftPreviews_Eject[i].transform.position = new Vector3(cartPos.x, Consts.preview_status_y, cartPos.z + 0.5f);
-              switch (cc.objectsInCrafter[i]) {
-                case ObjectId.WOOD:
-                  worldManager.objectPreviews_Wood[i].transform.position = new Vector3(cartPos.x, Consts.preview_object_y, cartPos.z + 0.5f);
-                  break;
-              }
-            }
-            break;
-          case 2: 
-            offset = 0.5f; 
-            break;
-          case 3: 
-            offset = 1.0f; 
-            break;
-        }
-      }
-
       if(Input.GetKeyDown(KeyCode.Space))
       { // submit
         if (cc.craftIsValid) {
           cc.objectsInCrafter.Clear();
+          worldManager.objectPreviews.Clear();
           GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
           Utils.resizePrefab(craftedObj, Consts.product_s);
           worldManager.products.Add(craftedObj);
         } else { 
           //eject and instantiate objects that were in crafter
           float xPos = -0.5f;
-          foreach(ObjectId objectId in interactingCart.GetComponent<CraftingCart>().objectsInCrafter) {
+          foreach(ObjectId objectId in cc.objectsInCrafter) {
 
             GameObject ejectedObj = GameObject.Instantiate(worldManager.refs.objects[(int)objectId], new Vector3(interactingCart.transform.position.x + xPos, Consts.object_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
             Utils.resizePrefab(ejectedObj, Consts.object_s);
             worldManager.objects.Add(ejectedObj);
             xPos += 0.5f;
           }
-          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
+          cc.objectsInCrafter.Clear();
+          worldManager.objectPreviews.Clear();
         }
       }
     }
