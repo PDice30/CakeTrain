@@ -11,6 +11,7 @@ public class CraftingCart : MonoBehaviour
     public List<ObjectId> objectsInCrafter;
 
     public bool craftIsValid;
+    public ProductId product;
 
     public bool validateRecipe()
     {
@@ -29,7 +30,11 @@ public class CraftingCart : MonoBehaviour
                     }
                 }
             }
-            if(craftIsValid) break;
+            if(craftIsValid)
+            {
+                product = Consts.recipeProducts[i];
+                return true;
+            }
         }
         return craftIsValid;
     }

@@ -22,12 +22,16 @@ public class Refs : MonoBehaviour
 
     public GameObject objectWood;
     public GameObject objectIron;
-    public GameObject objectTrack;
     public GameObject objectWoodenAxe;
     public GameObject objectIronAxe;
     public GameObject objectWoodenPick;
     public GameObject objectIronPick;
     public GameObject[] objects;
+
+    public GameObject productTrack;
+    public GameObject productBarricade;
+    public GameObject productTurret;
+    public GameObject[] products;
 
     public GameObject enemyBat;
     public GameObject enemyGoblin;
@@ -75,8 +79,20 @@ public class Refs : MonoBehaviour
             switch(i)
             {
                 case (int)ObjectId.WOOD:  objects[i] = objectWood; break;
-                case (int)ObjectId.IRON: objects[i] = objectIron; break;
+                case (int)ObjectId.IRON:  objects[i] = objectIron; break;
                 default: Debug.Log("failed to place object!"); break;
+            }
+        }
+
+        products = new GameObject[(int)ProductId.COUNT];
+        for(int i = 0; i < (int)ProductId.COUNT; i++)
+        {
+            switch(i)
+            {
+                case (int)ProductId.TRACK:     products[i] = productTrack; break;
+                case (int)ProductId.BARRICADE: products[i] = productBarricade; break;
+                case (int)ProductId.TURRET:    products[i] = productTurret; break;
+                default: Debug.Log("failed to place product!"); break;
             }
         }
 

@@ -22,7 +22,14 @@ public enum ObjectId: int
 {
     WOOD = 0,
     IRON,
-    TRACK,
+    COUNT,
+}
+
+public enum ProductId: int
+{
+    TRACK = 0,
+    BARRICADE,
+    TURRET,
     COUNT,
 }
 
@@ -88,7 +95,7 @@ public class Consts
     public const int numCraftPreviewSubmits = 3;
 
     public static List<List<ObjectId>> recipes;
-    public static List<ObjectId> recipeProducts;
+    public static List<ProductId> recipeProducts;
     public static List<ObjectId> trackRecipe;
     public static List<ObjectId> woodRecipe;
 
@@ -116,18 +123,18 @@ public class Consts
         player_hand_offset = (player_size-object_size)/2.0f;
 
         recipes = new List<List<ObjectId>>();
-        recipeProducts = new List<ObjectId>();
+        recipeProducts = new List<ProductId>();
 
         trackRecipe = new List<ObjectId>();
         trackRecipe.Add(ObjectId.WOOD);
         trackRecipe.Add(ObjectId.IRON);
         recipes.Add(trackRecipe);
-        recipeProducts.Add(ObjectId.TRACK);
+        recipeProducts.Add(ProductId.TRACK);
 
         woodRecipe = new List<ObjectId>();
         woodRecipe.Add(ObjectId.WOOD);
         woodRecipe.Add(ObjectId.WOOD);
         recipes.Add(woodRecipe);
-        recipeProducts.Add(ObjectId.WOOD);
+        recipeProducts.Add(ProductId.BARRICADE);
     }
 }
