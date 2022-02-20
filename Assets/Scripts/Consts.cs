@@ -54,10 +54,14 @@ public class Consts
 
     public const float timeUntilNight = 5f;
 
+    public static Vector3 hiddenTilePosition;
+
     public static void initConsts()
     {
         player_size = new Vector2(player_s,player_s);
         player_half_size = new Vector2(player_s,player_s)*0.5f;
         unit_size   = new Vector2(1.0f,1.0f);
+        hiddenTilePosition = new Vector3(-100, -100, -100);
+
     }
 }

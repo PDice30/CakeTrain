@@ -33,6 +33,9 @@ public class Refs : MonoBehaviour
     public GameObject enemyGoblin;
     public GameObject[] enemies;
 
+    public GameObject tileHighlight_Passive;
+    public GameObject tileHighlight_Active;
+
     public void Initialize()
     {
         tiles = new GameObject[(int)TileId.COUNT];
