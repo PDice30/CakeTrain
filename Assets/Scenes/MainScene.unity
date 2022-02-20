@@ -165,10 +165,12 @@ MonoBehaviour:
   track: []
   structures: []
   objects: []
+  products: []
   enemies: []
   tileHighlight_Passive: {fileID: 0}
   tileHighlight_Active: {fileID: 0}
   objectHighlight_Passive: {fileID: 0}
+  productHighlight_Passive: {fileID: 0}
   cartHighlight_Passive: {fileID: 0}
   craftPreviews_BG: []
   craftPreviews_Eject: []
@@ -236,6 +238,7 @@ MonoBehaviour:
   tileHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   tileHighlight_Active: {fileID: 1037954463701335887, guid: 6f8cae11660293d4cbb7c0b7b488998c, type: 3}
   objectHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
+  productHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   cartHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   craftPreviewBg: {fileID: 2195293883044869048, guid: a54d4c501d45ede43b5481f4185b12c1, type: 3}
   craftPreviewEject: {fileID: 3046706790863906986, guid: 7ba4378a291f4254fab4d5f68eb985aa, type: 3}

@@ -36,7 +36,9 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public GameObject tileHighlight_Passive;
     [HideInInspector]
-    public GameObject tileHighlight_Active;
+    public GameObject structureHighlight_Passive;
+    [HideInInspector]
+    public GameObject structureHighlight_Active;
 
     [HideInInspector]
     public GameObject objectHighlight_Passive;
@@ -234,7 +236,8 @@ public class WorldManager : MonoBehaviour
 
     void initTileHighlighters() {
         tileHighlight_Passive = GameObject.Instantiate(refs.tileHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
-        tileHighlight_Active = GameObject.Instantiate(refs.tileHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
+        structureHighlight_Passive = GameObject.Instantiate(refs.structureHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        structureHighlight_Active = GameObject.Instantiate(refs.structureHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
         objectHighlight_Passive = GameObject.Instantiate(refs.objectHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         Utils.resizePrefab(objectHighlight_Passive,Consts.object_s);
         productHighlight_Passive = GameObject.Instantiate(refs.productHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);

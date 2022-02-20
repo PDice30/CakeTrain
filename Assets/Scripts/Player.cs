@@ -124,15 +124,25 @@ public class Player : MonoBehaviour
 
     transform.position = proposed3;
 
-    worldManager.tileHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
-    worldManager.tileHighlight_Active.transform.position    = Consts.hiddenTilePosition;
-    worldManager.objectHighlight_Passive.transform.position = Consts.hiddenTilePosition;
-    worldManager.cartHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
+    worldManager.tileHighlight_Passive.transform.position      = Consts.hiddenTilePosition;
+    worldManager.structureHighlight_Passive.transform.position = Consts.hiddenTilePosition;
+    worldManager.structureHighlight_Active.transform.position  = Consts.hiddenTilePosition;
+    worldManager.objectHighlight_Passive.transform.position    = Consts.hiddenTilePosition;
+    worldManager.productHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
+    worldManager.cartHighlight_Passive.transform.position      = Consts.hiddenTilePosition;
 
     // Interacting Checks
     if(holdingProduct)
     {
-
+      if(Input.GetKeyDown(KeyCode.Space))
+      { //drop
+        holdingProduct.transform.position = new Vector3(holdingProduct.transform.position.x,Consts.object_y,holdingProduct.transform.position.z);
+        holdingProduct = null;
+      }
+      else
+      { //hold
+        holdingProduct.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_product_y,transform.position.z+Consts.player_hand_offset.y);
+      }
     }
     else if(holdingObject)
     {
@@ -184,13 +194,15 @@ public class Player : MonoBehaviour
     }
     else if(interactingCart)
     {
-      // TODO: Display Preview based on if craft is valid
+      CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
 
       if(Input.GetKeyDown(KeyCode.Space))
       { // submit
-        if (interactingCart.GetComponent<CraftingCart>().craftIsValid) {
-          interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Clear();
-          // TODO : Spit out crafted object
+        if (cc.craftIsValid) {
+          cc.objectsInCrafter.Clear();
+          GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+          Utils.resizePrefab(craftedObj, Consts.product_s);
+          worldManager.products.Add(craftedObj);
         } else { 
           //eject and instantiate objects that were in crafter
           float xPos = -0.5f;
@@ -212,7 +224,7 @@ public class Player : MonoBehaviour
       {
         if(s.type != StructureId.BEDROCK)
         {
-          worldManager.tileHighlight_Active.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
+          worldManager.structureHighlight_Active.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
           interactingDamage += Time.deltaTime;
           if(interactingDamage >= 1.0f)
           {
@@ -258,12 +270,12 @@ public class Player : MonoBehaviour
       else
       {
         if(s.type != StructureId.BEDROCK) {
-          worldManager.tileHighlight_Passive.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
+          worldManager.structureHighlight_Passive.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
         }
       }
     }
 
-    if(!interactingStructure)
+    if(!interactingStructure || !Input.GetKey(KeyCode.Space))
     {
       interactingDamage = 0.0f;
     }
