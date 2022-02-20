@@ -4,21 +4,34 @@ using UnityEngine;
 
 public class Utils
 {
-    public static bool quadCollidePt(Vector3 a, Vector2 asize, Vector2 pt)
+    public static bool quadCollidePt(Vector2 a, Vector2 asize, Vector2 pt)
+    {
+        if(a.x+asize.x < pt.x || a.x > pt.x) return false;
+        if(a.y+asize.y < pt.y || a.y > pt.y) return false;
+        return true;
+    }
+    public static bool quadCollidePt3(Vector3 a, Vector2 asize, Vector2 pt)
     {
         if(a.x+asize.x < pt.x || a.x > pt.x) return false;
         if(a.z+asize.y < pt.y || a.z > pt.y) return false;
         return true;
     }
 
-    public static bool quadCollide(Vector3 a, Vector2 asize, Vector3 b, Vector2 bsize)
+    public static bool quadCollide(Vector2 a, Vector2 asize, Vector2 b, Vector2 bsize)
+    {
+        if(a.x+asize.x < b.x || a.x > b.x+bsize.x) return false;
+        if(a.y+asize.y < b.y || a.y > b.y+bsize.y) return false;
+        return true;
+    }
+
+    public static bool quadCollide3(Vector3 a, Vector2 asize, Vector3 b, Vector2 bsize)
     {
         if(a.x+asize.x < b.x || a.x > b.x+bsize.x) return false;
         if(a.z+asize.y < b.z || a.z > b.z+bsize.y) return false;
         return true;
     }
 
-    public static bool quadCollideCorrect(Vector3 a, Vector2 asize, Vector3 b, Vector2 bsize, ref Vector3 newa)
+    public static bool quadCollide3Correct(Vector3 a, Vector2 asize, Vector3 b, Vector2 bsize, ref Vector3 newa)
     {
         newa = a;
         float aright = (a.x+asize.x)-b.x;
