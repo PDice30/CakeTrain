@@ -18,7 +18,7 @@ public class WorldManager : MonoBehaviour
     void Awake()
     {
         refs.Initialize();
-        player = GameObject.Instantiate(refs.player, new Vector3(0, 1, 0), Quaternion.identity);
+        player = GameObject.Instantiate(refs.player, new Vector3(10, 1, 5), Quaternion.identity);
         //  mainCam.player = player;
     }
     
@@ -27,7 +27,7 @@ public class WorldManager : MonoBehaviour
     {
         Debug.Log(refs.tiles.Length);
         mainCam.CamStart(player);
-        for (int x = 0; x < 100; x++) {
+        for (int x = 0; x < 50; x++) {
             for (int z = 0; z < 10; z++) {
                 int rand = Random.Range(0, refs.tiles.Length);
                 GameObject newTile = GameObject.Instantiate(refs.tiles[rand], new Vector3(x, 0, z), Quaternion.identity);
