@@ -159,6 +159,7 @@ MonoBehaviour:
   timeUntilNightText: {fileID: 0}
   player: {fileID: 0}
   train: []
+  tracks: []
   track: []
   structures: []
   objects: []
@@ -166,6 +167,8 @@ MonoBehaviour:
   isNight: 0
   timeUntilNight: 0
   enemiesHaveBeenSpawned: 0
+  cameraIsReady: 0
+  startGameFlag: 0
 --- !u!4 &635749211
 Transform:
   m_ObjectHideFlags: 0
@@ -195,6 +198,7 @@ MonoBehaviour:
   player: {fileID: 6640282101014509615, guid: b4b19b234325c2c448934b9b34ac74bf, type: 3}
   cartEngine: {fileID: 293570607934064744, guid: 5bb4ef681c7b4a24685d40218af85cf7, type: 3}
   cartCraft: {fileID: 1349872194679077136, guid: 67f186f1cf60408448c347fd2dbf18e4, type: 3}
+  track: {fileID: 7031979218605706845, guid: b91f9392efcb95e4f83af38e3d4b2083, type: 3}
   tileGrass: {fileID: 2353292887326398482, guid: 170796d51a43c434bb71ba0deb3098cc, type: 3}
   tileDirt: {fileID: 5532621486571646620, guid: 6e34dbd7274613d47bc8c98050bd8d43, type: 3}
   tileWater: {fileID: 6155258482150706447, guid: 9b611bb47b1cdbe41bfdf19c7a745b65, type: 3}
@@ -202,7 +206,6 @@ MonoBehaviour:
   structureTree: {fileID: 2704158395198456114, guid: 521b79f1b6ce08441a54f4025dec3ee5, type: 3}
   structureIronDeposit: {fileID: 6278617561935846946, guid: 8b841bbf6385919408e05d7232610bf6, type: 3}
   structureBedrock: {fileID: 5277178839617399245, guid: 49b1d5e9adf737e4ba45de29e1e81be9, type: 3}
-  structureTrack: {fileID: 7031979218605706845, guid: b91f9392efcb95e4f83af38e3d4b2083, type: 3}
   structures: []
   objectWood: {fileID: 8583161509136435908, guid: d34e08beca3049149a359b81d479d34d, type: 3}
   objectIron: {fileID: 5394108000500651115, guid: 233866491ce049a4e824bc96128984d8, type: 3}
@@ -470,6 +473,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90067bd06116e149b842afddef72d84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldManager: {fileID: 0}
 --- !u!1 &1407629639
 GameObject:
   m_ObjectHideFlags: 0

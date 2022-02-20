@@ -153,8 +153,7 @@ public class WorldManager : MonoBehaviour
 
     void initPlayer(int px, int pz)
     {
-        Vector2 playerOffset = (Consts.unit_size-Consts.player_size)/2.0f;
-        player = GameObject.Instantiate(refs.player, new Vector3(px+playerOffset.x,Consts.player_y,pz+playerOffset.y), Quaternion.identity);
+        player = GameObject.Instantiate(refs.player, new Vector3(px+Consts.player_recenter_off.x,Consts.player_y,pz+Consts.player_recenter_off.y), Quaternion.identity);
         Utils.resizePrefab(player,Consts.player_s);
         Player p = player.GetComponent<Player>();
         p.worldManager = this;

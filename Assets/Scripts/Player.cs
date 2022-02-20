@@ -90,7 +90,8 @@ public class Player : MonoBehaviour
           {
             case StructureId.BEDROCK: break; //impossible!
             case StructureId.TREE:
-              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.WOOD], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.WOOD], new Vector3(s.x+Consts.object_recenter_off.x,Consts.object_y,s.z+Consts.object_recenter_off.y), Quaternion.identity);
+              Utils.resizePrefab(newObject,Consts.object_s);
               o = newObject.GetComponent<Object>();
               o.type = ObjectId.WOOD;
               o.x = s.x;
@@ -99,7 +100,8 @@ public class Player : MonoBehaviour
               break;
             case StructureId.IRONDEPOSIT:
             {
-              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.IRON], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.IRON], new Vector3(s.x+Consts.object_recenter_off.x,Consts.object_y,s.z+Consts.object_recenter_off.y), Quaternion.identity);
+              Utils.resizePrefab(newObject,Consts.object_s);
               o = newObject.GetComponent<Object>();
               o.type = ObjectId.IRON;
               o.x = s.x;
