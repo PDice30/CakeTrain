@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
   // Update is called once per frame
   void Update()
   {
+    Vector2 quadSize = new Vector2(1.0f,1.0f);
+
     Vector2 p = new Vector2(transform.position.x,transform.position.z);
     Vector2 off = new Vector2(0.0f,0.0f);
     bool moving = false;
@@ -35,8 +37,6 @@ public class Player : MonoBehaviour
       off.Normalize();
       off = off*Consts.player_speed*Time.deltaTime;
 
-      collidingStructure = null;
-      Vector2 quadSize = new Vector2(1.0f,1.0f);
       Vector2 proposed = p+off;
 
       //bounds
@@ -46,6 +46,7 @@ public class Player : MonoBehaviour
       if (proposed.y+quadSize.y > z_maxBounds) proposed.y = z_maxBounds-quadSize.y;
 
       Vector3 proposed3 = new Vector3(proposed.x,transform.position.y,proposed.y);
+      collidingStructure = null;
       for(int i = 0; i < worldManager.structures.Count; i++)
       {
         if(Utils.quadCollideCorrect(proposed3,quadSize,worldManager.structures[i].GetComponent<Transform>().position,quadSize,ref proposed3))
