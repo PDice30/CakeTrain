@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1003535172442740289}
   - component: {fileID: 2981049555976579143}
   - component: {fileID: 3820818361532071829}
-  - component: {fileID: 728983649917632564}
   m_Layer: 0
   m_Name: Quad
   m_TagString: Untagged
@@ -82,20 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &728983649917632564
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3252398634107709032}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &7031979218605706845
 GameObject:
   m_ObjectHideFlags: 0

@@ -182,6 +182,8 @@ MonoBehaviour:
   objectPreviews_Iron: []
   isNight: 0
   timeUntilNight: 0
+  trainProgress: 0
+  trainIncProgress: 0
   enemiesHaveBeenSpawned: 0
   cameraIsReady: 0
   startGameFlag: 0
