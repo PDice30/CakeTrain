@@ -63,6 +63,10 @@ public class WorldManager : MonoBehaviour
     public bool isNight;
     [HideInInspector]
     public float timeUntilNight;
+    [HideInInspector]
+	public int trainProgress;
+    [HideInInspector]
+	public float trainIncProgress;
     public bool enemiesHaveBeenSpawned;
     public bool cameraIsReady;
     public bool startGameFlag;
@@ -140,8 +144,8 @@ public class WorldManager : MonoBehaviour
                 break;
             }
         }
-        //add underlying track
-        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        //(force) add underlying track
+        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.track_y,pz), Quaternion.identity);
         Track ns = newTrack.GetComponent<Track>();
         ns.x = px;
         ns.z = pz;
@@ -173,15 +177,15 @@ public class WorldManager : MonoBehaviour
                 break;
             }
         }
-        //add underlying track
-        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        //(force) add underlying track
+        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(px,Consts.track_y,pz), Quaternion.identity);
         Track ns = newTrack.GetComponent<Track>();
         ns.x = px;
         ns.z = pz;
         track.Insert(0,newTrack);
     }
 
-    void initCarts()
+    void initTrain()
     {
         carts = new List<GameObject>();
         tracks = new List<GameObject>();
@@ -190,6 +194,8 @@ public class WorldManager : MonoBehaviour
         int pz = Random.Range(2,Consts.world_h-2);
         initEngine(px,pz);
         initCraft(px-1,pz);
+        trainProgress = track.Count-1;
+        trainIncProgress = 0.0f;
     }
 
     void initPlayer(int px, int pz)
@@ -298,6 +304,75 @@ public class WorldManager : MonoBehaviour
     //     timeUntilNightText = canvas.GetComponentInChildren<Text>();
     // }
 
+    public void resolveLatentTrack()
+    {
+        Track end = track[track.Count-1].GetComponent<Track>();
+        for(int i = 0; i < tracks.Count; i++)
+        {
+            Track nt = tracks[i].GetComponent<Track>();
+            if(
+                (nt.x == end.x && (nt.z == end.z-1 || nt.z == end.z+1)) ||
+                (nt.z == end.z && (nt.x == end.x-1 || nt.x == end.x+1))
+            )
+            {
+                track.Add(tracks[i]);
+                tracks.RemoveAt(i);
+                resolveLatentTrack();
+                return;
+            }
+        }
+    }
+
+    public void appendTrack(int x, int z)
+    {
+        GameObject newTrack = GameObject.Instantiate(refs.track, new Vector3(x,Consts.track_y,z), Quaternion.identity);
+        Track nt = newTrack.GetComponent<Track>();
+        nt.x = x;
+        nt.z = z;
+        Track end = track[track.Count-1].GetComponent<Track>();
+        if(
+            (nt.x == end.x && (nt.z == end.z-1 || nt.z == end.z+1)) ||
+            (nt.z == end.z && (nt.x == end.x-1 || nt.x == end.x+1))
+        )
+        {
+            track.Add(newTrack);
+            resolveLatentTrack();
+        }
+        else tracks.Add(newTrack);
+    }
+
+    void trainUpdate()
+    {
+        if(trainProgress < track.Count-1)
+        {
+            trainIncProgress += Time.deltaTime;
+            if(trainIncProgress > 1.0f)
+            {
+                trainProgress++;
+                trainIncProgress -= 1.0f;
+            }
+            if(trainProgress == track.Count-1)
+            {
+                trainIncProgress = 0.0f;
+                for(int i = 0; i < carts.Count; i++)
+                {
+                    Vector3 trackp = track[trainProgress-i].transform.position;
+                    carts[i].transform.position = new Vector3(trackp.x+Consts.cart_recenter_off.x,Consts.cart_y,trackp.z+Consts.cart_recenter_off.y);
+                }
+            }
+            else
+            {
+                for(int i = 0; i < carts.Count; i++)
+                {
+                    Vector3  trackp = track[trainProgress-i  ].transform.position;
+                    Vector3 ntrackp = track[trainProgress-i+1].transform.position;
+                    Vector3 ltrackp = Vector3.Lerp(trackp,ntrackp,trainIncProgress);
+                    carts[i].transform.position = new Vector3(ltrackp.x+Consts.cart_recenter_off.x,Consts.cart_y,ltrackp.z+Consts.cart_recenter_off.y);
+                }
+            }
+        }
+    }
+
     void Awake()
     {
         Consts.initConsts();
@@ -305,7 +380,7 @@ public class WorldManager : MonoBehaviour
 
         initTiles();
         initStructures();
-        initCarts();
+        initTrain();
         initPlayer(10,5);
         initGameplay();
         initCanvas();
@@ -335,6 +410,7 @@ public class WorldManager : MonoBehaviour
         }
         if (cameraIsReady) {
             player.GetComponent<Player>().PlayerUpdate();
+            trainUpdate();
 
             mainCam.CamUpdate(player.transform.position);
             foreach(GameObject enemy in enemies) {

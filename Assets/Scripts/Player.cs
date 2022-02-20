@@ -160,6 +160,7 @@ public class Player : MonoBehaviour
         switch(pr.type)
         {
           case ProductId.TRACK:
+            worldManager.appendTrack(x,z);
             break;
           case ProductId.BARRICADE:
             break;
