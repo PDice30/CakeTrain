@@ -40,6 +40,7 @@ public class Player : MonoBehaviour
          if(Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D)) { off.x -= 1.0f; moving = true; }
     else if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A)) { off.x += 1.0f; moving = true; }
 
+    Vector2 proposed = p;
     if(moving)
     {
       off.Normalize();
@@ -47,68 +48,70 @@ public class Player : MonoBehaviour
       netOffset         = off*Consts.net_reach;
       off               = off*Consts.player_speed*Time.deltaTime;
 
-      Vector2 proposed = p+off;
-
-      //bounds
-      if (proposed.x                      < x_minBounds) proposed.x = x_minBounds;
-      if (proposed.x+Consts.player_size.x > x_maxBounds) proposed.x = x_maxBounds-Consts.player_size.x;
-      if (proposed.y                      < z_minBounds) proposed.y = z_minBounds;
-      if (proposed.y+Consts.player_size.y > z_maxBounds) proposed.y = z_maxBounds-Consts.player_size.y;
-      Vector3 proposed3 = new Vector3(proposed.x,transform.position.y,proposed.y);
-
-      collidingStructure = null;
-      for(int i = 0; i < worldManager.structures.Count; i++)
-      {
-        if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,ref proposed3))
-        {
-          collidingStructure = worldManager.structures[i];
-        }
-      }
-
-      collidingCart = null;
-      for(int i = 0; i < worldManager.carts.Count; i++)
-      {
-        if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.carts[i].GetComponent<Transform>().position,Consts.cart_size,ref proposed3))
-        {
-          collidingCart = worldManager.carts[i];
-        }
-      }
-
-
-      Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
-      interactingStructure = null;
-      interactingCart = null;
-      interactingObject = null;
-      if(!holdingObject)
-      {
-        Vector2 netPt = new Vector2(proposed3.x+Consts.player_half_size.x+netOffset.x,proposed3.z+Consts.player_half_size.y+netOffset.y);
-        Vector2 netBasePt = netPt-Consts.net_half_size;
-
-        for(int i = 0; i < worldManager.objects.Count; i++)
-        {
-          Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
-          Vector2 op2 = new Vector2(op3.x,op3.z);
-          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.unit_size))
-            interactingObject = worldManager.objects[i];
-        }
-        if(!interactingObject)
-        {
-          for(int i = 0; i < worldManager.structures.Count; i++)
-          {
-            if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
-              interactingStructure = worldManager.structures[i];
-          }
-        }
-      }
-
-      if(Utils.quadCollidePt3(worldManager.cartCrafting.GetComponent<Transform>().position,Consts.cart_size,interactingPt))
-        interactingCart = worldManager.cartCrafting;
-
-      transform.position = proposed3;
+      proposed += off;
     }
 
-    worldManager.tileHighlight_Passive.transform.position = Consts.hiddenTilePosition;
-    worldManager.tileHighlight_Active.transform.position  = Consts.hiddenTilePosition;
+    //bounds
+    if (proposed.x                      < x_minBounds) proposed.x = x_minBounds;
+    if (proposed.x+Consts.player_size.x > x_maxBounds) proposed.x = x_maxBounds-Consts.player_size.x;
+    if (proposed.y                      < z_minBounds) proposed.y = z_minBounds;
+    if (proposed.y+Consts.player_size.y > z_maxBounds) proposed.y = z_maxBounds-Consts.player_size.y;
+    Vector3 proposed3 = new Vector3(proposed.x,transform.position.y,proposed.y);
+
+    collidingStructure = null;
+    for(int i = 0; i < worldManager.structures.Count; i++)
+    {
+      if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,ref proposed3))
+      {
+        collidingStructure = worldManager.structures[i];
+      }
+    }
+
+    collidingCart = null;
+    for(int i = 0; i < worldManager.carts.Count; i++)
+    {
+      if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.carts[i].GetComponent<Transform>().position,Consts.cart_size,ref proposed3))
+      {
+        collidingCart = worldManager.carts[i];
+      }
+    }
+
+
+    Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
+    interactingStructure = null;
+    interactingCart = null;
+    interactingObject = null;
+    if(!holdingObject)
+    {
+      Vector2 netPt = new Vector2(proposed3.x+Consts.player_half_size.x+netOffset.x,proposed3.z+Consts.player_half_size.y+netOffset.y);
+      Vector2 netBasePt = netPt-Consts.net_half_size;
+
+      for(int i = 0; i < worldManager.objects.Count; i++)
+      {
+        Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+        Vector2 op2 = new Vector2(op3.x,op3.z);
+        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
+          interactingObject = worldManager.objects[i];
+      }
+      if(!interactingObject)
+      {
+        for(int i = 0; i < worldManager.structures.Count; i++)
+        {
+          if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+            interactingStructure = worldManager.structures[i];
+        }
+      }
+    }
+
+    if(Utils.quadCollidePt3(worldManager.cartCrafting.GetComponent<Transform>().position,Consts.cart_size,interactingPt))
+      interactingCart = worldManager.cartCrafting;
+
+    transform.position = proposed3;
+
+    worldManager.tileHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
+    worldManager.tileHighlight_Active.transform.position    = Consts.hiddenTilePosition;
+    worldManager.objectHighlight_Passive.transform.position = Consts.hiddenTilePosition;
+    worldManager.cartHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
 
     // Interacting Checks
     if(holdingObject)
@@ -135,6 +138,7 @@ public class Player : MonoBehaviour
     }
     else if(interactingObject)
     {
+      worldManager.objectHighlight_Passive.transform.position = new Vector3(interactingObject.transform.position.x, Consts.hilight_object_y, interactingObject.transform.position.z);
       if(Input.GetKeyDown(KeyCode.Space))
       { //pickup
         holdingObject = interactingObject;
@@ -154,7 +158,7 @@ public class Player : MonoBehaviour
       {
         if(s.type != StructureId.BEDROCK)
         {
-          worldManager.tileHighlight_Active.transform.position = new Vector3(s.transform.position.x, Consts.object_y + 2f, s.transform.position.z);
+          worldManager.tileHighlight_Active.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
           interactingDamage += Time.deltaTime;
           if(interactingDamage >= 1.0f)
           {
@@ -200,7 +204,7 @@ public class Player : MonoBehaviour
       else
       {
         if(s.type != StructureId.BEDROCK) {
-          worldManager.tileHighlight_Passive.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.object_y + 1f, interactingStructure.transform.position.z);
+          worldManager.tileHighlight_Passive.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
         }
       }
     }

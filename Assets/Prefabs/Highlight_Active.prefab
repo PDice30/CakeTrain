@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1627294011931955558}
   m_Layer: 0
-  m_Name: TileHighlight_Active
+  m_Name: Highlight_Active
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

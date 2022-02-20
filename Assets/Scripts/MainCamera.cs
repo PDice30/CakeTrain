@@ -12,13 +12,13 @@ public class MainCamera : MonoBehaviour
     float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
 
     public void TransitionCamStart() {
-        transform.position = new Vector3(Consts.world_w - 10, transform.position.y, transform.position.z);
+        transform.position = new Vector3(Consts.world_w - 10, Consts.camera_y, transform.position.z);
         Debug.Log(transform.position);
         timeUntilReady = 3f;
     }
 
     public void TransitionCamUpdate(GameObject player) {
-        transform.position = Vector3.Lerp(new Vector3(transform.position.x, transform.position.y, transform.position.z), new Vector3(player.transform.position.x, transform.position.y, player.transform.position.z), 0.005f);
+        transform.position = Vector3.Lerp(new Vector3(transform.position.x, Consts.camera_y, transform.position.z), new Vector3(player.transform.position.x, Consts.camera_y, player.transform.position.z), 0.005f);
         timeUntilReady -= Time.deltaTime;
         if (timeUntilReady <= 0) {
             worldManager.cameraIsReady = true;
@@ -42,10 +42,10 @@ public class MainCamera : MonoBehaviour
     // Update is called once per frame
     public void CamUpdate(Vector3 playerPos)
     {
-        transform.position = new Vector3(playerPos.x, 10, playerPos.z);
-        if (transform.position.x < x_minBounds) transform.position = new Vector3(x_minBounds, 10, transform.position.z);
-        if (transform.position.x > x_maxBounds) transform.position = new Vector3(x_maxBounds, 10, transform.position.z);
-        if (transform.position.z < z_minBounds) transform.position = new Vector3(transform.position.x, 10, z_minBounds);
-        if (transform.position.z > z_maxBounds) transform.position = new Vector3(transform.position.x, 10, z_maxBounds);
+        transform.position = new Vector3(playerPos.x, Consts.camera_y, playerPos.z);
+        if (transform.position.x < x_minBounds) transform.position = new Vector3(x_minBounds,          Consts.camera_y, transform.position.z);
+        if (transform.position.x > x_maxBounds) transform.position = new Vector3(x_maxBounds,          Consts.camera_y, transform.position.z);
+        if (transform.position.z < z_minBounds) transform.position = new Vector3(transform.position.x, Consts.camera_y, z_minBounds);
+        if (transform.position.z > z_maxBounds) transform.position = new Vector3(transform.position.x, Consts.camera_y, z_maxBounds);
     }
 }

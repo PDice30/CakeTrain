@@ -38,6 +38,8 @@ public class WorldManager : MonoBehaviour
 
     [HideInInspector]
     public GameObject objectHighlight_Passive;
+    [HideInInspector]
+    public GameObject cartHighlight_Passive;
 
     [HideInInspector]
     public List<GameObject> craftPreviewBGs;
@@ -226,6 +228,10 @@ public class WorldManager : MonoBehaviour
     void initTileHighlighters() {
         tileHighlight_Passive = GameObject.Instantiate(refs.tileHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         tileHighlight_Active = GameObject.Instantiate(refs.tileHighlight_Active, Consts.hiddenTilePosition, Quaternion.identity);
+        objectHighlight_Passive = GameObject.Instantiate(refs.objectHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        Utils.resizePrefab(objectHighlight_Passive,Consts.object_s);
+        cartHighlight_Passive = GameObject.Instantiate(refs.cartHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        Utils.resizePrefab(cartHighlight_Passive,Consts.cart_s);
     }
 
     void initCraftingPreviews() {

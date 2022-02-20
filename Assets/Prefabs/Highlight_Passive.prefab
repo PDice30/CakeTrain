@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4743003357048624077}
   m_Layer: 0
-  m_Name: TileHighlight_Passive
+  m_Name: Highlight_Passive
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
