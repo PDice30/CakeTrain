@@ -19,6 +19,13 @@ public enum StructureId: int
     STRUCTURE_ID_COUNT,
 }
 
+public enum ObjectId: int
+{
+    OBJECT_ID_WOOD = 0,
+    OBJECT_ID_IRON,
+    OBJECT_ID_COUNT,
+}
+
 public enum EnemyId : int
 {
     ENEMY_ID_BAT = 0,
@@ -51,6 +58,7 @@ public class Refs : MonoBehaviour
     public GameObject objectIronAxe;
     public GameObject objectWoodenPick;
     public GameObject objectIronPick;
+    public GameObject[] objects;
 
     public GameObject enemyBat;
     public GameObject enemyGoblin;
@@ -80,6 +88,17 @@ public class Refs : MonoBehaviour
                 case (int)StructureId.STRUCTURE_ID_BEDROCK:     structures[i] = structureBedrock; break;
                 case (int)StructureId.STRUCTURE_ID_TRACK:       structures[i] = structureTrack; break;
                 default: Debug.Log("failed to place structure!"); break;
+            }
+        }
+
+        objects = new GameObject[(int)ObjectId.OBJECT_ID_COUNT];
+        for(int i = 0; i < (int)ObjectId.OBJECT_ID_COUNT; i++)
+        {
+            switch(i)
+            {
+                case (int)ObjectId.OBJECT_ID_WOOD:  objects[i] = objectWood; break;
+                case (int)ObjectId.OBJECT_ID_IRON: objects[i] = objectIron; break;
+                default: Debug.Log("failed to place object!"); break;
             }
         }
 
