@@ -65,4 +65,11 @@ public class Utils
 
         return true;
     }
+
+    public static void resizePrefab(GameObject go, float s)
+    {
+        GameObject spriteobj = go.transform.GetChild(0).gameObject;
+        spriteobj.transform.localScale    = new Vector3(s,        s,  1.0f);
+        spriteobj.transform.localPosition = new Vector3(s/2.0f,1.0f,s/2.0f);
+    }
 }

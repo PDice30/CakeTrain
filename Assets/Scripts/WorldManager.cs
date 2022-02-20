@@ -158,9 +158,7 @@ public class WorldManager : MonoBehaviour
     {
         Vector2 playerOffset = (Consts.unit_size-Consts.player_size)/2.0f;
         player = GameObject.Instantiate(refs.player, new Vector3(px+playerOffset.x,Consts.player_y,pz+playerOffset.y), Quaternion.identity);
-        GameObject playerspriteobj = player.transform.GetChild(0).gameObject;
-        playerspriteobj.transform.localScale    = new Vector3(Consts.player_s,     Consts.player_s,                1.0f);
-        playerspriteobj.transform.localPosition = new Vector3(Consts.player_s/2.0f,           1.0f,Consts.player_s/2.0f);
+        Utils.resizePrefab(player,Consts.player_s);
         Player p = player.GetComponent<Player>();
         p.worldManager = this;
         //convert underlying tile to grass
