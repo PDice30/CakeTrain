@@ -38,7 +38,8 @@ public class Refs : MonoBehaviour
     public GameObject[] enemies;
 
     public GameObject tileHighlight_Passive;
-    public GameObject tileHighlight_Active;
+    public GameObject structureHighlight_Passive;
+    public GameObject structureHighlight_Active;
     public GameObject objectHighlight_Passive;
     public GameObject productHighlight_Passive;
     public GameObject cartHighlight_Passive;

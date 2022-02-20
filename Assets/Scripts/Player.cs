@@ -59,6 +59,8 @@ public class Player : MonoBehaviour
     if (proposed.y                      < z_minBounds) proposed.y = z_minBounds;
     if (proposed.y+Consts.player_size.y > z_maxBounds) proposed.y = z_maxBounds-Consts.player_size.y;
     Vector3 proposed3 = new Vector3(proposed.x,transform.position.y,proposed.y);
+    x = (int)(proposed3.x+Consts.player_s/2.0f);
+    z = (int)(proposed3.z+Consts.player_s/2.0f);
 
     collidingStructure = null;
     for(int i = 0; i < worldManager.structures.Count; i++)
@@ -134,9 +136,21 @@ public class Player : MonoBehaviour
     // Interacting Checks
     if(holdingProduct)
     {
+      Product pr = holdingProduct.GetComponent<Product>();
+      worldManager.tileHighlight_Passive.transform.position = new Vector3(x, Consts.highlight_tile_y, z);
       if(Input.GetKeyDown(KeyCode.Space))
       { //drop
-        holdingProduct.transform.position = new Vector3(holdingProduct.transform.position.x,Consts.object_y,holdingProduct.transform.position.z);
+        switch(pr.type)
+        {
+          case ProductId.TRACK:
+            break;
+          case ProductId.BARRICADE:
+            break;
+          case ProductId.TURRET:
+            break;
+        }
+        worldManager.products.Remove(holdingProduct);
+        Destroy(holdingProduct);
         holdingProduct = null;
       }
       else

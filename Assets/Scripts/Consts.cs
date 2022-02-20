@@ -50,20 +50,21 @@ public class Consts
 
 
     //render layers
-    public const float tile_y = 1.0f;
-    public const float structure_y = 2.0f;
-    public const float hilight_structure_y = 3.0f;
-    public const float object_y = 4.0f;
-    public const float hilight_object_y = 5.0f;
-    public const float product_y = 6.0f;
-    public const float hilight_product_y = 7.0f;
-    public const float player_y = 8.0f;
-    public const float enemy_y = 9.0f;
-    public const float cart_y = 10.0f;
-    public const float hilight_cart_y = 11.0f;
-    public const float held_object_y = 12.0f;
-    public const float held_product_y = 13.0f;
-    public const float camera_y = 100.0f;
+    public const float tile_y              = 1.0f;
+    public const float highlight_tile_y    = 2.0f;
+    public const float structure_y         = 3.0f;
+    public const float hilight_structure_y = 4.0f;
+    public const float object_y            = 5.0f;
+    public const float hilight_object_y    = 6.0f;
+    public const float product_y           = 7.0f;
+    public const float hilight_product_y   = 8.0f;
+    public const float player_y            = 9.0f;
+    public const float enemy_y             = 10.0f;
+    public const float cart_y              = 11.0f;
+    public const float hilight_cart_y      = 12.0f;
+    public const float held_object_y       = 13.0f;
+    public const float held_product_y      = 14.0f;
+    public const float camera_y            = 100.0f;
 
     //sizes
     public static Vector2 unit_size;
