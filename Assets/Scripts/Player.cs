@@ -25,7 +25,6 @@ public class Player : MonoBehaviour
   // Update is called once per frame
   public void PlayerUpdate()
   {
-
     Vector2 p = new Vector2(transform.position.x,transform.position.z);
     Vector2 off = new Vector2(0.0f,0.0f);
     bool moving = false;

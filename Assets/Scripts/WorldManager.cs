@@ -156,6 +156,9 @@ public class WorldManager : MonoBehaviour
     {
         Vector2 playerOffset = (Consts.unit_size-Consts.player_size)/2.0f;
         player = GameObject.Instantiate(refs.player, new Vector3(px+playerOffset.x,Consts.player_y,pz+playerOffset.y), Quaternion.identity);
+        GameObject playerspriteobj = player.transform.GetChild(0).gameObject;
+        playerspriteobj.transform.localScale    = new Vector3(Consts.player_s,     Consts.player_s,                1.0f);
+        playerspriteobj.transform.localPosition = new Vector3(Consts.player_s/2.0f,           1.0f,Consts.player_s/2.0f);
         Player p = player.GetComponent<Player>();
         p.worldManager = this;
         //convert underlying tile to grass
@@ -177,6 +180,7 @@ public class WorldManager : MonoBehaviour
 
     void initEnemies()
     {
+        /*
         // player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
         int px;
         int pz;
@@ -191,6 +195,7 @@ public class WorldManager : MonoBehaviour
         }
 
         Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+        */
     }
 
     void initGameplay() 
