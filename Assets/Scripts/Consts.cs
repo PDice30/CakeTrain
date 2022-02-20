@@ -52,6 +52,7 @@ public class Consts
 
     public const float player_s = 0.5f;
     public const float player_reach = player_s;
+    public const float player_net = player_s*2.0f;
     public static Vector2 player_size;
     public static Vector2 player_half_size;
     public static Vector2 player_recenter_off;
