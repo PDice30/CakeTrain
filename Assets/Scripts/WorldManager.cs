@@ -42,13 +42,16 @@ public class WorldManager : MonoBehaviour
     public GameObject cartHighlight_Passive;
 
     [HideInInspector]
-    public List<GameObject> craftPreviewBGs;
+    public List<GameObject> craftPreviews_BG;
     [HideInInspector]
-    public List<GameObject> craftPreviewEjects;
+    public List<GameObject> craftPreviews_Eject;
     [HideInInspector]
-    public List<GameObject> craftPreviewSubmits;
+    public List<GameObject> craftPreviews_Submit;
     [HideInInspector]
     public GameObject craftPreviewTail;
+
+    public List<GameObject> objectPreviews_Wood;
+    public List<GameObject> objectPreviews_Iron;
 
     [HideInInspector]
     public bool isNight;
@@ -235,9 +238,35 @@ public class WorldManager : MonoBehaviour
     }
 
     void initCraftingPreviews() {
+        craftPreviews_BG = new List<GameObject>();
+        craftPreviews_Eject = new List<GameObject>();
+        craftPreviews_Submit = new List<GameObject>();
+
+        // Tile/Color Previews
         for (int i = 0; i < Consts.numCraftPreviewBGs; i++) {
-            // GameObject newCraftPreview = GameObject.Instantiate(R)
+            GameObject newCraftPreviewBG = GameObject.Instantiate(refs.craftPreviewBg, Consts.hiddenTilePosition, Quaternion.identity);
+            craftPreviews_BG.Add(newCraftPreviewBG);
         } 
+        for (int i = 0; i < Consts.numCraftPreviewEjects; i++) {
+            GameObject newCraftPreviewEject = GameObject.Instantiate(refs.craftPreviewEject, Consts.hiddenTilePosition, Quaternion.identity);
+            craftPreviews_Eject.Add(newCraftPreviewEject);
+        } 
+        for (int i = 0; i < Consts.numCraftPreviewSubmits; i++) {
+            GameObject newCraftPreviewSubmit = GameObject.Instantiate(refs.craftPreviewSubmit, Consts.hiddenTilePosition, Quaternion.identity);
+            craftPreviews_Submit.Add(newCraftPreviewSubmit);
+        } 
+
+        // Object Previews
+        for (int i = 0; i < Consts.numCraftPreviewSubmits; i++) {
+            GameObject newCraftPreviewSubmit = GameObject.Instantiate(refs.craftPreviewSubmit, Consts.hiddenTilePosition, Quaternion.identity);
+            objectPreviews_Wood.Add(newCraftPreviewSubmit);
+        } 
+        for (int i = 0; i < Consts.numCraftPreviewSubmits; i++) {
+            GameObject newCraftPreviewSubmit = GameObject.Instantiate(refs.craftPreviewSubmit, Consts.hiddenTilePosition, Quaternion.identity);
+            objectPreviews_Iron.Add(newCraftPreviewSubmit);
+        } 
+        
+        GameObject newCraftPreviewTail = GameObject.Instantiate(refs.craftPreviewTail, Consts.hiddenTilePosition, Quaternion.identity);
     }
 
     void initGameplay() 

@@ -121,7 +121,7 @@ public class Player : MonoBehaviour
         if(interactingCart)
         {
           // TODO: Display cart preview 
-
+          
           if (interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Count == Consts.maximumCraftObjects) {
             // cart is full
             // TODO: Vibrate feedback and don't insert
