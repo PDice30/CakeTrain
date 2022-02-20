@@ -120,14 +120,16 @@ public class Player : MonoBehaviour
       { //drop
         if(interactingCart)
         {
-          // TODO: Display cart preview 
           
-          if (interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Count == Consts.maximumCraftObjects) {
+          CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
+
+          if (cc.objectsInCrafter.Count == Consts.maximumCraftObjects) {
             // cart is full
             // TODO: Vibrate feedback and don't insert
           } else {
             // cart is not full, add to crafting cart
-            interactingCart.GetComponent<CraftingCart>().objectsInCrafter.Add(holdingObject.GetComponent<Object>().type);
+            cc.objectsInCrafter.Add(holdingObject.GetComponent<Object>().type);
+            cc.validateRecipe();
             worldManager.objects.Remove(holdingObject);
             Destroy(holdingObject);
             holdingObject = null;

@@ -11,15 +11,23 @@ public class CraftingCart : MonoBehaviour
     public List<ObjectId> objectsInCrafter;
 
     public bool craftIsValid;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    public bool validateRecipe()
     {
-        
+        craftIsValid = false;
+        for(int i = 0; i < Consts.recipes.Count; i++)
+        {
+            craftIsValid = true;
+            for(int j = 0; j < objectsInCrafter.Count; j++)
+            {
+                if(Consts.recipes[i][j] != objectsInCrafter[j])
+                {
+                    craftIsValid = false;
+                    break;
+                }
+            }
+            if(craftIsValid) break;
+        }
+        return craftIsValid;
     }
 }

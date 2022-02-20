@@ -22,6 +22,7 @@ public enum ObjectId: int
 {
     WOOD = 0,
     IRON,
+    TRACK,
     COUNT,
 }
 
@@ -86,6 +87,11 @@ public class Consts
     public const int numCraftPreviewEjects = 3;
     public const int numCraftPreviewSubmits = 3;
 
+    public static List<List<ObjectId>> recipes;
+    public static List<ObjectId> recipeProducts;
+    public static List<ObjectId> trackRecipe;
+    public static List<ObjectId> woodRecipe;
+
     public static void initConsts()
     {
         hiddenTilePosition = new Vector3(-100, -100, -100);
@@ -108,5 +114,20 @@ public class Consts
         object_recenter_off = (unit_size-object_size)/2.0f;
 
         player_hand_offset = (player_size-object_size)/2.0f;
+
+        recipes = new List<List<ObjectId>>();
+        recipeProducts = new List<ObjectId>();
+
+        trackRecipe = new List<ObjectId>();
+        trackRecipe.Add(ObjectId.WOOD);
+        trackRecipe.Add(ObjectId.IRON);
+        recipes.Add(trackRecipe);
+        recipeProducts.Add(ObjectId.TRACK);
+
+        woodRecipe = new List<ObjectId>();
+        woodRecipe.Add(ObjectId.WOOD);
+        woodRecipe.Add(ObjectId.WOOD);
+        recipes.Add(woodRecipe);
+        recipeProducts.Add(ObjectId.WOOD);
     }
 }
