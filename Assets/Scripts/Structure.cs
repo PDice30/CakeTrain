@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Structure : MonoBehaviour
 {
+	StructureId type;
+    int x;
+    int y;
+
     void Start()
     {
         // map = new GameObject[10][10];
