@@ -14,4 +14,6 @@ public class Consts
     public const float train_y = 5.0f;
 
     public const float player_speed = 5.0f;
+
+    public const float timeUntilNight = 5f;
 }

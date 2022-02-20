@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WorldManager : MonoBehaviour
 {
     public Refs refs;
     public MainCamera mainCam;
+    public Canvas canvas;
+    [HideInInspector]
+    public Text timeUntilNightText;
 
     [HideInInspector]
     public GameObject player;
@@ -21,6 +25,11 @@ public class WorldManager : MonoBehaviour
     public List<GameObject> objects;
     [HideInInspector]
     public List<GameObject> enemies;
+    [HideInInspector]
+    public bool isNight;
+    [HideInInspector]
+    public float timeUntilNight;
+    public bool enemiesHaveBeenSpawned;
 
     void initTiles()
     {
@@ -168,6 +177,19 @@ public class WorldManager : MonoBehaviour
         Debug.Log("Number of Enemies Spawned: " + enemies.Count);
     }
 
+    void initGameplay() 
+    {
+        isNight = false;
+        enemiesHaveBeenSpawned = false;
+        timeUntilNight = Consts.timeUntilNight;
+    }   
+
+    void initCanvas()
+    {
+        timeUntilNightText = canvas.GetComponentInChildren<Text>();
+        timeUntilNightText.text = "TIME GOES HERE";
+    }
+
     void Awake()
     {
         refs.Initialize();
@@ -176,7 +198,9 @@ public class WorldManager : MonoBehaviour
         initStructures();
         initTrain();
         initPlayer();
-        initEnemies();
+        // initEnemies();
+        initGameplay();
+        initCanvas();
 
         mainCam.CamStart(player);
     }
@@ -190,9 +214,18 @@ public class WorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         mainCam.CamUpdate(player.transform.position);
         foreach(GameObject enemy in enemies) {
             enemy.GetComponent<Enemy>().EnemyUpdate();
         }
+
+        timeUntilNight -= Time.deltaTime;
+        if (timeUntilNight <= 0) {
+            isNight = !isNight;
+            if (isNight) initEnemies();
+            timeUntilNight = Consts.timeUntilNight;
+        }
+        timeUntilNightText.text = timeUntilNight.ToString("0.0");
     }
 }
