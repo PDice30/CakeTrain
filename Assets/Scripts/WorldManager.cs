@@ -152,11 +152,27 @@ public class WorldManager : MonoBehaviour
         initCraft(px-1,pz);
     }
 
-    void initPlayer()
+    void initPlayer(int px, int pz)
     {
-        player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
+        Vector2 playerOffset = (Consts.unit_size-Consts.player_size)/2.0f;
+        player = GameObject.Instantiate(refs.player, new Vector3(px+playerOffset.x,Consts.player_y,pz+playerOffset.y), Quaternion.identity);
         Player p = player.GetComponent<Player>();
         p.worldManager = this;
+        //convert underlying tile to grass
+        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
+        Tile nt = newTile.GetComponent<Tile>();
+        nt.type = TileId.GRASS;
+        nt.x = px;
+        nt.z = pz;
+        tiles[px,pz] = newTile;
+        //remove underlying structure
+        for(int i = 0; i < structures.Count; i++) {
+            Structure ts = structures[i].GetComponent<Structure>();
+            if(ts.x == px && ts.z == pz) {
+                structures.RemoveAt(i);
+                break;
+            }
+        }
     }
 
     void initEnemies()
@@ -192,12 +208,13 @@ public class WorldManager : MonoBehaviour
 
     void Awake()
     {
+        Consts.initConsts();
         refs.Initialize();
 
         initTiles();
         initStructures();
         initTrain();
-        initPlayer();
+        initPlayer(10,5);
         // initEnemies();
         initGameplay();
         initCanvas();

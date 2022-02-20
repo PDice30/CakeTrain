@@ -8,8 +8,10 @@ public class Player : MonoBehaviour
   int x;
   int z;
   float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
+  public Vector2 interactionOffset;
   public GameObject collidingStructure;
-  float collidingDamage;
+  public GameObject interactingStructure;
+  float interactingDamage;
 
   void Start()
   {
@@ -17,12 +19,12 @@ public class Player : MonoBehaviour
     x_maxBounds = Consts.world_w;
     z_minBounds = 0;
     z_maxBounds = Consts.world_h;
+    interactionOffset = new Vector2(Consts.player_reach,0.0f);
   }
 
   // Update is called once per frame
   public void PlayerUpdate()
   {
-    Vector2 quadSize = new Vector2(1.0f,1.0f);
 
     Vector2 p = new Vector2(transform.position.x,transform.position.z);
     Vector2 off = new Vector2(0.0f,0.0f);
@@ -36,36 +38,44 @@ public class Player : MonoBehaviour
     if(moving)
     {
       off.Normalize();
+      interactionOffset = off*Consts.player_reach;
       off = off*Consts.player_speed*Time.deltaTime;
 
       Vector2 proposed = p+off;
 
       //bounds
-      if (proposed.x            < x_minBounds) proposed.x = x_minBounds;
-      if (proposed.x+quadSize.x > x_maxBounds) proposed.x = x_maxBounds-quadSize.x;
-      if (proposed.y            < z_minBounds) proposed.y = z_minBounds;
-      if (proposed.y+quadSize.y > z_maxBounds) proposed.y = z_maxBounds-quadSize.y;
+      if (proposed.x                      < x_minBounds) proposed.x = x_minBounds;
+      if (proposed.x+Consts.player_size.x > x_maxBounds) proposed.x = x_maxBounds-Consts.player_size.x;
+      if (proposed.y                      < z_minBounds) proposed.y = z_minBounds;
+      if (proposed.y+Consts.player_size.y > z_maxBounds) proposed.y = z_maxBounds-Consts.player_size.y;
 
       Vector3 proposed3 = new Vector3(proposed.x,transform.position.y,proposed.y);
       collidingStructure = null;
       for(int i = 0; i < worldManager.structures.Count; i++)
       {
-        if(Utils.quadCollideCorrect(proposed3,quadSize,worldManager.structures[i].GetComponent<Transform>().position,quadSize,ref proposed3))
+        if(Utils.quadCollideCorrect(proposed3,Consts.player_size,worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,ref proposed3))
         {
           collidingStructure = worldManager.structures[i];
         }
+      }
+      interactingStructure = null;
+      Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
+      for(int i = 0; i < worldManager.structures.Count; i++)
+      {
+        if(Utils.quadCollidePt(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+          interactingStructure = worldManager.structures[i];
       }
 
       transform.position = proposed3;
     }
 
-    if(collidingStructure && Input.GetKey(KeyCode.Space))
+    if(interactingStructure && Input.GetKey(KeyCode.Space))
     {
-      Structure s = collidingStructure.GetComponent<Structure>();
+      Structure s = interactingStructure.GetComponent<Structure>();
       if(s.type != StructureId.BEDROCK)
       {
-        collidingDamage += Time.deltaTime;
-        if(collidingDamage >= 1.0f)
+        interactingDamage += Time.deltaTime;
+        if(interactingDamage >= 1.0f)
         {
           GameObject newObject;
           Object o;
@@ -93,18 +103,18 @@ public class Player : MonoBehaviour
           }
           for(int i = 0; i < worldManager.structures.Count; i++)
           {
-            if(worldManager.structures[i] == collidingStructure)
+            if(worldManager.structures[i] == interactingStructure)
             {
               worldManager.structures.RemoveAt(i);
               break;
             }
           }
-          collidingStructure = null;
-          collidingDamage = 0.0f;
+          interactingStructure = null;
+          interactingDamage = 0.0f;
         }
       }
     }
-    else collidingDamage = 0.0f;
+    else interactingDamage = 0.0f;
       
   }
 }
