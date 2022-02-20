@@ -47,11 +47,16 @@ public class Consts
     public const float object_y = 3.0f;
     public const float player_y = 4.0f;
     public const float enemy_y = 5.0f;
-    public const float train_y = 6.0f;
+    public const float cart_y = 6.0f;
     public const float held_object_y = 7.0f;
 
     //sizes
     public static Vector2 unit_size;
+
+    public const float cart_s = 0.8f;
+    public static Vector2 cart_size;
+    public static Vector2 cart_half_size;
+    public static Vector2 cart_recenter_off;
 
     public const float player_s = 0.5f;
     public const float player_reach = player_s;
@@ -81,6 +86,10 @@ public class Consts
         hiddenTilePosition = new Vector3(-100, -100, -100);
 
         unit_size = new Vector2(1.0f,1.0f);
+
+        cart_size = new Vector2(cart_s,cart_s);
+        cart_half_size = new Vector2(cart_s,cart_s)*0.5f;
+        cart_recenter_off = (unit_size-cart_size)/2.0f;
 
         player_size = new Vector2(player_s,player_s);
         player_half_size = new Vector2(player_s,player_s)*0.5f;

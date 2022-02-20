@@ -18,7 +18,7 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public GameObject cartEngine;
     [HideInInspector]
-    public List<GameObject> train;
+    public List<GameObject> carts;
     [HideInInspector]
     public List<GameObject> tracks;
     public List<GameObject> track; //singular connected track
@@ -106,12 +106,13 @@ public class WorldManager : MonoBehaviour
 
     void initEngine(int px, int pz)
     {
-        GameObject newEngine = GameObject.Instantiate(refs.cartEngine, new Vector3(px,  Consts.train_y,pz), Quaternion.identity);
+        GameObject newEngine = GameObject.Instantiate(refs.cartEngine, new Vector3(px+Consts.cart_recenter_off.x, Consts.cart_y, pz+Consts.cart_recenter_off.y), Quaternion.identity);
+        Utils.resizePrefab(newEngine,Consts.cart_s);
         Cart ne = newEngine.GetComponent<Cart>();
         ne.x = px;
         ne.z = pz;
         cartEngine = newEngine;
-        train.Add(newEngine);
+        carts.Add(newEngine);
         //convert underlying tile to grass
         GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
         Tile nt = newTile.GetComponent<Tile>();
@@ -138,12 +139,13 @@ public class WorldManager : MonoBehaviour
 
     void initCraft(int px, int pz)
     {
-        GameObject newCraft = GameObject.Instantiate(refs.cartCraft, new Vector3(px,  Consts.train_y,pz), Quaternion.identity);
+        GameObject newCraft = GameObject.Instantiate(refs.cartCraft, new Vector3(px+Consts.cart_recenter_off.x, Consts.cart_y, pz+Consts.cart_recenter_off.y), Quaternion.identity);
+        Utils.resizePrefab(newCraft,Consts.cart_s);
         Cart nc = newCraft.GetComponent<Cart>();
         nc.x = px;
         nc.z = pz;
         cartCrafting = newCraft;
-        train.Add(newCraft);
+        carts.Add(newCraft);
         //convert underlying tile to grass
         GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
         Tile nt = newTile.GetComponent<Tile>();
@@ -168,9 +170,11 @@ public class WorldManager : MonoBehaviour
         track.Insert(0,newTrack);
     }
 
-    void initTrain()
+    void initCarts()
     {
-        train = new List<GameObject>();
+        carts = new List<GameObject>();
+        tracks = new List<GameObject>();
+        track = new List<GameObject>();
         int px = Random.Range(4,Consts.world_h);
         int pz = Random.Range(2,Consts.world_h-2);
         initEngine(px,pz);
@@ -254,7 +258,7 @@ public class WorldManager : MonoBehaviour
 
         initTiles();
         initStructures();
-        initTrain();
+        initCarts();
         initPlayer(10,5);
         initGameplay();
         initCanvas();

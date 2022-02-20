@@ -11,8 +11,10 @@ public class Player : MonoBehaviour
   public Vector2 interactionOffset;
   public Vector2 netOffset;
   public GameObject collidingStructure;
+  public GameObject collidingCart;
   public GameObject interactingStructure;
   float interactingDamage;
+  public GameObject interactingCart;
   public GameObject interactingObject;
   public GameObject holdingObject;
 
@@ -63,7 +65,19 @@ public class Player : MonoBehaviour
         }
       }
 
+      collidingCart = null;
+      for(int i = 0; i < worldManager.carts.Count; i++)
+      {
+        if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.carts[i].GetComponent<Transform>().position,Consts.cart_size,ref proposed3))
+        {
+          collidingCart = worldManager.carts[i];
+        }
+      }
+
+
+      Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
       interactingStructure = null;
+      interactingCart = null;
       interactingObject = null;
       if(!holdingObject)
       {
@@ -79,7 +93,6 @@ public class Player : MonoBehaviour
         }
         if(!interactingObject)
         {
-          Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
           for(int i = 0; i < worldManager.structures.Count; i++)
           {
             if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
@@ -87,6 +100,9 @@ public class Player : MonoBehaviour
           }
         }
       }
+
+      if(Utils.quadCollidePt3(worldManager.cartCrafting.GetComponent<Transform>().position,Consts.cart_size,interactingPt))
+        interactingCart = worldManager.cartCrafting;
 
       transform.position = proposed3;
     }
@@ -98,8 +114,15 @@ public class Player : MonoBehaviour
     {
       if(Input.GetKeyDown(KeyCode.Space))
       { //drop
-        holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
-        holdingObject = null;
+        if(interactingCart)
+        {
+          
+        }
+        else
+        {
+          holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
+          holdingObject = null;
+        }
       }
       else
       { //hold
@@ -111,6 +134,12 @@ public class Player : MonoBehaviour
       if(Input.GetKeyDown(KeyCode.Space))
       { //pickup
         holdingObject = interactingObject;
+      }
+    }
+    else if(interactingCart)
+    {
+      if(Input.GetKeyDown(KeyCode.Space))
+      { //eject
       }
     }
     else if(interactingStructure)
