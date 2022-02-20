@@ -12,40 +12,148 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> train;
     [HideInInspector]
+    public List<GameObject> track;
+    [HideInInspector]
     public GameObject[,] tiles;
     [HideInInspector]
     public List<GameObject> structures;
     [HideInInspector]
     public List<GameObject> objects;
 
-    void Awake()
+    void initTiles()
     {
-        refs.Initialize();
-        player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
-
-        train = new List<GameObject>();
-        train.Add(GameObject.Instantiate(refs.cartEngine, new Vector3(0.0f,Consts.train_y,0.0f), Quaternion.identity));
-        train.Add(GameObject.Instantiate(refs.cartCraft,  new Vector3(0.0f,Consts.train_y,0.0f), Quaternion.identity));
-
         tiles = new GameObject[Consts.world_w,Consts.world_h];
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
                 int tile_i = Random.Range(0, refs.tiles.Length);
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
+                Tile nt = newTile.GetComponent<Tile>();
+                nt.type = (TileId)tile_i;
+                nt.x = x;
+                nt.z = z;
                 tiles[x,z] = newTile;
             }
         } 
 
+    }
+
+    void initStructures()
+    {
+        int px;
+        int pz;
         int nStructures = Random.Range(100,200);
-        for(int i = 0; i < nStructures; i++)
-        {
+        for(int i = 0; i < nStructures; i++) {
             int structure_i = Random.Range(0,refs.structures.Length);
-            Vector2 p = new Vector2(Random.Range(0,Consts.world_w),Random.Range(0,Consts.world_h));
-            //for(int j = 0; j < i; j++)
-                //if(structures[j].)
-            GameObject newStructure = GameObject.Instantiate(refs.structures[structure_i], new Vector3(p.x,Consts.structure_y,p.y), Quaternion.identity);
+            bool collides;
+            do {
+                px = Random.Range(0,Consts.world_w);
+                pz = Random.Range(0,Consts.world_h);
+                collides = false;
+                for(int j = 0; j < i; j++) {
+                    Structure ts = structures[j].GetComponent<Structure>();
+                    if(ts.x == px && ts.z == pz) {
+                        collides = true;
+                        break;
+                    }
+                }
+            }
+            while(collides);
+            GameObject newStructure = GameObject.Instantiate(refs.structures[structure_i], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+            Structure ns = newStructure.GetComponent<Structure>();
+            ns.type = (StructureId)structure_i;
+            ns.x = px;
+            ns.z = pz;
             structures.Add(newStructure);
         }
+
+    }
+
+    void initEngine(int px, int pz)
+    {
+        GameObject newEngine = GameObject.Instantiate(refs.cartEngine, new Vector3(px,  Consts.train_y,pz), Quaternion.identity);
+        Cart ne = newEngine.GetComponent<Cart>();
+        ne.x = px;
+        ne.z = pz;
+        train.Add(newEngine);
+        //convert underlying tile to grass
+        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.TILE_ID_GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
+        Tile nt = newTile.GetComponent<Tile>();
+        nt.type = TileId.TILE_ID_GRASS;
+        nt.x = px;
+        nt.z = pz;
+        tiles[px,pz] = newTile;
+        //remove underlying structure
+        for(int i = 0; i < structures.Count; i++) {
+            Structure ts = structures[i].GetComponent<Structure>();
+            if(ts.x == px && ts.z == pz) {
+                structures.RemoveAt(i);
+                break;
+            }
+        }
+        //add underlying track
+        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.STRUCTURE_ID_TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        Structure ns = newStructure.GetComponent<Structure>();
+        ns.type = StructureId.STRUCTURE_ID_TRACK;
+        ns.x = px;
+        ns.z = pz;
+        structures.Add(newStructure);
+        track.Add(newStructure);
+    }
+
+    void initCraft(int px, int pz)
+    {
+        GameObject newCraft = GameObject.Instantiate(refs.cartCraft, new Vector3(px,  Consts.train_y,pz), Quaternion.identity);
+        Cart nc = newCraft.GetComponent<Cart>();
+        nc.x = px;
+        nc.z = pz;
+        train.Add(newCraft);
+        //convert underlying tile to grass
+        GameObject newTile = GameObject.Instantiate(refs.tiles[(int)TileId.TILE_ID_GRASS], new Vector3(px,Consts.tile_y,pz), Quaternion.identity);
+        Tile nt = newTile.GetComponent<Tile>();
+        nt.type = TileId.TILE_ID_GRASS;
+        nt.x = px;
+        nt.z = pz;
+        tiles[px,pz] = newTile;
+        //remove underlying structure
+        for(int i = 0; i < structures.Count; i++) {
+            Structure ts = structures[i].GetComponent<Structure>();
+            if(ts.x == px && ts.z == pz) {
+                structures.RemoveAt(i);
+                break;
+            }
+        }
+        //add underlying track
+        GameObject newStructure = GameObject.Instantiate(refs.structures[(int)StructureId.STRUCTURE_ID_TRACK], new Vector3(px,Consts.structure_y,pz), Quaternion.identity);
+        Structure ns = newStructure.GetComponent<Structure>();
+        ns.type = StructureId.STRUCTURE_ID_TRACK;
+        ns.x = px;
+        ns.z = pz;
+        structures.Add(newStructure);
+        track.Insert(0,newStructure);
+    }
+
+    void initTrain()
+    {
+        train = new List<GameObject>();
+        int px = Random.Range(4,Consts.world_h);
+        int pz = Random.Range(2,Consts.world_h-2);
+        initEngine(px,pz);
+        initCraft(px-1,pz);
+    }
+
+    void initPlayer()
+    {
+        player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
+    }
+
+    void Awake()
+    {
+        refs.Initialize();
+
+        initTiles();
+        initStructures();
+        initTrain();
+        initPlayer();
 
         mainCam.CamStart(player);
     }

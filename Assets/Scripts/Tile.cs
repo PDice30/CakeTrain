@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tile  : MonoBehaviour
 {
-	TileId type;
-	int x;
-	int y;
+	public TileId type;
+	public int x;
+	public int z;
 }

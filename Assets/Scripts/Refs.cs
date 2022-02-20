@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum TileId : int
+public enum TileId : int
 {
     TILE_ID_DIRT = 0,
     TILE_ID_GRASS,
@@ -10,7 +10,7 @@ enum TileId : int
     TILE_ID_COUNT,
 }
 
-enum StructureId: int
+public enum StructureId: int
 {
     STRUCTURE_ID_TREE = 0,
     STRUCTURE_ID_IRONDEPOSIT,
@@ -19,7 +19,7 @@ enum StructureId: int
     STRUCTURE_ID_COUNT,
 }
 
-enum EnemyId : int
+public enum EnemyId : int
 {
     ENEMY_ID_BAT = 0,
     ENEMY_ID_GOBLIN,
