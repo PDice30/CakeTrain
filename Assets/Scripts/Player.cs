@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
   int z;
   float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
   public GameObject collidingStructure;
+  float collidingDamage;
 
   void Start()
   {
@@ -57,6 +58,53 @@ public class Player : MonoBehaviour
 
       transform.position = proposed3;
     }
+
+    if(collidingStructure && Input.GetKey(KeyCode.Space))
+    {
+      Structure s = collidingStructure.GetComponent<Structure>();
+      if(s.type != StructureId.STRUCTURE_ID_BEDROCK)
+      {
+        collidingDamage += Time.deltaTime;
+        if(collidingDamage >= 1.0f)
+        {
+          GameObject newObject;
+          Object o;
+          switch(s.type)
+          {
+            case StructureId.STRUCTURE_ID_BEDROCK: break; //impossible!
+            case StructureId.STRUCTURE_ID_TREE:
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.OBJECT_ID_WOOD], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+              o = newObject.GetComponent<Object>();
+              o.type = ObjectId.OBJECT_ID_WOOD;
+              o.x = s.x;
+              o.z = s.z;
+              worldManager.objects.Add(newObject);
+              break;
+            case StructureId.STRUCTURE_ID_IRONDEPOSIT:
+            {
+              newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.OBJECT_ID_IRON], new Vector3(s.x,Consts.object_y,s.z), Quaternion.identity);
+              o = newObject.GetComponent<Object>();
+              o.type = ObjectId.OBJECT_ID_IRON;
+              o.x = s.x;
+              o.z = s.z;
+              worldManager.objects.Add(newObject);
+              break;
+            }
+          }
+          for(int i = 0; i < worldManager.structures.Count; i++)
+          {
+            if(worldManager.structures[i] == collidingStructure)
+            {
+              worldManager.structures.RemoveAt(i);
+              break;
+            }
+          }
+          collidingStructure = null;
+          collidingDamage = 0.0f;
+        }
+      }
+    }
+    else collidingDamage = 0.0f;
       
   }
 }
