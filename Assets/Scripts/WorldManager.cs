@@ -48,6 +48,8 @@ public class WorldManager : MonoBehaviour
     public GameObject productHighlight_Passive;
     [HideInInspector]
     public GameObject cartHighlight_Passive;
+    [HideInInspector]
+    public GameObject enemyHighlight_Passive;
 
     [HideInInspector]
     public List<GameObject> craftPreviews_BG;
@@ -270,6 +272,8 @@ public class WorldManager : MonoBehaviour
         Utils.resizePrefab(productHighlight_Passive,Consts.product_s);
         cartHighlight_Passive = GameObject.Instantiate(refs.cartHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         Utils.resizePrefab(cartHighlight_Passive,Consts.cart_s);
+        enemyHighlight_Passive = GameObject.Instantiate(refs.enemyHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        Utils.resizePrefab(enemyHighlight_Passive,Consts.enemy_s);
     }
 
     void initCraftingPreviews() {

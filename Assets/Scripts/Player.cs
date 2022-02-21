@@ -159,6 +159,7 @@ public class Player : MonoBehaviour
     worldManager.objectHighlight_Passive.transform.position    = Consts.hiddenTilePosition;
     worldManager.productHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
     worldManager.cartHighlight_Passive.transform.position      = Consts.hiddenTilePosition;
+    worldManager.enemyHighlight_Passive.transform.position     = Consts.hiddenTilePosition;
 
     foreach(GameObject obj in worldManager.craftPreviews_BG) {
       obj.transform.position                                = Consts.hiddenTilePosition;
@@ -240,6 +241,7 @@ public class Player : MonoBehaviour
       { 
         if(interactingCart) // add to cart
         {
+          worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
           // Display Preview
           CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
           Vector3 cartPos = interactingCart.transform.position;
@@ -270,6 +272,7 @@ public class Player : MonoBehaviour
     }
     else if(interactingEnemy)
     {
+      worldManager.enemyHighlight_Passive.transform.position = new Vector3(interactingEnemy.transform.position.x, Consts.hilight_enemy_y, interactingEnemy.transform.position.z);
       if(Input.GetKeyDown(KeyCode.Space))
       {
         worldManager.enemies.Remove(interactingEnemy);
@@ -295,6 +298,7 @@ public class Player : MonoBehaviour
     }
     else if(interactingCart)
     {
+      worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
       CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
       Vector3 cartPos = interactingCart.transform.position;
 
