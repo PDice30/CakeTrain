@@ -237,11 +237,11 @@ public class Player : MonoBehaviour
     }
     else if(holdingObject)
     {
-      if(Input.GetKeyDown(KeyCode.Space))
-      { 
-        if(interactingCart) // add to cart
-        {
-          worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
+      if(interactingCart) // add to cart
+      {
+        worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
+        if(Input.GetKeyDown(KeyCode.Space))
+        { 
           // Display Preview
           CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
           Vector3 cartPos = interactingCart.transform.position;
@@ -259,15 +259,18 @@ public class Player : MonoBehaviour
             holdingObject = null;
           }
         }
-        else //drop
-        {
+      }
+      else
+      {
+        if(Input.GetKeyDown(KeyCode.Space))
+        { //drop
           holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
           holdingObject = null;
         }
-      }
-      else
-      { //hold
-        holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+        else
+        { //hold
+          holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+        }
       }
     }
     else if(interactingEnemy)
