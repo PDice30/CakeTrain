@@ -28,7 +28,6 @@ public class Player : MonoBehaviour
     z_maxBounds = Consts.world_h;
     interactionOffset = new Vector2(Consts.player_reach,0.0f);
     netOffset = new Vector2(Consts.net_reach,0.0f);
-    health = 5;
   }
 
   // Update is called once per frame

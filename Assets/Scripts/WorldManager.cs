@@ -86,6 +86,7 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
                 int tile_i = Random.Range(0, refs.tiles.Length);
+                if(tile_i == (int)TileId.WATER) tile_i = Random.Range(0, refs.tiles.Length);
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
                 nt.type = (TileId)tile_i;
@@ -110,6 +111,11 @@ public class WorldManager : MonoBehaviour
                 pz = Random.Range(0,Consts.world_h);
                 collides = false;
                 for(int j = 0; j < i; j++) {
+                    if(tiles[px,pz].GetComponent<Tile>().type == TileId.WATER)
+                    {
+                        collides = true;
+                        break;
+                    }
                     Structure ts = structures[j].GetComponent<Structure>();
                     if(ts.x == px && ts.z == pz) {
                         collides = true;

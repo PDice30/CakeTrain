@@ -83,6 +83,6 @@ public class Utils
     {
         GameObject spriteobj = go.transform.GetChild(0).gameObject;
         spriteobj.transform.localScale    = new Vector3(     s,1.0f,     s);
-        spriteobj.transform.localPosition = new Vector3(s/2.0f,0.0f,s/2.0f);
+        //spriteobj.transform.localPosition = new Vector3(s/4.0f,0.0f,s/4.0f);
     }
 }
