@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
 {
   public int health;
   public WorldManager worldManager;
-  int x;
-  int z;
+  public int x;
+  public int z;
   float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
   public Vector2 interactionOffset;
   public Vector2 netOffset;
@@ -184,27 +184,29 @@ public class Player : MonoBehaviour
       Vector3 cartPos = interactingCart.transform.position;
       
       if (cc.objectsInCrafter.Count != 0) {
-        // apply Tail
-        worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x - 0.25f, Consts.preview_bg_y, cartPos.z + 0.5f);
+        float xPos = cartPos.x+Consts.cart_s/2.0f; //center of cart
+        float zPos = cartPos.z+Consts.cart_s*1.5f; //above cart
+        worldManager.craftPreviewTail.transform.position = new Vector3(xPos-0.5f, Consts.preview_bg_y, zPos-0.5f);
+        zPos += 0.1f;
+
         int numObjects = cc.objectsInCrafter.Count;
-        float xPos;
-        float xIncrement;
+        float spacing = Consts.object_s;
         switch (numObjects) {
-          case 1: xPos = 0f;        xIncrement = 0;     break;
-          case 2: xPos = -0.25f;    xIncrement = 0.5f;  break;
-          case 3: xPos = -0.5f;     xIncrement = 0.5f;  break;
-          default: xPos = 0f;       xIncrement = 0f;    break;
+          case 1:                       break;
+          case 2: xPos -= spacing/2.0f; break;
+          case 3: xPos -= spacing;      break;
+          default: xPos = 0f; break;
         }
 
         for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
-          worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_bg_y, cartPos.z + 0.5f);
-          if (!holdingObject && cc.craftIsValid) {
-            worldManager.craftPreviews_Submit[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
-          } else if (!holdingObject && !cc.craftIsValid){
-            worldManager.craftPreviews_Eject[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
+          worldManager.craftPreviews_BG[i].transform.position = new Vector3(xPos-0.5f, Consts.preview_bg_y, zPos-0.5f);
+          if(!holdingObject)
+          {
+            if(cc.craftIsValid) worldManager.craftPreviews_Submit[i].transform.position = new Vector3(xPos-0.5f, Consts.preview_status_y, zPos-0.5f);
+            else                worldManager.craftPreviews_Eject[ i].transform.position = new Vector3(xPos-0.5f, Consts.preview_status_y, zPos-0.5f);
           }
-          worldManager.objectPreviews[i].transform.position = new Vector3(cartPos.x + xPos + 0.25f, Consts.preview_object_y, cartPos.z + 0.75f);
-          xPos += xIncrement;
+          worldManager.objectPreviews[i].transform.position = new Vector3(xPos-Consts.object_s/2.0f, Consts.preview_object_y, zPos-Consts.object_s/2.0f);
+          xPos += spacing;
         }
       }
     }
