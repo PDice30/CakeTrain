@@ -235,7 +235,6 @@ public class WorldManager : MonoBehaviour
 
     void initEnemies()
     {
-        player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
         int px;
         int pz;
         int nEnemies = Random.Range(2, 4);
@@ -401,10 +400,10 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    void gameOver() {
-        Destroy(player);
-        Awake();
-    }
+    // void gameOver() {
+    //     Destroy(player);
+    //     Awake();
+    // }
 
     void Awake()
     {
@@ -437,9 +436,6 @@ public class WorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (player.GetComponent<Player>().health <= 0) {
-            gameOver();
-        }
         if (startGameFlag && cameraIsReady) {
             startGameFlag = false;
             initGameplay();

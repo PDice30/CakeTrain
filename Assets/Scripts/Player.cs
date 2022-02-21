@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
   public WorldManager worldManager;
   int x;
   int z;
-  public int health;
   float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
   public Vector2 interactionOffset;
   public Vector2 netOffset;
