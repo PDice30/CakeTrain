@@ -140,6 +140,12 @@ public class Player : MonoBehaviour
               if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
                 interactingStructure = worldManager.structures[i];
             }
+            if(!interactingStructure)
+            {
+              //nothing within "interaction" net, so fall back to "colliding"
+              if(collidingCart && collidingCart != worldManager.cartEngine && !holdingProduct) interactingCart = collidingCart;
+              else if(collidingStructure) interactingStructure = collidingStructure;
+            }
           }
         }
       }
@@ -214,6 +220,8 @@ public class Player : MonoBehaviour
     // Interacting Checks
     if(holdingProduct)
     {
+      holdingProduct.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_product_y,transform.position.z+Consts.player_hand_offset.y);
+
       Product pr = holdingProduct.GetComponent<Product>();
       worldManager.tileHighlight_Passive.transform.position = new Vector3(x, Consts.highlight_tile_y, z);
       if(Input.GetKeyDown(KeyCode.Space))
@@ -232,13 +240,10 @@ public class Player : MonoBehaviour
         Destroy(holdingProduct);
         holdingProduct = null;
       }
-      else
-      { //hold
-        holdingProduct.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_product_y,transform.position.z+Consts.player_hand_offset.y);
-      }
     }
     else if(holdingObject)
     {
+      holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
       if(interactingCart) // add to cart
       {
         worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
@@ -268,10 +273,6 @@ public class Player : MonoBehaviour
         { //drop
           holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
           holdingObject = null;
-        }
-        else
-        { //hold
-          holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
         }
       }
     }
