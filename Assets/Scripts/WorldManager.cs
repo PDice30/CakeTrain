@@ -72,6 +72,7 @@ public class WorldManager : MonoBehaviour
     public bool enemiesHaveBeenSpawned;
     public bool cameraIsReady;
     public bool startGameFlag;
+    public float flipArtTimer;
 
     void initTiles()
     {
@@ -411,6 +412,7 @@ public class WorldManager : MonoBehaviour
         mainCam.worldManager = this;
         cameraIsReady = false;
         startGameFlag = true;
+        flipArtTimer = Consts.timeUntilArtFlip;
         // startCameraTransition();
 
     }
@@ -449,11 +451,39 @@ public class WorldManager : MonoBehaviour
         } else {
             mainCam.TransitionCamUpdate(player);
         } 
-    
-        for(int i = 0; i < structures.Count; i++)
-        {
-            if(structures[i].GetComponent<Structure>().type == StructureId.TREE)
-                structures[i].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+
+
+        // Material Flipping
+        if (flipArtTimer <= 0) {
+            player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            cartCrafting                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            craftPreviewTail            .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            tileHighlight_Passive       .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            structureHighlight_Passive  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            structureHighlight_Active   .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            objectHighlight_Passive     .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            productHighlight_Passive    .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            cartHighlight_Passive       .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+
+            for(int i = 0; i < structures.Count; i++)               { structures[i]             .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < objects.Count; i++)                  { objects[i]                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < products.Count; i++)                 { products[i]               .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < enemies.Count; i++)                  { enemies[i]                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < track.Count; i++)                    { track[i]                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < tracks.Count; i++)                   { tracks[i]                 .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < craftPreviews_BG.Count; i++)         { craftPreviews_BG[i]       .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < craftPreviews_Eject.Count; i++)      { craftPreviews_Eject[i]    .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < craftPreviews_Submit.Count; i++)     { craftPreviews_Submit[i]   .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < objectPreviews.Count; i++)           { objectPreviews[i]         .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            for(int i = 0; i < tiles.GetLength(0); i++) { 
+                for (int j = 0; j < tiles.GetLength(1); j++) {
+                    tiles[i,j].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+                }  
+            } 
+            flipArtTimer = Consts.timeUntilArtFlip;
         }
+        
+        flipArtTimer -= Time.deltaTime;
     }
 }
