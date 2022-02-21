@@ -13,7 +13,6 @@ public class MainCamera : MonoBehaviour
 
     public void TransitionCamStart() {
         transform.position = new Vector3(Consts.world_w - 10, Consts.camera_y, transform.position.z);
-        Debug.Log(transform.position);
         timeUntilReady = 3f;
     }
 
@@ -27,16 +26,11 @@ public class MainCamera : MonoBehaviour
 
     public void CamStart(GameObject player)
     {
-
-        Debug.Log("Aspect: " + gameObject.GetComponent<Camera>().aspect);
-
         // X bounds determined by aspect ratio
         z_maxBounds = 5;
         z_minBounds = 5;
         x_minBounds = (float)gameObject.GetComponent<Camera>().aspect * 5.02811217517f; // Biggest determinier to be changed for aspect ratio
         x_maxBounds = Consts.world_w - 10; // TODO: determined be level length and passed from worldmanager, then - 9?
-
-        Debug.Log("xMin: " + x_minBounds);
     }
 
     // Update is called once per frame

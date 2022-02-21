@@ -401,6 +401,11 @@ public class WorldManager : MonoBehaviour
         }
     }
 
+    void gameOver() {
+        Destroy(player);
+        Awake();
+    }
+
     void Awake()
     {
         Consts.initConsts();
@@ -432,6 +437,9 @@ public class WorldManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player.GetComponent<Player>().health <= 0) {
+            gameOver();
+        }
         if (startGameFlag && cameraIsReady) {
             startGameFlag = false;
             initGameplay();
