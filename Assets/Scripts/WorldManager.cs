@@ -235,6 +235,7 @@ public class WorldManager : MonoBehaviour
 
     void initEnemies()
     {
+        /*
         player = GameObject.Instantiate(refs.player, new Vector3(10.0f,Consts.player_y,5.0f), Quaternion.identity);
         int px;
         int pz;
@@ -249,6 +250,7 @@ public class WorldManager : MonoBehaviour
         }
 
         Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+        */
     }
 
     void initTileHighlighters() {
@@ -468,7 +470,7 @@ public class WorldManager : MonoBehaviour
 
 
         // Material Flipping
-        if (flipArtTimer <= 0) {
+        if (flipArtTimer <= 0 && false) {
             player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartCrafting                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
