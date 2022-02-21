@@ -428,5 +428,11 @@ public class WorldManager : MonoBehaviour
         } else {
             mainCam.TransitionCamUpdate(player);
         } 
+    
+        for(int i = 0; i < structures.Count; i++)
+        {
+            if(structures[i].GetComponent<Structure>().type == StructureId.TREE)
+                structures[i].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+        }
     }
 }
