@@ -8,8 +8,10 @@ public class WorldManager : MonoBehaviour
     public Refs refs;
     public MainCamera mainCam;
     public Canvas canvas;
-    [HideInInspector]
     public Text timeUntilNightText;
+    public Text gameOverText;
+    public Button restartButton;
+    
 
     [HideInInspector]
     public GameObject player;
@@ -317,7 +319,7 @@ public class WorldManager : MonoBehaviour
 
     void initCanvas()
     {
-        timeUntilNightText = canvas.GetComponentInChildren<Text>();
+        
     }
 
     public void getObjectPreviews() {
@@ -408,10 +410,13 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    // void gameOver() {
-    //     Destroy(player);
-    //     Awake();
-    // }
+    void restartOnClick() {
+        foreach(GameObject go in GameObject.FindGameObjectsWithTag("Finish")) {
+            Destroy(go);
+        }
+        Time.timeScale = 1;
+        Awake();
+    }
 
     void Awake()
     {
@@ -438,12 +443,20 @@ public class WorldManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameOverText.text = "";
         mainCam.TransitionCamStart();
+        restartButton.GetComponent<Button>().onClick.AddListener(restartOnClick);
+        restartButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (player.GetComponent<Player>().health <= 0) {
+            Time.timeScale = 0;
+            gameOverText.text = "You Died!";
+            restartButton.gameObject.SetActive(true);
+        }
         if (startGameFlag && cameraIsReady) {
             startGameFlag = false;
             initGameplay();
