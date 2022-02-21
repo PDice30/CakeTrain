@@ -254,6 +254,7 @@ MonoBehaviour:
   objectHighlight_Passive: {fileID: 0}
   productHighlight_Passive: {fileID: 0}
   cartHighlight_Passive: {fileID: 0}
+  enemyHighlight_Passive: {fileID: 0}
   craftPreviews_BG: []
   craftPreviews_Eject: []
   craftPreviews_Submit: []
@@ -261,6 +262,7 @@ MonoBehaviour:
   objectPreviews: []
   objectPreviews_Wood: []
   objectPreviews_Iron: []
+  nights: 0
   isNight: 0
   timeUntilNight: 0
   trainProgress: 0
@@ -327,6 +329,7 @@ MonoBehaviour:
   objectHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   productHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   cartHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
+  enemyHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   craftPreviewBg: {fileID: 2195293883044869048, guid: a54d4c501d45ede43b5481f4185b12c1, type: 3}
   craftPreviewEject: {fileID: 3046706790863906986, guid: 7ba4378a291f4254fab4d5f68eb985aa, type: 3}
   craftPreviewSubmit: {fileID: 5143247797096514355, guid: c326bc2d30e9fa24991f786f558b5812, type: 3}
@@ -587,6 +590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldManager: {fileID: 0}
+  transitionTime: 0
 --- !u!1 &1407629639
 GameObject:
   m_ObjectHideFlags: 0
