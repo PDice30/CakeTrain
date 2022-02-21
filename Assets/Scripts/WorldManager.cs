@@ -85,8 +85,10 @@ public class WorldManager : MonoBehaviour
         tiles = new GameObject[Consts.world_w,Consts.world_h];
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
-                int tile_i = Random.Range(0, refs.tiles.Length);
-                if(tile_i == (int)TileId.WATER) tile_i = Random.Range(0, refs.tiles.Length);
+                int tile_i = Random.Range(0, 100);
+                     if(tile_i < 80)  tile_i = (int)TileId.GRASS;
+                else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
+                else if(tile_i < 100) tile_i = (int)TileId.WATER;
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
                 nt.type = (TileId)tile_i;

@@ -266,6 +266,7 @@ public class Player : MonoBehaviour
       { // submit
         if (cc.craftIsValid) {
           cc.objectsInCrafter.Clear();
+          cc.craftIsValid = false;
           worldManager.objectPreviews.Clear();
           GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
           Utils.resizePrefab(craftedObj, Consts.product_s);

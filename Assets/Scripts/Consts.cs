@@ -91,7 +91,7 @@ public class Consts
     public static Vector2 net_size;
     public static Vector2 net_half_size;
 
-    public const float object_s = 0.3f;
+    public const float object_s = 0.6f;
     public static Vector2 object_size;
     public static Vector2 object_half_size;
     public static Vector2 object_recenter_off;
