@@ -470,7 +470,17 @@ public class WorldManager : MonoBehaviour
 
 
         // Material Flipping
-        if (flipArtTimer <= 0 && false) {
+        if (flipArtTimer <= 0) { 
+            player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            cartCrafting                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
+            for(int i = 0; i < enemies.Count; i++) { 
+                enemies[i].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); 
+            }
+            flipArtTimer = Consts.timeUntilArtFlip;
+        }   
+        /*
+        if (flipArtTimer <= 0) {
             player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartCrafting                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
@@ -499,6 +509,7 @@ public class WorldManager : MonoBehaviour
             } 
             flipArtTimer = Consts.timeUntilArtFlip;
         }
+        */
 
         flipArtTimer -= Time.deltaTime;
     }
