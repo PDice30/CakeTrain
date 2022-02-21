@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 2243941487115071999}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -251,6 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5b1cdfe7e256534abfbe8bb0e6cef83, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 0
   worldManager: {fileID: 0}
   interactionOffset: {x: 0, y: 0}
   netOffset: {x: 0, y: 0}

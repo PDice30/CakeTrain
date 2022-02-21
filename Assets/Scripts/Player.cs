@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+  public int health;
   public WorldManager worldManager;
   int x;
   int z;
@@ -22,6 +23,7 @@ public class Player : MonoBehaviour
 
   void Start()
   {
+    health = 5;
     x_minBounds = 0;
     x_maxBounds = Consts.world_w;
     z_minBounds = 0;

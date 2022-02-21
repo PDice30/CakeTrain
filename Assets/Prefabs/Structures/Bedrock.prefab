@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 8594403584617162822}
   m_Layer: 0
   m_Name: Bedrock
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
