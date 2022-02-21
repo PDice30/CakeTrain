@@ -247,7 +247,7 @@ public class WorldManager : MonoBehaviour
     {
         int px;
         int pz;
-        int nEnemies = Random.Range(2, 4);
+        int nEnemies = Random.Range(5, 10);
         for (int i = 0; i < nEnemies; i++) {
             int enemies_i = Random.Range(0, refs.enemies.Length);
             px = Random.Range(0, Consts.world_w);

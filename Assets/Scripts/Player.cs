@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
       interactionOffset = off*Consts.player_reach;
       netOffset         = off*Consts.net_reach;
       off               = off*Consts.player_speed*Time.deltaTime;
+      if(holdingObject || holdingProduct) off /= 2.0f;
 
       proposed += off;
     }
