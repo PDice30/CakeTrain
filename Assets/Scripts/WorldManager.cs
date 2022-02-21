@@ -58,7 +58,9 @@ public class WorldManager : MonoBehaviour
 
     [HideInInspector]
     public List<GameObject> objectPreviews;
+    [HideInInspector]
     public List<GameObject> objectPreviews_Wood;
+    [HideInInspector]
     public List<GameObject> objectPreviews_Iron;
 
     [HideInInspector]
@@ -69,9 +71,13 @@ public class WorldManager : MonoBehaviour
 	public int trainProgress;
     [HideInInspector]
 	public float trainIncProgress;
+    [HideInInspector]
     public bool enemiesHaveBeenSpawned;
+    [HideInInspector]
     public bool cameraIsReady;
+    [HideInInspector]
     public bool startGameFlag;
+    [HideInInspector]
     public float flipArtTimer;
 
     void initTiles()
@@ -483,7 +489,7 @@ public class WorldManager : MonoBehaviour
             } 
             flipArtTimer = Consts.timeUntilArtFlip;
         }
-        
+
         flipArtTimer -= Time.deltaTime;
     }
 }
