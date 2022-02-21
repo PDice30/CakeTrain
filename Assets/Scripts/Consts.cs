@@ -140,6 +140,14 @@ public class Consts
         object_half_size = new Vector2(object_s,object_s)*0.5f;
         object_recenter_off = (unit_size-object_size)/2.0f;
 
+        product_size = new Vector2(product_s,product_s);
+        product_half_size = new Vector2(product_s,product_s)*0.5f;
+        product_recenter_off = (unit_size-product_size)/2.0f;
+
+        enemy_size = new Vector2(enemy_s,enemy_s);
+        enemy_half_size = new Vector2(enemy_s,enemy_s)*0.5f;
+        enemy_recenter_off = (unit_size-enemy_size)/2.0f;
+
         player_hand_offset = (player_size-object_size)/2.0f;
 
         recipes = new List<List<ObjectId>>();

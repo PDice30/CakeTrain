@@ -89,14 +89,12 @@ public class Player : MonoBehaviour
     {
       if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.enemies[i].GetComponent<Transform>().position,Consts.enemy_size,ref proposed3))
       {
-        Debug.Log("COLLIDE");
         collidingEnemy = worldManager.enemies[i];
         worldManager.enemies.RemoveAt(i);
         Destroy(collidingEnemy);
         health--;
       }
     }
-
 
     Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
     interactingStructure = null;
@@ -273,7 +271,6 @@ public class Player : MonoBehaviour
     {
       if(Input.GetKeyDown(KeyCode.Space))
       {
-        Debug.Log("PUNCH");
         worldManager.enemies.Remove(interactingEnemy);
         Destroy(interactingEnemy);
         interactingEnemy = null;
