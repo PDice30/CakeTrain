@@ -13,11 +13,13 @@ public class Player : MonoBehaviour
   public Vector2 netOffset;
   public GameObject collidingStructure;
   public GameObject collidingCart;
+  public GameObject collidingEnemy;
   public GameObject interactingStructure;
   float interactingDamage;
   public GameObject interactingCart;
   public GameObject interactingObject;
   public GameObject interactingProduct;
+  public GameObject interactingEnemy;
   public GameObject holdingObject;
   public GameObject holdingProduct;
 
@@ -82,39 +84,63 @@ public class Player : MonoBehaviour
       }
     }
 
+    collidingEnemy = null;
+    for(int i = 0; i < worldManager.enemies.Count; i++)
+    {
+      if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.enemies[i].GetComponent<Transform>().position,Consts.enemy_size,ref proposed3))
+      {
+        Debug.Log("COLLIDE");
+        collidingEnemy = worldManager.enemies[i];
+        worldManager.enemies.RemoveAt(i);
+        Destroy(collidingEnemy);
+        health--;
+      }
+    }
+
 
     Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
     interactingStructure = null;
     interactingCart = null;
     interactingObject = null;
     interactingProduct = null;
+    interactingEnemy = null;
     if(!holdingObject && !holdingProduct)
     {
       Vector2 netPt = new Vector2(proposed3.x+Consts.player_half_size.x+netOffset.x,proposed3.z+Consts.player_half_size.y+netOffset.y);
       Vector2 netBasePt = netPt-Consts.net_half_size;
 
-      for(int i = 0; i < worldManager.products.Count; i++)
+      for(int i = 0; i < worldManager.enemies.Count; i++)
       {
-        Vector3 op3 = worldManager.products[i].GetComponent<Transform>().position;
+        Vector3 op3 = worldManager.enemies[i].GetComponent<Transform>().position;
         Vector2 op2 = new Vector2(op3.x,op3.z);
-        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.product_size))
-          interactingProduct = worldManager.products[i];
+        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.enemy_size))
+          interactingEnemy = worldManager.enemies[i];
       }
-      if(!interactingProduct)
+      if(!interactingEnemy)
       {
-        for(int i = 0; i < worldManager.objects.Count; i++)
+        for(int i = 0; i < worldManager.products.Count; i++)
         {
-          Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+          Vector3 op3 = worldManager.products[i].GetComponent<Transform>().position;
           Vector2 op2 = new Vector2(op3.x,op3.z);
-          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
-            interactingObject = worldManager.objects[i];
+          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.product_size))
+            interactingProduct = worldManager.products[i];
         }
-        if(!interactingObject)
+        if(!interactingProduct)
         {
-          for(int i = 0; i < worldManager.structures.Count; i++)
+          for(int i = 0; i < worldManager.objects.Count; i++)
           {
-            if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
-              interactingStructure = worldManager.structures[i];
+            Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+            Vector2 op2 = new Vector2(op3.x,op3.z);
+            if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
+              interactingObject = worldManager.objects[i];
+          }
+          if(!interactingObject)
+          {
+            for(int i = 0; i < worldManager.structures.Count; i++)
+            {
+              if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+                interactingStructure = worldManager.structures[i];
+            }
           }
         }
       }
@@ -241,6 +267,16 @@ public class Player : MonoBehaviour
       else
       { //hold
         holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+      }
+    }
+    else if(interactingEnemy)
+    {
+      if(Input.GetKeyDown(KeyCode.Space))
+      {
+        Debug.Log("PUNCH");
+        worldManager.enemies.Remove(interactingEnemy);
+        Destroy(interactingEnemy);
+        interactingEnemy = null;
       }
     }
     else if(interactingProduct)

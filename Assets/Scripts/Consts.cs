@@ -103,6 +103,12 @@ public class Consts
 
     public static Vector2 player_hand_offset;
 
+    public const float enemy_s = 1.0f;
+    public static Vector2 enemy_size;
+    public static Vector2 enemy_half_size;
+    public static Vector2 enemy_recenter_off;
+
+
     public const int maximumCraftObjects = 3;
     public const int numCraftPreviewBGs = 3;
     public const int numCraftPreviewEjects = 3;

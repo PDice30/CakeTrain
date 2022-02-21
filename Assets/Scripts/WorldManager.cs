@@ -88,8 +88,8 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
                 int tile_i = Random.Range(0, 100);
-                     if(tile_i < 80)  tile_i = (int)TileId.GRASS;
-                else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
+                     if(tile_i < 95)  tile_i = (int)TileId.GRASS;
+                //else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
                 else if(tile_i < 100) tile_i = (int)TileId.WATER;
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
