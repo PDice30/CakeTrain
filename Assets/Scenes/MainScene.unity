@@ -235,8 +235,9 @@ MonoBehaviour:
   refs: {fileID: 635749212}
   mainCam: {fileID: 963194229}
   canvas: {fileID: 1407629642}
-  timeUntilNightText: {fileID: 0}
-  gameOverText: {fileID: 0}
+  timeUntilNightText: {fileID: 1703774736}
+  gameOverText: {fileID: 1449629776}
+  restartButton: {fileID: 1761160393}
   player: {fileID: 0}
   cartCrafting: {fileID: 0}
   cartEngine: {fileID: 0}
