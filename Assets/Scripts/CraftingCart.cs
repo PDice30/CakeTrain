@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CraftingCart : MonoBehaviour
 {
+    public WorldManager worldManager;
     public int x;
     public int z;
 

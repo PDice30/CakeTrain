@@ -56,6 +56,8 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public GameObject craftPreviewTail;
 
+    [HideInInspector]
+    public List<GameObject> objectPreviews;
     public List<GameObject> objectPreviews_Wood;
     public List<GameObject> objectPreviews_Iron;
 
@@ -157,8 +159,10 @@ public class WorldManager : MonoBehaviour
         GameObject newCraft = GameObject.Instantiate(refs.cartCraft, new Vector3(px+Consts.cart_recenter_off.x, Consts.cart_y, pz+Consts.cart_recenter_off.y), Quaternion.identity);
         Utils.resizePrefab(newCraft,Consts.cart_s);
         CraftingCart nc = newCraft.GetComponent<CraftingCart>();
+        nc.objectsInCrafter = new List<ObjectId>();
         nc.x = px;
         nc.z = pz;
+        nc.worldManager = this;
         cartCrafting = newCraft;
         carts.Add(newCraft);
         //convert underlying tile to grass
@@ -253,9 +257,12 @@ public class WorldManager : MonoBehaviour
     }
 
     void initCraftingPreviews() {
-        craftPreviews_BG = new List<GameObject>();
-        craftPreviews_Eject = new List<GameObject>();
-        craftPreviews_Submit = new List<GameObject>();
+        craftPreviews_BG =      new List<GameObject>();
+        craftPreviews_Eject =   new List<GameObject>();
+        craftPreviews_Submit =  new List<GameObject>();
+        objectPreviews =        new List<GameObject>();
+        objectPreviews_Wood =   new List<GameObject>();
+        objectPreviews_Iron =   new List<GameObject>();
 
         // Tile/Color Previews
         for (int i = 0; i < Consts.numCraftPreviewBGs; i++) {
@@ -297,6 +304,20 @@ public class WorldManager : MonoBehaviour
     void initCanvas()
     {
         timeUntilNightText = canvas.GetComponentInChildren<Text>();
+    }
+
+    public void getObjectPreviews() {
+        CraftingCart cc = cartCrafting.GetComponent<CraftingCart>();
+        for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
+            switch (cc.objectsInCrafter[i]) {
+                case ObjectId.WOOD:
+                    objectPreviews.Add(objectPreviews_Wood[i]);
+                    break;
+                case ObjectId.IRON:
+                    objectPreviews.Add(objectPreviews_Iron[i]);
+                    break;
+            }
+        }
     }
 
     // void startCameraTransition()

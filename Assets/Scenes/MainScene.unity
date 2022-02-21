@@ -177,6 +177,7 @@ MonoBehaviour:
   craftPreviews_Eject: []
   craftPreviews_Submit: []
   craftPreviewTail: {fileID: 0}
+  objectPreviews: []
   objectPreviews_Wood: []
   objectPreviews_Iron: []
   isNight: 0
