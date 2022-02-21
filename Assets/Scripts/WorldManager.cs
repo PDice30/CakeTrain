@@ -480,13 +480,14 @@ public class WorldManager : MonoBehaviour
 
             timeUntilNight -= Time.deltaTime;
             if (timeUntilNight <= 0) {
-                isNight = !isNight;
+                isNight = true; //isNight = !isNight; //don't bother flipping until we actually have day/night
                 nights++;
                 if (isNight) spawnEnemies();
                 timeUntilNight = Consts.timeUntilNight;
             }
 
-            timeUntilNightText.text = timeUntilNight.ToString("0.0");
+            //timeUntilNightText.text = timeUntilNight.ToString("0.0");
+            timeUntilNightText.text = player.GetComponent<Player>().health.ToString();
         } else {
             mainCam.TransitionCamUpdate();
         } 

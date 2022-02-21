@@ -45,7 +45,7 @@ public class Consts
     //world
     public const int world_h = 10;
     public const int world_w = 100;
-    public const float timeUntilNight = 10f;
+    public const float timeUntilNight = 20f;
     public const float timeUntilArtFlip = 0.1f;
     public static Vector3 hiddenTilePosition;
 
