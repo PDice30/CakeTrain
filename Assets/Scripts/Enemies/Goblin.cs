@@ -6,7 +6,7 @@ public class Goblin : Enemy
 {
     // TODO : To be changed to follow train, or possibly player if they are closer?
     public float size = 1f;
-    private float speed = 2f;
+    private float speed = 1f;
     // Update is called once per frame
     public override void EnemyUpdate()
     {
