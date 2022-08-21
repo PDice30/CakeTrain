@@ -325,10 +325,13 @@ public class Player : MonoBehaviour
       if(Input.GetKeyDown(KeyCode.Space))
       { // submit
         if (cc.craftIsValid) {
-          GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
-          craftedObj.GetComponent<Product>().type = cc.product;
-          Utils.resizePrefab(craftedObj, Consts.product_s);
-          worldManager.products.Add(craftedObj);
+          int amountToProduce = (cc.product == ProductId.TRACK) ? 3 : 1;
+          for (int i = 0; i < amountToProduce; i++) {
+            GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x + (float)i/ 2.0f, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+            craftedObj.GetComponent<Product>().type = cc.product;
+            Utils.resizePrefab(craftedObj, Consts.product_s);
+            worldManager.products.Add(craftedObj);
+          }
         } else { 
           //eject and instantiate objects that were in crafter
           float xPos = -0.5f;
@@ -371,7 +374,19 @@ public class Player : MonoBehaviour
                 worldManager.objects.Add(newObject);
                 break;
               case StructureId.IRONDEPOSIT:
+               {
+                newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.IRON], new Vector3(s.x+Consts.object_recenter_off.x,Consts.object_y,s.z+Consts.object_recenter_off.y), Quaternion.identity);
+                Utils.resizePrefab(newObject,Consts.object_s);
+                o = newObject.GetComponent<Object>();
+                o.type = ObjectId.IRON;
+                o.x = s.x;
+                o.z = s.z;
+                worldManager.objects.Add(newObject);
+                break;
+              }
+              case StructureId.TURRET:
               {
+                worldManager.turrets.Remove(s.gameObject); // Needs to be removed from both turrets and structures
                 newObject = GameObject.Instantiate(worldManager.refs.objects[(int)ObjectId.IRON], new Vector3(s.x+Consts.object_recenter_off.x,Consts.object_y,s.z+Consts.object_recenter_off.y), Quaternion.identity);
                 Utils.resizePrefab(newObject,Consts.object_s);
                 o = newObject.GetComponent<Object>();
@@ -382,15 +397,10 @@ public class Player : MonoBehaviour
                 break;
               }
             }
-            for(int i = 0; i < worldManager.structures.Count; i++)
-            {
-              if(worldManager.structures[i] == interactingStructure)
-              {
-                Destroy(worldManager.structures[i]);
-                worldManager.structures.RemoveAt(i);
-                break;
-              }
-            }
+
+            worldManager.structures.Remove(s.gameObject);
+            Destroy(s.gameObject);
+
             interactingStructure = null;
           }
         }
