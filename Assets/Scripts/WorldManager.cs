@@ -103,8 +103,7 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
                 int tile_i =  (int)((Noise.snoise2D(Noise.perm_t,x*mul,z*mul)+1.0f)*50.0f);
-                     if(tile_i < 80)  tile_i = (int)TileId.GRASS;
-                else if(tile_i < 100) tile_i = (int)TileId.WATER;
+                if(tile_i < 80 || x < 8) tile_i = (int)TileId.GRASS;
                 else tile_i = (int)TileId.WATER;
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
@@ -155,15 +154,55 @@ public class WorldManager : MonoBehaviour
         } 
     }
 
+    void initBedrock()
+    {
+        Noise.reseed();
+
+        int structure_i = (int)StructureId.BEDROCK;
+        float mul = 0.1f;
+        for (int x = 0; x < Consts.world_w; x++) {
+            for (int z = 0; z < Consts.world_h; z++) {
+                if(tiles[x,z].GetComponent<Tile>().type == TileId.WATER)
+                    continue;
+                float v =  Noise.snoise2D(Noise.perm_t,x*mul,z*mul);
+                if(v > 0.8f)
+                {
+                    bool collides;
+                    collides = false;
+                    for(int j = 0; j < structures.Count; j++) {
+                        Structure ts = structures[j].GetComponent<Structure>();
+                        if(ts.x == x && ts.z == z) {
+                            collides = true;
+                            break;
+                        }
+                    }
+                    if(!collides)
+                    {
+
+                        GameObject newStructure = GameObject.Instantiate(refs.structures[structure_i], new Vector3(x,Consts.structure_y,z), Quaternion.identity);
+                        Structure ns = newStructure.GetComponent<Structure>();
+                        ns.type = (StructureId)structure_i;
+                        ns.x = x;
+                        ns.z = z;
+                        structures.Add(newStructure);
+                    }
+                }
+            }
+        } 
+    }
+
     void initStructures()
     {
         initIron();
+        initBedrock();
 
         int px;
         int pz;
         int nStructures = Random.Range(100,200);
         for(int i = 0; i < nStructures; i++) {
-            int structure_i = Random.Range(0, Consts.spawnableStructures);
+            int structure_i = (int)StructureId.IRONDEPOSIT;
+            while(structure_i == (int)StructureId.IRONDEPOSIT || structure_i == (int)StructureId.BEDROCK)
+                structure_i = Random.Range(0, Consts.spawnableStructures);
             bool collides;
             do {
                 px = Random.Range(0,Consts.world_w);
@@ -172,13 +211,13 @@ public class WorldManager : MonoBehaviour
                 if(tiles[px,pz].GetComponent<Tile>().type == TileId.WATER)
                 {
                     collides = true;
-                    break;
+                    continue;
                 }
                 for(int j = 0; j < structures.Count; j++) {
                     Structure ts = structures[j].GetComponent<Structure>();
                     if(ts.x == px && ts.z == pz) {
                         collides = true;
-                        break;
+                        continue;
                     }
                 }
             }
