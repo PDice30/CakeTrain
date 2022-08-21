@@ -254,7 +254,7 @@ public class WorldManager : MonoBehaviour
     {
         int px;
         int pz;
-        int nEnemies = Random.Range(nights, (int)(nights*1.1f));
+        int nEnemies = Random.Range(nights, (int)(nights*Consts.IncreasingDifficultyValue));
         for (int i = 0; i < nEnemies; i++) {
             int enemies_i = Random.Range(0, refs.enemies.Length);
             px = player.GetComponent<Player>().x+15+Random.Range(0,10); //to the right of the screen (TODO: calc visible screen width)

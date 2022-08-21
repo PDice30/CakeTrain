@@ -290,7 +290,7 @@ public class Player : MonoBehaviour
         }
       }
     }
-    else if(interactingEnemy)
+    else if(interactingEnemy && Consts.AllowMelee)
     {
       worldManager.enemyHighlight_Passive.transform.position = new Vector3(interactingEnemy.transform.position.x, Consts.hilight_enemy_y, interactingEnemy.transform.position.z);
       if(Input.GetKeyDown(KeyCode.Space))
@@ -357,7 +357,7 @@ public class Player : MonoBehaviour
         {
           worldManager.structureHighlight_Active.transform.position = new Vector3(interactingStructure.transform.position.x, Consts.hilight_structure_y, interactingStructure.transform.position.z);
           interactingDamage += Time.deltaTime;
-          if(interactingDamage >= 1.0f)
+          if(interactingDamage >= Consts.DefaultStructureHealth)
           {
             GameObject newObject;
             Object o;
