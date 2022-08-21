@@ -72,6 +72,7 @@ public class Consts
     public const float preview_status_y    = 17.0f;
     public const float preview_bg_y        = 18.0f;
     public const float preview_object_y    = 19.0f;
+    public const float bullet_y            = 20.0f;
     public const float camera_y            = 100.0f;
 
     //sizes

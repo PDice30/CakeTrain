@@ -39,6 +39,8 @@ public class Refs : MonoBehaviour
     public GameObject enemyGoblin;
     public GameObject[] enemies;
 
+    public GameObject bullet;
+
     public GameObject tileHighlight_Passive;
     public GameObject structureHighlight_Passive;
     public GameObject structureHighlight_Active;

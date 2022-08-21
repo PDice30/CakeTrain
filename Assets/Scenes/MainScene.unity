@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -249,6 +249,7 @@ MonoBehaviour:
   objects: []
   products: []
   enemies: []
+  bullets: []
   tileHighlight_Passive: {fileID: 0}
   structureHighlight_Passive: {fileID: 0}
   structureHighlight_Active: {fileID: 0}
@@ -327,6 +328,7 @@ MonoBehaviour:
   enemyBat: {fileID: 7177810929658414646, guid: 12f652ea0e0133447942cf2d776c97c1, type: 3}
   enemyGoblin: {fileID: 8004079148066154955, guid: 196c5a79c239dad46afc25437937c44c, type: 3}
   enemies: []
+  bullet: {fileID: 1966832345817928743, guid: 3cb36011d18855242bc4aa1d6b7f533b, type: 3}
   tileHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   structureHighlight_Passive: {fileID: 6422213545898786276, guid: c1ae813ea2c4bf5459e1b2847ad8f3ad, type: 3}
   structureHighlight_Active: {fileID: 1037954463701335887, guid: 6f8cae11660293d4cbb7c0b7b488998c, type: 3}

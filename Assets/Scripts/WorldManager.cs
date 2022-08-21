@@ -35,6 +35,8 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> enemies;
     [HideInInspector]
+    public List<GameObject> turrets;
+    [HideInInspector]
     public List<GameObject> bullets;
 
     [HideInInspector]
@@ -265,6 +267,44 @@ public class WorldManager : MonoBehaviour
         Debug.Log("Number of Enemies Spawned: " + enemies.Count);
     }
 
+    public void spawnBulletTowardClosestEnemy(GameObject source)
+    {
+        if(enemies.Count == 0) return;
+
+        int px;
+        int pz;
+        Structure s = source.GetComponent<Structure>();
+        px = s.x;
+        pz = s.z;
+        GameObject newBullet = GameObject.Instantiate(refs.bullet, new Vector3(px, Consts.bullet_y, pz), Quaternion.identity);
+        Bullet b = newBullet.GetComponent<Bullet>();
+        b.x = px;
+        b.z = pz;
+        GameObject closest_e = null;
+        float closest_d = 99999999.9f;
+        Vector2 bullet_pos = new Vector2(newBullet.transform.position.x,newBullet.transform.position.z);
+        Vector2 enemy_pos;
+        foreach(GameObject enemy in enemies) {
+            enemy_pos = new Vector2(enemy.transform.position.x,enemy.transform.position.z);
+            float d = Vector2.Distance(bullet_pos,enemy_pos);
+            if(d < closest_d)
+            {
+                closest_e = enemy;
+                closest_d = d;
+            }
+        }
+
+        enemy_pos = new Vector2(closest_e.transform.position.x,closest_e.transform.position.z);
+        Vector2 dir = enemy_pos-bullet_pos;
+        dir = dir.normalized;
+        b.dx = dir.x;
+        b.dz = dir.y;
+        
+        bullets.Add(newBullet);
+
+        Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+    }
+
     void initTileHighlighters() {
         tileHighlight_Passive = GameObject.Instantiate(refs.tileHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         structureHighlight_Passive = GameObject.Instantiate(refs.structureHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
@@ -478,6 +518,14 @@ public class WorldManager : MonoBehaviour
             mainCam.CamUpdate();
             foreach(GameObject enemy in enemies) {
                 enemy.GetComponent<Enemy>().EnemyUpdate();
+            }
+
+            foreach(GameObject turret in turrets) {
+                turret.GetComponent<Turret>().TurretUpdate();
+            }
+
+            foreach(GameObject bullet in bullets) {
+                bullet.GetComponent<Bullet>().BulletUpdate();
             }
 
             timeUntilNight -= Time.deltaTime;

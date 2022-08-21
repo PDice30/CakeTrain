@@ -242,10 +242,12 @@ public class Player : MonoBehaviour
           case ProductId.TURRET:
             GameObject turret = GameObject.Instantiate(worldManager.refs.structureTurret, new Vector3(x, Consts.structure_y, z), Quaternion.identity);
             Structure ts = turret.GetComponent<Structure>();
-            ts.type = StructureId.BARRICADE;
+            ts.type = StructureId.TURRET;
             ts.x = x;
             ts.z = z;
+            turret.GetComponent<Turret>().worldManager = worldManager;
             worldManager.structures.Add(turret);
+            worldManager.turrets.Add(turret);
             break;
         }
         worldManager.products.Remove(holdingProduct);
