@@ -277,6 +277,7 @@ public class WorldManager : MonoBehaviour
         px = s.x;
         pz = s.z;
         GameObject newBullet = GameObject.Instantiate(refs.bullet, new Vector3(px, Consts.bullet_y, pz), Quaternion.identity);
+        Utils.resizePrefab(newBullet,Consts.bullet_s);
         Bullet b = newBullet.GetComponent<Bullet>();
         b.x = px;
         b.z = pz;
@@ -524,8 +525,34 @@ public class WorldManager : MonoBehaviour
                 turret.GetComponent<Turret>().TurretUpdate();
             }
 
-            foreach(GameObject bullet in bullets) {
-                bullet.GetComponent<Bullet>().BulletUpdate();
+            for(int i = 0; i < bullets.Count; i++) {
+                GameObject bullet = bullets[i];
+                Bullet b = bullet.GetComponent<Bullet>();
+                b.BulletUpdate();
+
+                if(b.life > Consts.bullet_max_life)
+                {
+                    bullets.RemoveAt(i);
+                    i--;
+                    Destroy(bullet);
+                    continue;
+                }
+
+                GameObject collidingEnemy = null;
+                for(int j = 0; j < enemies.Count; j++)
+                {
+                    if(Utils.quadCollide3(bullet.transform.position,Consts.bullet_size,enemies[j].GetComponent<Transform>().position,Consts.enemy_size))
+                    {
+                        collidingEnemy = enemies[j];
+                        enemies.RemoveAt(j);
+                        Destroy(collidingEnemy);
+                        bullets.RemoveAt(i);
+                        i--;
+                        Destroy(bullet);
+                        break;
+                    }
+                }
+
             }
 
             timeUntilNight -= Time.deltaTime;

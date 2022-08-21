@@ -112,6 +112,13 @@ public class Consts
     public static Vector2 enemy_half_size;
     public static Vector2 enemy_recenter_off;
 
+    public static float bullet_s = 0.5f;
+    public static Vector2 bullet_size;
+    public static Vector2 bullet_half_size;
+    public static Vector2 bullet_recenter_off;
+    public const float bullet_speed = 5.0f;
+    public const float bullet_max_life = 20.0f;
+
 
     public const int maximumCraftObjects = 3;
     public const int numCraftPreviewBGs = 3;
@@ -153,6 +160,10 @@ public class Consts
         enemy_size = new Vector2(enemy_s,enemy_s);
         enemy_half_size = new Vector2(enemy_s,enemy_s)*0.5f;
         enemy_recenter_off = (unit_size-enemy_size)/2.0f;
+
+        bullet_size = new Vector2(bullet_s,bullet_s);
+        bullet_half_size = new Vector2(bullet_s,bullet_s)*0.5f;
+        bullet_recenter_off = (unit_size-bullet_size)/2.0f;
 
         player_hand_offset = (player_size-object_size)/2.0f;
 

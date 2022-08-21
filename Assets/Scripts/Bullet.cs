@@ -9,13 +9,13 @@ public class Bullet : MonoBehaviour
     public float dx;
     public float dz;
 
-    public float size = 1f;
-    private float speed = 2f;
+    public float life = 0.0f;
 
     public void BulletUpdate()
     {
-        float newx = transform.position.x + dx*Time.deltaTime*speed;
-        float newz = transform.position.z + dz*Time.deltaTime*speed;
+        float newx = transform.position.x + dx*Time.deltaTime*Consts.bullet_speed;
+        float newz = transform.position.z + dz*Time.deltaTime*Consts.bullet_speed;
         transform.position = new Vector3(newx, Consts.bullet_y, newz);
+        life += Time.deltaTime;
     }
 }
