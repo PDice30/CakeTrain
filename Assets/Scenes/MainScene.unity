@@ -310,6 +310,7 @@ MonoBehaviour:
   structureTree: {fileID: 2704158395198456114, guid: 521b79f1b6ce08441a54f4025dec3ee5, type: 3}
   structureIronDeposit: {fileID: 6278617561935846946, guid: 8b841bbf6385919408e05d7232610bf6, type: 3}
   structureBedrock: {fileID: 5277178839617399245, guid: 49b1d5e9adf737e4ba45de29e1e81be9, type: 3}
+  structureBarricade: {fileID: 2704158395198456114, guid: a4ed8dfb67d1b466db9808dc3015a1e5, type: 3}
   structureTurret: {fileID: 2704158395198456114, guid: 21adb52dffece426b8947eb3a92a1075, type: 3}
   structures: []
   objectWood: {fileID: 8583161509136435908, guid: d34e08beca3049149a359b81d479d34d, type: 3}

@@ -15,6 +15,7 @@ public enum StructureId: int
     TREE = 0,
     IRONDEPOSIT,
     BEDROCK,
+    BARRICADE,
     TURRET,
     COUNT,
 }
@@ -120,7 +121,7 @@ public class Consts
     public static List<List<ObjectId>> recipes;
     public static List<ProductId> recipeProducts;
     public static List<ObjectId> trackRecipe;
-    public static List<ObjectId> woodRecipe;
+    public static List<ObjectId> barricadeRecipe;
     public static List<ObjectId> turretRecipe;
 
     public static void initConsts()
@@ -163,10 +164,10 @@ public class Consts
         recipes.Add(trackRecipe);
         recipeProducts.Add(ProductId.TRACK);
 
-        woodRecipe = new List<ObjectId>();
-        woodRecipe.Add(ObjectId.WOOD);
-        woodRecipe.Add(ObjectId.WOOD);
-        recipes.Add(woodRecipe);
+        barricadeRecipe = new List<ObjectId>();
+        barricadeRecipe.Add(ObjectId.WOOD);
+        barricadeRecipe.Add(ObjectId.WOOD);
+        recipes.Add(barricadeRecipe);
         recipeProducts.Add(ProductId.BARRICADE);
 
         turretRecipe = new List<ObjectId>();
