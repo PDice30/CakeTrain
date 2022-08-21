@@ -6,18 +6,20 @@ public class Player : MonoBehaviour
 {
   public int health;
   public WorldManager worldManager;
-  int x;
-  int z;
+  public int x;
+  public int z;
   float z_maxBounds, z_minBounds, x_minBounds, x_maxBounds;
   public Vector2 interactionOffset;
   public Vector2 netOffset;
   public GameObject collidingStructure;
   public GameObject collidingCart;
+  public GameObject collidingEnemy;
   public GameObject interactingStructure;
   float interactingDamage;
   public GameObject interactingCart;
   public GameObject interactingObject;
   public GameObject interactingProduct;
+  public GameObject interactingEnemy;
   public GameObject holdingObject;
   public GameObject holdingProduct;
 
@@ -51,6 +53,7 @@ public class Player : MonoBehaviour
       interactionOffset = off*Consts.player_reach;
       netOffset         = off*Consts.net_reach;
       off               = off*Consts.player_speed*Time.deltaTime;
+      if(holdingObject || holdingProduct) off /= 2.0f;
 
       proposed += off;
     }
@@ -82,39 +85,67 @@ public class Player : MonoBehaviour
       }
     }
 
+    collidingEnemy = null;
+    for(int i = 0; i < worldManager.enemies.Count; i++)
+    {
+      if(Utils.quadCollide3Correct(proposed3,Consts.player_size,worldManager.enemies[i].GetComponent<Transform>().position,Consts.enemy_size,ref proposed3))
+      {
+        collidingEnemy = worldManager.enemies[i];
+        worldManager.enemies.RemoveAt(i);
+        Destroy(collidingEnemy);
+        health--;
+      }
+    }
 
     Vector2 interactingPt = new Vector2(proposed3.x+Consts.player_half_size.x+interactionOffset.x,proposed3.z+Consts.player_half_size.y+interactionOffset.y);
     interactingStructure = null;
     interactingCart = null;
     interactingObject = null;
     interactingProduct = null;
+    interactingEnemy = null;
     if(!holdingObject && !holdingProduct)
     {
       Vector2 netPt = new Vector2(proposed3.x+Consts.player_half_size.x+netOffset.x,proposed3.z+Consts.player_half_size.y+netOffset.y);
       Vector2 netBasePt = netPt-Consts.net_half_size;
 
-      for(int i = 0; i < worldManager.products.Count; i++)
+      for(int i = 0; i < worldManager.enemies.Count; i++)
       {
-        Vector3 op3 = worldManager.products[i].GetComponent<Transform>().position;
+        Vector3 op3 = worldManager.enemies[i].GetComponent<Transform>().position;
         Vector2 op2 = new Vector2(op3.x,op3.z);
-        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.product_size))
-          interactingProduct = worldManager.products[i];
+        if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.enemy_size))
+          interactingEnemy = worldManager.enemies[i];
       }
-      if(!interactingProduct)
+      if(!interactingEnemy)
       {
-        for(int i = 0; i < worldManager.objects.Count; i++)
+        for(int i = 0; i < worldManager.products.Count; i++)
         {
-          Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+          Vector3 op3 = worldManager.products[i].GetComponent<Transform>().position;
           Vector2 op2 = new Vector2(op3.x,op3.z);
-          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
-            interactingObject = worldManager.objects[i];
+          if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.product_size))
+            interactingProduct = worldManager.products[i];
         }
-        if(!interactingObject)
+        if(!interactingProduct)
         {
-          for(int i = 0; i < worldManager.structures.Count; i++)
+          for(int i = 0; i < worldManager.objects.Count; i++)
           {
-            if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
-              interactingStructure = worldManager.structures[i];
+            Vector3 op3 = worldManager.objects[i].GetComponent<Transform>().position;
+            Vector2 op2 = new Vector2(op3.x,op3.z);
+            if(Utils.quadCollide(netBasePt,Consts.net_size,op2,Consts.object_size))
+              interactingObject = worldManager.objects[i];
+          }
+          if(!interactingObject)
+          {
+            for(int i = 0; i < worldManager.structures.Count; i++)
+            {
+              if(Utils.quadCollidePt3(worldManager.structures[i].GetComponent<Transform>().position,Consts.unit_size,interactingPt))
+                interactingStructure = worldManager.structures[i];
+            }
+            if(!interactingStructure)
+            {
+              //nothing within "interaction" net, so fall back to "colliding"
+              if(collidingCart && collidingCart != worldManager.cartEngine && !holdingProduct) interactingCart = collidingCart;
+              else if(collidingStructure) interactingStructure = collidingStructure;
+            }
           }
         }
       }
@@ -134,6 +165,7 @@ public class Player : MonoBehaviour
     worldManager.objectHighlight_Passive.transform.position    = Consts.hiddenTilePosition;
     worldManager.productHighlight_Passive.transform.position   = Consts.hiddenTilePosition;
     worldManager.cartHighlight_Passive.transform.position      = Consts.hiddenTilePosition;
+    worldManager.enemyHighlight_Passive.transform.position     = Consts.hiddenTilePosition;
 
     foreach(GameObject obj in worldManager.craftPreviews_BG) {
       obj.transform.position                                = Consts.hiddenTilePosition;
@@ -158,27 +190,29 @@ public class Player : MonoBehaviour
       Vector3 cartPos = interactingCart.transform.position;
       
       if (cc.objectsInCrafter.Count != 0) {
-        // apply Tail
-        worldManager.craftPreviewTail.transform.position = new Vector3(cartPos.x - 0.25f, Consts.preview_bg_y, cartPos.z + 0.5f);
+        float xPos = cartPos.x+Consts.cart_s/2.0f; //center of cart
+        float zPos = cartPos.z+Consts.cart_s*1.5f; //above cart
+        worldManager.craftPreviewTail.transform.position = new Vector3(xPos-0.5f, Consts.preview_bg_y, zPos-0.5f);
+        zPos += 0.1f;
+
         int numObjects = cc.objectsInCrafter.Count;
-        float xPos;
-        float xIncrement;
+        float spacing = Consts.object_s;
         switch (numObjects) {
-          case 1: xPos = 0f;        xIncrement = 0;     break;
-          case 2: xPos = -0.25f;    xIncrement = 0.5f;  break;
-          case 3: xPos = -0.5f;     xIncrement = 0.5f;  break;
-          default: xPos = 0f;       xIncrement = 0f;    break;
+          case 1:                       break;
+          case 2: xPos -= spacing/2.0f; break;
+          case 3: xPos -= spacing;      break;
+          default: xPos = 0f; break;
         }
 
         for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
-          worldManager.craftPreviews_BG[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_bg_y, cartPos.z + 0.5f);
-          if (!holdingObject && cc.craftIsValid) {
-            worldManager.craftPreviews_Submit[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
-          } else if (!holdingObject && !cc.craftIsValid){
-            worldManager.craftPreviews_Eject[i].transform.position = new Vector3(cartPos.x + xPos, Consts.preview_status_y, cartPos.z + 0.5f);
+          worldManager.craftPreviews_BG[i].transform.position = new Vector3(xPos-0.5f, Consts.preview_bg_y, zPos-0.5f);
+          if(!holdingObject)
+          {
+            if(cc.craftIsValid) worldManager.craftPreviews_Submit[i].transform.position = new Vector3(xPos-0.5f, Consts.preview_status_y, zPos-0.5f);
+            else                worldManager.craftPreviews_Eject[ i].transform.position = new Vector3(xPos-0.5f, Consts.preview_status_y, zPos-0.5f);
           }
-          worldManager.objectPreviews[i].transform.position = new Vector3(cartPos.x + xPos + 0.25f, Consts.preview_object_y, cartPos.z + 0.75f);
-          xPos += xIncrement;
+          worldManager.objectPreviews[i].transform.position = new Vector3(xPos-Consts.object_s/2.0f, Consts.preview_object_y, zPos-Consts.object_s/2.0f);
+          xPos += spacing;
         }
       }
     }
@@ -186,6 +220,8 @@ public class Player : MonoBehaviour
     // Interacting Checks
     if(holdingProduct)
     {
+      holdingProduct.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_product_y,transform.position.z+Consts.player_hand_offset.y);
+
       Product pr = holdingProduct.GetComponent<Product>();
       worldManager.tileHighlight_Passive.transform.position = new Vector3(x, Consts.highlight_tile_y, z);
       if(Input.GetKeyDown(KeyCode.Space))
@@ -204,17 +240,15 @@ public class Player : MonoBehaviour
         Destroy(holdingProduct);
         holdingProduct = null;
       }
-      else
-      { //hold
-        holdingProduct.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_product_y,transform.position.z+Consts.player_hand_offset.y);
-      }
     }
     else if(holdingObject)
     {
-      if(Input.GetKeyDown(KeyCode.Space))
-      { 
-        if(interactingCart) // add to cart
-        {
+      holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+      if(interactingCart) // add to cart
+      {
+        worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
+        if(Input.GetKeyDown(KeyCode.Space))
+        { 
           // Display Preview
           CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
           Vector3 cartPos = interactingCart.transform.position;
@@ -232,15 +266,24 @@ public class Player : MonoBehaviour
             holdingObject = null;
           }
         }
-        else //drop
-        {
+      }
+      else
+      {
+        if(Input.GetKeyDown(KeyCode.Space))
+        { //drop
           holdingObject.transform.position = new Vector3(holdingObject.transform.position.x,Consts.object_y,holdingObject.transform.position.z);
           holdingObject = null;
         }
       }
-      else
-      { //hold
-        holdingObject.transform.position = new Vector3(transform.position.x+Consts.player_hand_offset.x,Consts.held_object_y,transform.position.z+Consts.player_hand_offset.y);
+    }
+    else if(interactingEnemy)
+    {
+      worldManager.enemyHighlight_Passive.transform.position = new Vector3(interactingEnemy.transform.position.x, Consts.hilight_enemy_y, interactingEnemy.transform.position.z);
+      if(Input.GetKeyDown(KeyCode.Space))
+      {
+        worldManager.enemies.Remove(interactingEnemy);
+        Destroy(interactingEnemy);
+        interactingEnemy = null;
       }
     }
     else if(interactingProduct)
@@ -261,31 +304,31 @@ public class Player : MonoBehaviour
     }
     else if(interactingCart)
     {
+      worldManager.cartHighlight_Passive.transform.position = new Vector3(interactingCart.transform.position.x, Consts.hilight_cart_y, interactingCart.transform.position.z);
       CraftingCart cc = interactingCart.GetComponent<CraftingCart>();
       Vector3 cartPos = interactingCart.transform.position;
 
       if(Input.GetKeyDown(KeyCode.Space))
       { // submit
         if (cc.craftIsValid) {
-          cc.objectsInCrafter.Clear();
-          cc.craftIsValid = false;
-          worldManager.objectPreviews.Clear();
           GameObject craftedObj = GameObject.Instantiate(worldManager.refs.products[(int)cc.product], new Vector3(interactingCart.transform.position.x, Consts.product_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+          craftedObj.GetComponent<Product>().type = cc.product;
           Utils.resizePrefab(craftedObj, Consts.product_s);
           worldManager.products.Add(craftedObj);
         } else { 
           //eject and instantiate objects that were in crafter
           float xPos = -0.5f;
           foreach(ObjectId objectId in cc.objectsInCrafter) {
-
             GameObject ejectedObj = GameObject.Instantiate(worldManager.refs.objects[(int)objectId], new Vector3(interactingCart.transform.position.x + xPos, Consts.object_y, interactingCart.transform.position.z - 0.5f), Quaternion.identity);
+            ejectedObj.GetComponent<Object>().type = objectId;
             Utils.resizePrefab(ejectedObj, Consts.object_s);
             worldManager.objects.Add(ejectedObj);
             xPos += 0.5f;
           }
-          cc.objectsInCrafter.Clear();
-          worldManager.objectPreviews.Clear();
         }
+        cc.craftIsValid = false;
+        cc.objectsInCrafter.Clear();
+        worldManager.objectPreviews.Clear();
       }
     }
     else if(interactingStructure)

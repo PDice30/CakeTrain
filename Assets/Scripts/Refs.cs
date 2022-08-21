@@ -43,6 +43,7 @@ public class Refs : MonoBehaviour
     public GameObject objectHighlight_Passive;
     public GameObject productHighlight_Passive;
     public GameObject cartHighlight_Passive;
+    public GameObject enemyHighlight_Passive;
 
     public GameObject craftPreviewBg;
     public GameObject craftPreviewEject;

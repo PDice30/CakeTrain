@@ -48,6 +48,8 @@ public class WorldManager : MonoBehaviour
     public GameObject productHighlight_Passive;
     [HideInInspector]
     public GameObject cartHighlight_Passive;
+    [HideInInspector]
+    public GameObject enemyHighlight_Passive;
 
     [HideInInspector]
     public List<GameObject> craftPreviews_BG;
@@ -65,6 +67,7 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public List<GameObject> objectPreviews_Iron;
 
+    public int nights;
     [HideInInspector]
     public bool isNight;
     [HideInInspector]
@@ -88,8 +91,8 @@ public class WorldManager : MonoBehaviour
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
                 int tile_i = Random.Range(0, 100);
-                     if(tile_i < 80)  tile_i = (int)TileId.GRASS;
-                else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
+                     if(tile_i < 95)  tile_i = (int)TileId.GRASS;
+                //else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
                 else if(tile_i < 100) tile_i = (int)TileId.WATER;
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
@@ -243,14 +246,14 @@ public class WorldManager : MonoBehaviour
         }
     }
 
-    void initEnemies()
+    void spawnEnemies()
     {
         int px;
         int pz;
-        int nEnemies = Random.Range(2, 4);
+        int nEnemies = Random.Range(nights, (int)(nights*1.1f));
         for (int i = 0; i < nEnemies; i++) {
             int enemies_i = Random.Range(0, refs.enemies.Length);
-            px = Random.Range(0, Consts.world_w);
+            px = player.GetComponent<Player>().x+15+Random.Range(0,10); //to the right of the screen (TODO: calc visible screen width)
             pz = Random.Range(0, Consts.world_h);
             GameObject newEnemy = GameObject.Instantiate(refs.enemies[enemies_i], new Vector3(px, Consts.enemy_y, pz), Quaternion.identity);
             newEnemy.GetComponent<Enemy>().worldManager = this;
@@ -270,6 +273,8 @@ public class WorldManager : MonoBehaviour
         Utils.resizePrefab(productHighlight_Passive,Consts.product_s);
         cartHighlight_Passive = GameObject.Instantiate(refs.cartHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
         Utils.resizePrefab(cartHighlight_Passive,Consts.cart_s);
+        enemyHighlight_Passive = GameObject.Instantiate(refs.enemyHighlight_Passive, Consts.hiddenTilePosition, Quaternion.identity);
+        Utils.resizePrefab(enemyHighlight_Passive,Consts.enemy_s);
     }
 
     void initCraftingPreviews() {
@@ -312,6 +317,7 @@ public class WorldManager : MonoBehaviour
 
     void initGameplay() 
     {
+        nights = 0;
         isNight = false;
         enemiesHaveBeenSpawned = false;
         timeUntilNight = Consts.timeUntilNight;
@@ -324,6 +330,7 @@ public class WorldManager : MonoBehaviour
 
     public void getObjectPreviews() {
         CraftingCart cc = cartCrafting.GetComponent<CraftingCart>();
+        objectPreviews.Clear();
         for (int i = 0; i < cc.objectsInCrafter.Count; i++) {
             switch (cc.objectsInCrafter[i]) {
                 case ObjectId.WOOD:
@@ -460,41 +467,33 @@ public class WorldManager : MonoBehaviour
         if (startGameFlag && cameraIsReady) {
             startGameFlag = false;
             initGameplay();
-            mainCam.CamStart(player);
+            mainCam.CamStart();
         }
         if (cameraIsReady) {
             player.GetComponent<Player>().PlayerUpdate();
             trainUpdate();
 
-            mainCam.CamUpdate(player.transform.position);
+            mainCam.CamUpdate();
             foreach(GameObject enemy in enemies) {
                 enemy.GetComponent<Enemy>().EnemyUpdate();
             }
 
             timeUntilNight -= Time.deltaTime;
             if (timeUntilNight <= 0) {
-                isNight = !isNight;
-                if (isNight) initEnemies();
+                isNight = true; //isNight = !isNight; //don't bother flipping until we actually have day/night
+                nights++;
+                if (isNight) spawnEnemies();
                 timeUntilNight = Consts.timeUntilNight;
             }
 
-            timeUntilNightText.text = timeUntilNight.ToString("0.0");
+            //timeUntilNightText.text = timeUntilNight.ToString("0.0");
+            timeUntilNightText.text = player.GetComponent<Player>().health.ToString();
         } else {
-            mainCam.TransitionCamUpdate(player);
+            mainCam.TransitionCamUpdate();
         } 
 
 
         // Material Flipping
-        if (flipArtTimer <= 0) { 
-            player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
-            cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
-            cartCrafting                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
-            for(int i = 0; i < enemies.Count; i++) { 
-                enemies[i].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); 
-            }
-            flipArtTimer = Consts.timeUntilArtFlip;
-        }   
-        /*
         if (flipArtTimer <= 0) {
             player                      .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartEngine                  .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
@@ -507,7 +506,7 @@ public class WorldManager : MonoBehaviour
             productHighlight_Passive    .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
             cartHighlight_Passive       .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
 
-            for(int i = 0; i < structures.Count; i++)               { structures[i]             .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            //for(int i = 0; i < structures.Count; i++)               { structures[i]             .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
             for(int i = 0; i < objects.Count; i++)                  { objects[i]                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
             for(int i = 0; i < products.Count; i++)                 { products[i]               .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
             for(int i = 0; i < enemies.Count; i++)                  { enemies[i]                .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
@@ -517,14 +516,15 @@ public class WorldManager : MonoBehaviour
             for(int i = 0; i < craftPreviews_Eject.Count; i++)      { craftPreviews_Eject[i]    .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
             for(int i = 0; i < craftPreviews_Submit.Count; i++)     { craftPreviews_Submit[i]   .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
             for(int i = 0; i < objectPreviews.Count; i++)           { objectPreviews[i]         .transform.GetChild(0).gameObject.GetComponent<Swapper>().flip(); }
+            /*
             for(int i = 0; i < tiles.GetLength(0); i++) { 
                 for (int j = 0; j < tiles.GetLength(1); j++) {
                     tiles[i,j].transform.GetChild(0).gameObject.GetComponent<Swapper>().flip();
                 }  
             } 
+            */
             flipArtTimer = Consts.timeUntilArtFlip;
         }
-        */
 
         flipArtTimer -= Time.deltaTime;
     }

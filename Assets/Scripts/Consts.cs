@@ -45,7 +45,7 @@ public class Consts
     //world
     public const int world_h = 10;
     public const int world_w = 100;
-    public const float timeUntilNight = 5f;
+    public const float timeUntilNight = 20f;
     public const float timeUntilArtFlip = 0.1f;
     public static Vector3 hiddenTilePosition;
 
@@ -62,13 +62,14 @@ public class Consts
     public const float hilight_product_y   = 9.0f;
     public const float player_y            = 10.0f;
     public const float enemy_y             = 11.0f;
-    public const float cart_y              = 12.0f;
-    public const float hilight_cart_y      = 13.0f;
-    public const float held_object_y       = 14.0f;
-    public const float held_product_y      = 15.0f;
-    public const float preview_status_y    = 16.0f;
-    public const float preview_bg_y        = 17.0f;
-    public const float preview_object_y    = 18.0f;
+    public const float hilight_enemy_y     = 12.0f;
+    public const float cart_y              = 13.0f;
+    public const float hilight_cart_y      = 14.0f;
+    public const float held_object_y       = 15.0f;
+    public const float held_product_y      = 16.0f;
+    public const float preview_status_y    = 17.0f;
+    public const float preview_bg_y        = 18.0f;
+    public const float preview_object_y    = 19.0f;
     public const float camera_y            = 100.0f;
 
     //sizes
@@ -103,6 +104,12 @@ public class Consts
 
     public static Vector2 player_hand_offset;
 
+    public const float enemy_s = 1.0f;
+    public static Vector2 enemy_size;
+    public static Vector2 enemy_half_size;
+    public static Vector2 enemy_recenter_off;
+
+
     public const int maximumCraftObjects = 3;
     public const int numCraftPreviewBGs = 3;
     public const int numCraftPreviewEjects = 3;
@@ -133,6 +140,14 @@ public class Consts
         object_size = new Vector2(object_s,object_s);
         object_half_size = new Vector2(object_s,object_s)*0.5f;
         object_recenter_off = (unit_size-object_size)/2.0f;
+
+        product_size = new Vector2(product_s,product_s);
+        product_half_size = new Vector2(product_s,product_s)*0.5f;
+        product_recenter_off = (unit_size-product_size)/2.0f;
+
+        enemy_size = new Vector2(enemy_s,enemy_s);
+        enemy_half_size = new Vector2(enemy_s,enemy_s)*0.5f;
+        enemy_recenter_off = (unit_size-enemy_size)/2.0f;
 
         player_hand_offset = (player_size-object_size)/2.0f;
 
