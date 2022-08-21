@@ -89,15 +89,23 @@ public class WorldManager : MonoBehaviour
     [HideInInspector]
     public float flipArtTimer;
 
+    public int ore_seed;
+    public int bedrock_seed;
+    public int water_seed;
+
     void initTiles()
     {
+        Noise.reseed();
+
         tiles = new GameObject[Consts.world_w,Consts.world_h];
+        float mul = 0.05f;
+        
         for (int x = 0; x < Consts.world_w; x++) {
             for (int z = 0; z < Consts.world_h; z++) {
-                int tile_i = Random.Range(0, 100);
-                     if(tile_i < 95)  tile_i = (int)TileId.GRASS;
-                //else if(tile_i < 95)  tile_i = (int)TileId.DIRT;
+                int tile_i =  (int)((Noise.snoise2D(Noise.perm_t,x*mul,z*mul)+1.0f)*50.0f);
+                     if(tile_i < 80)  tile_i = (int)TileId.GRASS;
                 else if(tile_i < 100) tile_i = (int)TileId.WATER;
+                else tile_i = (int)TileId.WATER;
                 GameObject newTile = GameObject.Instantiate(refs.tiles[tile_i], new Vector3(x,Consts.tile_y,z), Quaternion.identity);
                 Tile nt = newTile.GetComponent<Tile>();
                 nt.type = (TileId)tile_i;
@@ -111,6 +119,8 @@ public class WorldManager : MonoBehaviour
 
     void initStructures()
     {
+        Noise.reseed();
+
         int px;
         int pz;
         int nStructures = Random.Range(100,200);
@@ -475,6 +485,10 @@ public class WorldManager : MonoBehaviour
     {
         Consts.initConsts();
         refs.Initialize();
+
+        ore_seed = Random.Range(0,100);
+        bedrock_seed = Random.Range(0,100);
+        water_seed = Random.Range(0,100);
 
         initTiles();
         initStructures();
