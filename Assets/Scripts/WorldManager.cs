@@ -113,7 +113,7 @@ public class WorldManager : MonoBehaviour
         int pz;
         int nStructures = Random.Range(100,200);
         for(int i = 0; i < nStructures; i++) {
-            int structure_i = Random.Range(0,refs.structures.Length);
+            int structure_i = Random.Range(0, Consts.spawnableStructures);
             bool collides;
             do {
                 px = Random.Range(0,Consts.world_w);
