@@ -119,6 +119,7 @@ public class Consts
     public const float bullet_speed = 5.0f;
     public const float bullet_max_life = 20.0f;
 
+    public const float turret_vision_dist = 10.0f;
 
     public const int maximumCraftObjects = 3;
     public const int numCraftPreviewBGs = 3;

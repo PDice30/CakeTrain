@@ -276,14 +276,10 @@ public class WorldManager : MonoBehaviour
         Structure s = source.GetComponent<Structure>();
         px = s.x;
         pz = s.z;
-        GameObject newBullet = GameObject.Instantiate(refs.bullet, new Vector3(px, Consts.bullet_y, pz), Quaternion.identity);
-        Utils.resizePrefab(newBullet,Consts.bullet_s);
-        Bullet b = newBullet.GetComponent<Bullet>();
-        b.x = px;
-        b.z = pz;
+        Vector3 inipos = new Vector3(px, Consts.bullet_y, pz);
         GameObject closest_e = null;
         float closest_d = 99999999.9f;
-        Vector2 bullet_pos = new Vector2(newBullet.transform.position.x,newBullet.transform.position.z);
+        Vector2 bullet_pos = new Vector2(inipos.x,inipos.z);
         Vector2 enemy_pos;
         foreach(GameObject enemy in enemies) {
             enemy_pos = new Vector2(enemy.transform.position.x,enemy.transform.position.z);
@@ -295,15 +291,22 @@ public class WorldManager : MonoBehaviour
             }
         }
 
-        enemy_pos = new Vector2(closest_e.transform.position.x,closest_e.transform.position.z);
-        Vector2 dir = enemy_pos-bullet_pos;
-        dir = dir.normalized;
-        b.dx = dir.x;
-        b.dz = dir.y;
-        
-        bullets.Add(newBullet);
+        if(closest_d < Consts.turret_vision_dist)
+        {
+            GameObject newBullet = GameObject.Instantiate(refs.bullet, inipos, Quaternion.identity);
+            Utils.resizePrefab(newBullet,Consts.bullet_s);
+            Bullet b = newBullet.GetComponent<Bullet>();
+            b.x = px;
+            b.z = pz;
 
-        Debug.Log("Number of Enemies Spawned: " + enemies.Count);
+            enemy_pos = new Vector2(closest_e.transform.position.x,closest_e.transform.position.z);
+            Vector2 dir = (enemy_pos-bullet_pos).normalized;
+            b.dx = dir.x;
+            b.dz = dir.y;
+
+            bullets.Add(newBullet);
+        }
+        
     }
 
     void initTileHighlighters() {
