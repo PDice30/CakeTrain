@@ -117,9 +117,47 @@ public class WorldManager : MonoBehaviour
 
     }
 
-    void initStructures()
+    void initIron()
     {
         Noise.reseed();
+
+        //iron
+        int structure_i = (int)StructureId.IRONDEPOSIT;
+        float mul = 0.1f;
+        for (int x = 0; x < Consts.world_w; x++) {
+            for (int z = 0; z < Consts.world_h; z++) {
+                if(tiles[x,z].GetComponent<Tile>().type == TileId.WATER)
+                    continue;
+                float v =  Noise.snoise2D(Noise.perm_t,x*mul,z*mul);
+                if(v > 0.8f)
+                {
+                    bool collides;
+                    collides = false;
+                    for(int j = 0; j < structures.Count; j++) {
+                        Structure ts = structures[j].GetComponent<Structure>();
+                        if(ts.x == x && ts.z == z) {
+                            collides = true;
+                            break;
+                        }
+                    }
+                    if(!collides)
+                    {
+
+                        GameObject newStructure = GameObject.Instantiate(refs.structures[structure_i], new Vector3(x,Consts.structure_y,z), Quaternion.identity);
+                        Structure ns = newStructure.GetComponent<Structure>();
+                        ns.type = (StructureId)structure_i;
+                        ns.x = x;
+                        ns.z = z;
+                        structures.Add(newStructure);
+                    }
+                }
+            }
+        } 
+    }
+
+    void initStructures()
+    {
+        initIron();
 
         int px;
         int pz;
@@ -131,12 +169,12 @@ public class WorldManager : MonoBehaviour
                 px = Random.Range(0,Consts.world_w);
                 pz = Random.Range(0,Consts.world_h);
                 collides = false;
-                for(int j = 0; j < i; j++) {
-                    if(tiles[px,pz].GetComponent<Tile>().type == TileId.WATER)
-                    {
-                        collides = true;
-                        break;
-                    }
+                if(tiles[px,pz].GetComponent<Tile>().type == TileId.WATER)
+                {
+                    collides = true;
+                    break;
+                }
+                for(int j = 0; j < structures.Count; j++) {
                     Structure ts = structures[j].GetComponent<Structure>();
                     if(ts.x == px && ts.z == pz) {
                         collides = true;
