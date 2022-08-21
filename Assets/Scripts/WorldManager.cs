@@ -34,6 +34,8 @@ public class WorldManager : MonoBehaviour
     public List<GameObject> products;
     [HideInInspector]
     public List<GameObject> enemies;
+    [HideInInspector]
+    public List<GameObject> bullets;
 
     [HideInInspector]
     public GameObject tileHighlight_Passive;
