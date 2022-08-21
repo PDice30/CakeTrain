@@ -133,6 +133,11 @@ public class Consts
     public static List<ObjectId> barricadeRecipe;
     public static List<ObjectId> turretRecipe;
 
+    // Debug settings
+    public const bool AllowMelee = false;
+    public const float DefaultStructureHealth = 0.75f;
+    public const float IncreasingDifficultyValue = 1.2f;
+
     public static void initConsts()
     {
         hiddenTilePosition = new Vector3(-100, -100, -100);
