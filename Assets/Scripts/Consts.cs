@@ -115,6 +115,7 @@ public class Consts
     public const int numCraftPreviewBGs = 3;
     public const int numCraftPreviewEjects = 3;
     public const int numCraftPreviewSubmits = 3;
+    public const int spawnableStructures = 3;
 
     public static List<List<ObjectId>> recipes;
     public static List<ProductId> recipeProducts;
