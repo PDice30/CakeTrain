@@ -232,8 +232,20 @@ public class Player : MonoBehaviour
             worldManager.appendTrack(x,z);
             break;
           case ProductId.BARRICADE:
+            GameObject barricade = GameObject.Instantiate(worldManager.refs.structureBarricade, new Vector3(x, Consts.structure_y, z), Quaternion.identity);
+            Structure bs = barricade.GetComponent<Structure>();
+            bs.type = StructureId.BARRICADE;
+            bs.x = x;
+            bs.z = z;
+            worldManager.structures.Add(barricade);
             break;
           case ProductId.TURRET:
+            GameObject turret = GameObject.Instantiate(worldManager.refs.structureTurret, new Vector3(x, Consts.structure_y, z), Quaternion.identity);
+            Structure ts = turret.GetComponent<Structure>();
+            ts.type = StructureId.BARRICADE;
+            ts.x = x;
+            ts.z = z;
+            worldManager.structures.Add(turret);
             break;
         }
         worldManager.products.Remove(holdingProduct);
